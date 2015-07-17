@@ -2,7 +2,7 @@
 
 The OSF Digital Archive is a digital repository for audio / video assets from the Oregon Shakespeare Festival archives.
 
-The implementation is derived from Project Hydra's Sufia 4.0.0 rc1
+The implementation is derived from Project Hydra's Sufia 6.2.0
 
 See https://github.com/projecthydra/sufia
 
@@ -47,25 +47,16 @@ Create the database
 
     rake db:create
     rake db:migrate
+    rake db:seed
 
-Set up hydra-jetty (sufia 4.0)
-
-    rake jetty:clean
-    rake jetty:config
-
-Set up hydra-jetty (sufia 6.0)
+Set up hydra-jetty
 
     rake jetty:clean
     rake sufia:jetty:config
 
-## On-going Development
-    
-    Looking for a better way to reindex after changing search fields but this works in console
-    ActiveFedora::Base.all.each{|f| f.update_index}
-
 ### Spinning up the services
 
-Open several tabs and `vagrant ssh` into each of them.
+Open several terminal tabs and `vagrant ssh` in each of them.
 
 #### Jetty (server for fedora commons / solr)
 
@@ -97,14 +88,10 @@ Fedora Commons and Solr can be accessed on port 8983
 
 ## Resources
 
-- [sufia 4.0.0 rc1 Documentation](https://github.com/projecthydra/sufia)
-- [sufia 3.7.0 Documentation](http://rubydoc.info/gems/sufia/3.7.0/frames)
+- [sufia 6.2.0 Documentation](https://github.com/projecthydra/sufia)
 - [Blacklight Project Page](https://github.com/projectblacklight/blacklight)
 - [hydra-jetty project](https://github.com/projecthydra/hydra-jetty)
 - [hydra wiki](https://github.com/projecthydra/hydra/wiki)
-
-Slightly less useful resources:
-
 - [Rsolr Documentation](https://github.com/rsolr/rsolr)
 - [solr Wiki](https://wiki.apache.org/solr/FrontPage)
 - [Blacklight Solr Configuration](https://github.com/projectblacklight/blacklight/wiki/Solr-Configuration)
