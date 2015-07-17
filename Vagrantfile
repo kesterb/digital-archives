@@ -11,8 +11,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network   "forwarded_port", guest: 8983, host: 8983
   config.ssh.forward_agent = true
 
-  config.vm.synced_folder ".", "/vagrant", type: 'nfs'
-
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--memory", "4096"]
     vb.customize ["modifyvm", :id, "--cpus", "3"]
