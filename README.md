@@ -65,7 +65,7 @@ Docker services can be restarted by first issuing the following commands.  This 
 
 #### Rails Server (application server)
 
-    rails s -b 0.0.0.0
+    rails s
 
 You can reach the application at [http://localhost:3000/](http://localhost:3000/)
 
