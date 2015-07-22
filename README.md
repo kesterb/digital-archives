@@ -49,9 +49,14 @@ Create the database
     rake db:migrate
     rake db:seed
 
-Start docker services (fedora/solr)
+The first time you spin up the vagrant box you must initialize the docker images (fedora/solr)
+
+    ./bin/init-docker.sh
+
+When starting up the vagrant box anytime after that you can simply run
 
     ./bin/start-docker.sh
+
 
 Docker services can be restarted by first issuing the following commands.  This will erase all data stored in them.
 
