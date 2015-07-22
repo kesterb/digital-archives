@@ -49,18 +49,14 @@ Create the database
     rake db:migrate
     rake db:seed
 
-Set up hydra-jetty
+Start docker services (fedora/solr)
 
-    rake jetty:clean
-    rake sufia:jetty:config
+    ./bin/start-docker.sh
 
-### Spinning up the services
+Docker services can be restarted by first issuing the following commands.  This will erase all data stored in them.
 
-Open several terminal tabs and `vagrant ssh` in each of them.
-
-#### Jetty (server for fedora commons / solr)
-
-    rake jetty:start
+    ./bin/destroy-docker.sh
+    ./bin/start-docker.sh
 
 #### Rails Server (application server)
 
@@ -83,8 +79,8 @@ Admin users are defined in the seeds file.
 
 #### FedoraCommons/Solr
 Fedora Commons and Solr can be accessed on port 8983  
-[fedoraCommons](http://localhost:8983/fedoraCommons) username: fedoraAdmin, password: fedoraAdmin
-[solr](http://localhost:8983/solr)
+[fedoraCommons](http://localhost:8080/fcrepo-webapp-4.1.1/rest) username: fedoraAdmin, password: fedoraAdmin
+[solr](http://localhost:8081/solr)
 
 ## Resources
 
