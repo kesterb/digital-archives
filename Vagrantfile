@@ -12,12 +12,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network   "forwarded_port", guest: 8081, host: 8081
   config.ssh.forward_agent = true
 
+  config.vm.network :private_network, ip: "192.168.33.10"
+  config.vm.synced_folder ".", "/vagrant", type: 'nfs'
+
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--memory", "4096"]
     vb.customize ["modifyvm", :id, "--cpus", "3"]
   end
 
   config.vm.provision "shell",
-      inline: 'echo "cd /vagrant" >> .bash_profile'
+      inline: 'echo "cd /vagrant" >> .bash_profile; sudo yum install -y rpcbind nfs-ganesha; sudo systemctl enable rpcbind nfs-server; sudo systemctl start rpcbind nfs-server'
 end
 
