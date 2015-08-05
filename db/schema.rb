@@ -174,6 +174,34 @@ ActiveRecord::Schema.define(version: 20150717205436) do
   add_index "mailboxer_receipts", ["notification_id"], name: "index_mailboxer_receipts_on_notification_id"
   add_index "mailboxer_receipts", ["receiver_id", "receiver_type"], name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type"
 
+  create_table "production_credits_productions", force: :cascade do |t|
+    t.string  "production_name"
+    t.string  "category"
+    t.date    "open_on"
+    t.date    "close_on"
+    t.integer "work_id"
+    t.integer "venue_id"
+    t.string  "venue_alias"
+  end
+
+  add_index "production_credits_productions", ["venue_id"], name: "index_production_credits_productions_on_venue_id"
+  add_index "production_credits_productions", ["work_id"], name: "index_production_credits_productions_on_work_id"
+
+  create_table "production_credits_venues", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "production_credits_works", force: :cascade do |t|
+    t.string   "title"
+    t.string   "author"
+    t.date     "year_written"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "proxy_deposit_requests", force: :cascade do |t|
     t.string   "generic_file_id",                       null: false
     t.integer  "sending_user_id",                       null: false
