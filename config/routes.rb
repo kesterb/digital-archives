@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   # Non Sufia generated routes
   mount ProductionCredits::Engine, at: "/production_credits"
+  mount RailsAdmin::Engine => '/production_credits/admin', as: 'rails_admin'
 
   # Sufia generated routes
   blacklight_for :catalog
