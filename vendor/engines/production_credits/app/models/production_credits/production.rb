@@ -12,7 +12,7 @@ module ProductionCredits
     end
 
     def name
-      "#{production_name} - #{open_on.year}"
+      "#{production_name} - #{open_on.try(:year)}"
     end
   end
 end

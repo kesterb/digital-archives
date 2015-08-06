@@ -36,6 +36,7 @@ gem 'sufia', '6.2.0'
 gem 'kaminari', github: 'jcoyne/kaminari', branch: 'sufia'
 
 gem 'production_credits', path: 'vendor/engines/production_credits'
+gem 'rails_admin', github: 'codingzeal/rails_admin', branch: 'sufia-6.2.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
