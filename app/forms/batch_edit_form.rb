@@ -1,0 +1,2 @@
+class BatchEditForm < FileEditForm
+end

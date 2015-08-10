@@ -63,6 +63,9 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name("based_near", :facetable), label: "Location", limit: 5
     config.add_facet_field solr_name("publisher", :facetable), label: "Publisher", limit: 5
     config.add_facet_field solr_name("file_format", :facetable), label: "File Format", limit: 5
+    config.add_facet_field solr_name("production_name", :facetable), label: "Production", limit: 5
+    config.add_facet_field solr_name("venue_name", :facetable), label: "Venue", limit: 5
+    config.add_facet_field solr_name("work_name", :facetable), label: "Work", limit: 5
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
@@ -87,6 +90,9 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name("resource_type", :stored_searchable), label: "Resource Type"
     config.add_index_field solr_name("format", :stored_searchable), label: "File Format"
     config.add_index_field solr_name("identifier", :stored_searchable), label: "Identifier"
+    config.add_index_field solr_name("production_name", :stored_searchable), label: "Production"
+    config.add_index_field solr_name("venue_name", :stored_searchable), label: "Venue"
+    config.add_index_field solr_name("work_name", :stored_searchable), label: "Work"
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
@@ -106,6 +112,9 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name("resource_type", :stored_searchable), label: "Resource Type"
     config.add_show_field solr_name("format", :stored_searchable), label: "File Format"
     config.add_show_field solr_name("identifier", :stored_searchable), label: "Identifier"
+    config.add_show_field solr_name("production_name", :stored_searchable), label: "Production"
+    config.add_show_field solr_name("venue_name", :stored_searchable), label: "Venue"
+    config.add_show_field solr_name("work_name", :stored_searchable), label: "Work"
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
