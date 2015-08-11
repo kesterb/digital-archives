@@ -1,0 +1,2 @@
+exclude_paths:
+  - "app/controllers/catalog_controller.rb"
