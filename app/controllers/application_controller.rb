@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   helper Openseadragon::OpenseadragonHelper
   # Adds a few additional behaviors into the application controller
   include Blacklight::Controller
-# Adds Sufia behaviors into the application controller (ApplicationController)
+  # Adds Sufia behaviors into the application controller (ApplicationController)
   include Sufia::Controller
 
   include Hydra::Controller::ControllerBehavior
