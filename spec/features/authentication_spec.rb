@@ -5,7 +5,7 @@ describe "authentication", type: :feature do
     context 'when logged in' do
       before do
         login_as FactoryGirl.create(:jill) # Using factory girl as an example
-        visit '/about'
+        visit about_path
       end
 
       it "shows the requested page" do
@@ -15,7 +15,7 @@ describe "authentication", type: :feature do
 
     context 'when not logged in' do
       before do
-        visit '/about'
+        visit about_path
       end
 
       it "prompts the user to sign in" do
@@ -26,11 +26,11 @@ describe "authentication", type: :feature do
 
   describe "new user registration" do
     before do
-      visit '/users/sign_up'
+      visit new_user_session_path
     end
 
     it "does not allow new users to sign up" do
-      expect(page).not_to have_content("Sign up")
+      expect(page).not_to have_content "Sign up"
     end
   end
 end

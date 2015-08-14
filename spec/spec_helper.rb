@@ -28,7 +28,7 @@ end
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
-  # config.include Devise::TestHelpers, :type => :controller
+  config.include Devise::TestHelpers, :type => :controller
   config.include Warden::Test::Helpers, type: :feature
   config.before :suite do
     Warden.test_mode!
