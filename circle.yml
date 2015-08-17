@@ -8,7 +8,7 @@ dependencies:
   pre:
     - docker info
     - docker pull andrewkrug/fedora4
-    - docker pull andrewkrug/solr
+    - docker pull joelferrier/solr
 
 test:
   pre:
