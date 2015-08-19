@@ -1,0 +1,56 @@
+<section class="results-section images is-active" data-total-items='1'>
+  <div class="sidebar-item">
+    <a class="file-type active" data-type='images'>Images</a>
+    <p class="file-type-count">{{totalItems}}</p>
+  </div>
+  <h2 class="results-section-title">Images</h2>
+
+  <div id="grid-gallery" class="grid-gallery">
+    <section class="grid-wrap">
+      <ul class="grid card-grid">
+        <li class="grid-sizer" />
+        = group
+          = each model.data
+            li.card-container
+              a.card.card--has-image.card--overlay-content
+                figure.card__figure
+                  img.card__figure__image src="#{OsfArchivesWeb.API_HOST}#{thumbnail_url}" alt=title
+                .card__content
+                  h1.card__content__title
+                    =metadata.title
+                  p.card__content__date
+                    =metadata.date_created
+      </ul>
+    </section>
+    <div class="paging">
+      if hasNextPage
+        a{action 'page' 'images' 1} href="#"
+          | Load More
+    </div>
+    <section class="slideshow">
+      <ul>
+        = group
+          = each model.data
+            li
+              figure
+                img.slideshow-img src="#{OsfArchivesWeb.API_HOST}#{url}" alt=title
+              figcaption
+                h3
+                  =metadata.title
+                p
+                  =metadata.production_name
+                p
+                  =metadata.venue_name
+                p
+                  =metadata.description
+                p
+                  =metadata.date_created
+      </ul>
+      <nav>
+        <span class="icon nav-prev" />
+        <span class="icon nav-next" />
+        <span class="icon nav-close" />
+      </nav>
+      <div class="info-keys icon">Navigate with arrow keys</div>
+  </div>
+</section>

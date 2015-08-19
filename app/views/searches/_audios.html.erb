@@ -1,0 +1,19 @@
+<section class="results-section audios is-active" data-total-items='1'>
+  <div class="sidebar-item">
+    <a class='file-type active' data-type='audios'>Audios</a>
+    <p class="file-type-count">{{totalItems}}</p>
+  </div>
+  <h2 class="results-section-title">Audio</h2>
+  <div>
+  = group
+    = each model.data
+      img src="#{OsfArchivesWeb.API_HOST}#{thumb_url}"
+      audio controls="controls"
+        source src="#{OsfArchivesWeb.API_HOST}#{url}"
+  </div>
+  <div class="paging">
+    if hasNextPage
+      a{action 'page' 'audios' 1} href="#"
+        | More
+  </div>
+</section>

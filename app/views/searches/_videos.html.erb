@@ -1,0 +1,28 @@
+<section class="results-section videos is-active" data-total-items='1'>
+  <div class="sidebar-item">
+    <a class="file-type active" data-type='videos'>Videos</a>
+    <p class="file-type-count">{{totalItems}}</p>
+  </div>
+  <h2 class="results-section-title">Videos</h2>
+  <ul class="js-videos-grid videos-grid">
+    = group
+      = each model.data
+        li.js-videos-container.card-container
+          a.js-video.card.card-has-img data-webm="#{OsfArchivesWeb.API_HOST}#{webm_url}" data-mp4="#{OsfArchivesWeb.API_HOST}#{mp4}" data-title="#{metadata.title}" data-description="#{metadata.description}" data-description="#{metadata.venue_name}"
+            .card-figure-img
+              .card-figure-img-wrapper
+                img src="#{OsfArchivesWeb.API_HOST}#{thumbnail_url}" alt=title
+            .card__content
+              h3.card__content__title
+                =metadata.title
+              h4.card__content__subtitle
+                =metadata.venue_name
+              p.card__content__date
+                =metadata.date_created
+  </ul>
+  <div class="paging">
+    if hasNextPage
+      a{action 'page' 'videos' 1} href="#"
+        | More
+  </div>
+</section>
