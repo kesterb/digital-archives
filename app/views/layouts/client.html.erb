@@ -6,8 +6,10 @@
   <title>OSF Archives</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="assets/client.css">
-  <link rel="stylesheet" href="assets/osf-archives-web.css">
+  <%= stylesheet_link_tag   'client', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'client', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <!-- <link rel="stylesheet" href="assets/client.css"> -->
 </head>
 <body>
   <div class="sidebar-container"></div>
@@ -107,7 +109,20 @@
     <footer />
   </div>
 
-  <script src="assets/vendor.js"></script>
-  <script src="assets/osf-archives-web.js"></script>
+  <script type="text/javascript">
+    $(function(){
+      $('.js-year-range').ionRangeSlider({
+        type: "double",
+        min: "1935",
+        max: "2015",
+        hide_min_max: true,
+        step: 1 //,
+        // onFinish: function () {
+        //   that.set('target', that.controller.get('target'));
+        //   that.send('search');
+        // }
+      });
+    });
+  </script>
 </body>
 </html>
