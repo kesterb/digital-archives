@@ -1,0 +1,10 @@
+en:
+  sufia:
+    product_name:       "OSF Digital Archives"
+    institution_name:   "OSF"
+    institution_name_full: "Oregon Shakespeare Festival"
+    deposit_agreement:  "OSF's Deposit Agreement"
+    upload_tooltip:     "Click to begin uploading files"
+    upload:
+      my_computer:
+        sr_instructions: "Select files.  Press the Start Upload Button once all files have been selected."
