@@ -1,7 +1,7 @@
 <section class="results-section images is-active" data-total-items='1'>
   <div class="sidebar-item">
     <a class="file-type active" data-type='images'>Images</a>
-    <p class="file-type-count">{{totalItems}}</p>
+    <p class="file-type-count"><%= @files["Image"].size %></p>
   </div>
   <h2 class="results-section-title">Images</h2>
 
@@ -9,17 +9,24 @@
     <section class="grid-wrap">
       <ul class="grid card-grid">
         <li class="grid-sizer" />
-        = group
-          = each model.data
-            li.card-container
-              a.card.card--has-image.card--overlay-content
-                figure.card__figure
-                  img.card__figure__image src="#{OsfArchivesWeb.API_HOST}#{thumbnail_url}" alt=title
-                .card__content
-                  h1.card__content__title
-                    =metadata.title
-                  p.card__content__date
-                    =metadata.date_created
+        <% @files["Image"].each do |image| %>
+          <li class="card-container">
+            <a class="card card--has-image card--overlay-content">
+              <figure class="card__figure">
+                <img class="card__figure__image" src="<%= sufia.download_path(image, datastream_id: 'thumbnail') %>" alt="<%= image.title.first %>" />
+              </figure>
+              <div class="card__content">
+                <h1 class="card__content__title">
+                  <%= image.title.first %>
+                </h1>
+                <p class="card__content__date">
+                  <%= image.date_created.first %>
+                </p>
+              </div>
+            </a>
+          </li>
+        <% end %>
+      </li>
       </ul>
     </section>
     <div class="paging">

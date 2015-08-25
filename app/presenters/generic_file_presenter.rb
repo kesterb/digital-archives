@@ -15,6 +15,7 @@ class GenericFilePresenter < Sufia::GenericFilePresenter
     :related_url,
     :production_name,
     :venue_name,
-    :work_name
+    :work_name,
+    :highlighted
   ]
 end
