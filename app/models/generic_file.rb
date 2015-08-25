@@ -12,4 +12,8 @@ class GenericFile < ActiveFedora::Base
   property :work_name, predicate: ::RDF::URI('http://docs.osfashland.org/terms/work_name'), multiple: false do |index|
     index.as :stored_searchable, :facetable
   end
+
+  property :highlighted, predicate: ::RDF::URI('http://docs.osfashland.org/terms/highlighted'), multiple: false do |index|
+    index.as :stored_searchable, :facetable
+  end
 end

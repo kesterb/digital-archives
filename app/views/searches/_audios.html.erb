@@ -1,15 +1,17 @@
 <section class="results-section audios is-active" data-total-items='1'>
   <div class="sidebar-item">
     <a class='file-type active' data-type='audios'>Audios</a>
-    <p class="file-type-count">{{totalItems}}</p>
+    <p class="file-type-count"><%= @files["Audio"].try(:size) || 0 %></p>
   </div>
   <h2 class="results-section-title">Audio</h2>
   <div>
-  = group
-    = each model.data
-      img src="#{OsfArchivesWeb.API_HOST}#{thumb_url}"
-      audio controls="controls"
-        source src="#{OsfArchivesWeb.API_HOST}#{url}"
+    <% @files.fetch("Audio", []).each do |audio| %>
+      <img src="<%= sufia.download_path(audio, datastream_id: 'thumbnail') %>" alt="<%= audio.title.first %>" />
+      <audio controls="controls">
+        <source src="<%= sufia.download_path(audio) %>" />
+      </audio>
+      </li>
+    <% end %>
   </div>
   <div class="paging">
     if hasNextPage
