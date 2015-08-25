@@ -1,7 +1,7 @@
 <section class="results-section images is-active" data-total-items='1'>
   <div class="sidebar-item">
     <a class="file-type active" data-type='images'>Images</a>
-    <p class="file-type-count"><%= @files["Image"].size %></p>
+    <p class="file-type-count"><%= @files["Image"].try(:size) || 0 %></p>
   </div>
   <h2 class="results-section-title">Images</h2>
 
@@ -9,7 +9,7 @@
     <section class="grid-wrap">
       <ul class="grid card-grid">
         <li class="grid-sizer" />
-        <% @files["Image"].each do |image| %>
+        <% @files.fetch("Image", []).each do |image| %>
           <li class="card-container">
             <a class="card card--has-image card--overlay-content">
               <figure class="card__figure">
@@ -36,7 +36,7 @@
     </div>
     <section class="slideshow">
       <ul>
-        <% @files["Image"].each do |image| %>
+        <% @files.fetch("Image", []).each do |image| %>
           <li>
             <figure>
               <img class="slideshow-img" src="<%= sufia.download_path(image) %>" alt="<%= image.title.first %>" />
