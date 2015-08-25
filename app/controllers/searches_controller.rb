@@ -1,11 +1,17 @@
-class SearchesController < ApplicationController
+class SearchesController < CatalogController
   skip_before_action :authenticate_user!
 
   layout 'client'
 
   def index
+    if params.has_key?(:q)
+      query = { q: params[:q] }
+      (response, documents) = search_results(query, search_params_logic)
+      @files = GenericFile.find(documents.map(&:id)).group_by { |item| item.resource_type.first }
+    else
+      @files = GenericFile.where(highlighted: "1").group_by { |item| item.resource_type.first }
+    end
 
-    @files = GenericFile.where(highlighted: "1").group_by { |item| item.resource_type[0] }
     # @query = params[:q]
     # @query = 'featured'
 
