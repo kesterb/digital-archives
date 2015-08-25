@@ -13,4 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require modernizr.custom
+//= require imagesloaded.pkgd.min
+//= require classie
 //= require ionrangeslider
+//= require cbpGridGallery
+//= require isotope.pkgd.min

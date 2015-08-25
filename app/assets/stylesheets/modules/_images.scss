@@ -97,7 +97,7 @@
 .slideshow ul {
   width: 100%;
   height: 100%;
-  list-style-type: none;  
+  list-style-type: none;
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
   -webkit-transform: translate3d(0,0,150px);
@@ -170,6 +170,7 @@
 }
 
 .slideshow figcaption {
+  float: left;
   padding-bottom: 20px;
   padding-top: 30vh;
   text-align: left;
