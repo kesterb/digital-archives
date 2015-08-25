@@ -27,4 +27,5 @@ describe GenericFile do
   it_behaves_like "a custom property", "production_name"
   it_behaves_like "a custom property", "venue_name"
   it_behaves_like "a custom property", "work_name"
+  it_behaves_like "a custom property", "highlighted"
 end
