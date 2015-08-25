@@ -1,1 +1,25 @@
-Body
+<div class="sidebar-container"></div>
+
+<div class="page-container">
+  <%= render "header" %>
+  <%= render "filters" %>
+  <%= render "search_results" %>
+
+  <footer />
+</div>
+
+<script type="text/javascript">
+  $(function(){
+    $('.js-year-range').ionRangeSlider({
+      type: "double",
+      min: "1935",
+      max: "2015",
+      hide_min_max: true,
+      step: 1 //,
+      // onFinish: function () {
+      //   that.set('target', that.controller.get('target'));
+      //   that.send('search');
+      // }
+    });
+  });
+</script>
