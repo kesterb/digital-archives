@@ -1,0 +1,18 @@
+<header class="header-primary" style="background-image: url('assets/header-bg-richard.jpg');">
+  <div class="header-logo">
+    <img src="assets/osf-logo.png" alt="Oregon Shakespeare Festival" />
+  </div>
+  <nav class="nav-primary">
+    <a class="nav-primary__link" href="#">Connect With Us</a>
+    <a class="nav-primary__link" href="#">Plan Your Visit</a>
+    <a class="nav-primary__link" href="#">Give and Join</a>
+    <a class="nav-primary__link btn-primary" href="#">Buy Tickets</a>
+  </nav>
+  <h1 class="page-title">Welcome to the Archive</h1>
+  <div class="search-the-archive">
+    <%= form_tag(searches_path, method: "get") do %>
+      <%= search_field_tag(:q, nil, placeholder: "What are you looking for?", autofocus: true) %>
+      <%= submit_tag("Search", name: nil, class: "btn-primary") %>
+    <% end %>
+  </div>
+</header>
