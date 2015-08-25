@@ -56,13 +56,13 @@
   right: 0;
   text-align: center;
   width: 100%;
-  
+
   input {
     border-radius: 3px 0 0 3px;
     width: 438px;
   }
 
-  button {
+  input[type=submit] {
     width: 100px;
     border: none;
     border-radius: 0 3px 3px 0;
