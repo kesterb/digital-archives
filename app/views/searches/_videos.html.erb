@@ -1,11 +1,11 @@
 <section class="results-section videos is-active" data-total-items='1'>
   <div class="sidebar-item">
     <a class="file-type active" data-type='videos'>Videos</a>
-    <p class="file-type-count"><%= @files["Video"].size %></p>
+    <p class="file-type-count"><%= @files["Video"].try(:size) || 0 %></p>
   </div>
   <h2 class="results-section-title">Videos</h2>
   <ul class="js-videos-grid videos-grid">
-    <% @files["Video"].each do |video| %>
+    <% @files.fetch("Video", []).each do |video| %>
       <li class="js-video-container card-container">
         <a class="js-video card card--has-img card--overlay-content data-webm=<%= sufia.download_path(video, datastream_id: 'webm') %> data-mp4=<%= sufia.download_path(video, datastream_id: 'mp4') %> data-title=<%= video.title.first %>
            data-description=<%= video.description %> data-description=<%= video.venue_name %>">
