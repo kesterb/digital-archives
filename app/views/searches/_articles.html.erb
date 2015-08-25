@@ -5,7 +5,7 @@
   </div>
   <h2 class="results-section-title">Documents</h2>
   <div class="card-grid">
-    <% @files.fetch("Articles", []).each do |article| %>
+    <% @files.fetch("Article", []).each do |article| %>
       <li class="card-container">
         <a class="card card--has-img" target=_blank href=<%= sufia.download_path(article) %>>
           <div class="card-figure-img">
