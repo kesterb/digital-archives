@@ -12,4 +12,9 @@ class GenericFile < ActiveFedora::Base
   property :work_name, predicate: ::RDF::URI('http://docs.osfashland.org/terms/work_name'), multiple: false do |index|
     index.as :stored_searchable, :facetable
   end
+
+  # override sufia property
+  property :resource_type, predicate: ::RDF::DC.type, multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
 end
