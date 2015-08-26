@@ -1,11 +1,12 @@
+<% if @results.has_audios? %>
 <section class="results-section audios is-active" data-total-items='1'>
   <div class="sidebar-item">
     <a class='file-type active' data-type='audios'>Audios</a>
-    <p class="file-type-count"><%= @files["Audio"].try(:size) || 0 %></p>
+    <p class="file-type-count"><%= @results.audio_count %></p>
   </div>
   <h2 class="results-section-title">Audio</h2>
   <div>
-    <% @files.fetch("Audio", []).each do |audio| %>
+    <% @results.audios.each do |audio| %>
       <img src="<%= sufia.download_path(audio, datastream_id: 'thumbnail') %>" alt="<%= audio.title.first %>" />
       <audio controls="controls">
         <source src="<%= sufia.download_path(audio) %>" />
@@ -19,3 +20,4 @@
         | More
   </div>
 </section>
+<% end %>

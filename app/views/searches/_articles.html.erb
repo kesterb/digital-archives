@@ -1,11 +1,12 @@
+<% if @results.has_articles? %>
 <section class="results-section articles is-active" data-total-items='1'>
   <div class="sidebar-item">
     <a class='file-type active' data-type='articles'>Articles</a>
-    <p class="file-type-count"><%= @files["Article"].try(:size) || 0 %></p>
+    <p class="file-type-count"><%= @results.article_count %></p>
   </div>
   <h2 class="results-section-title">Documents</h2>
   <div class="card-grid">
-    <% @files.fetch("Article", []).each do |article| %>
+    <% @results.articles.each do |article| %>
       <li class="card-container">
         <a class="card card--has-img" target=_blank href=<%= sufia.download_path(article) %>>
           <div class="card-figure-img">
@@ -29,3 +30,4 @@
         | More
   </div>
 </section>
+<% end %>
