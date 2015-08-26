@@ -14,7 +14,7 @@ class GenericFile < ActiveFedora::Base
   end
 
   # override sufia property
-  property :resource_type, predicate: ::RDF::DC.type, multiple: true do |index|
+  property :resource_type, predicate: ::RDF::DC.type, multiple: false do |index|
     index.as :stored_searchable, :facetable
   end
 end
