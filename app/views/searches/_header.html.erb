@@ -10,7 +10,7 @@
   </nav>
   <h1 class="page-title">Welcome to the Archive</h1>
   <div class="search-the-archive">
-    <%= search_field_tag(:q, nil, placeholder: "What are you looking for?", autofocus: true) %>
+    <%= search_field_tag(:q, @search.search_term, placeholder: "What are you looking for?", autofocus: true) %>
     <%= submit_tag("Search", name: nil, class: "btn-primary") %>
   </div>
 </header>

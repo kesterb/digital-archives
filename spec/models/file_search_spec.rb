@@ -16,13 +16,11 @@ describe FileSearch do
     end
 
     it "returns highlighted files" do
-      expect(search.results).to eq files
+      expect(search.files).to eq files
     end
   end
 
-  context "with a search term" do
-    let(:params) { { q: "TERM" } }
-    let(:expected_query) { { q: "TERM" } }
+  describe "filtering" do
     let(:document_ids) { [42, 58] }
     let(:documents) { document_ids.map { |id| double("SolrDocument", id: id) } }
 
@@ -31,8 +29,22 @@ describe FileSearch do
       allow(file_query).to receive(:find).with(document_ids) { files }
     end
 
-    it "returns found files" do
-      expect(search.results).to eq files
+    context "with a search term" do
+      let(:params) { { q: "TERM" } }
+      let(:expected_query) { { q: "TERM" } }
+
+      it "returns found files" do
+        expect(search.files).to eq files
+      end
+    end
+
+    context "with a selected work" do
+      let(:params) { { work: "WORK" } }
+      let(:expected_query) { { f: { Solrizer.solr_name("work_name") => "WORK" } } }
+
+      it "returns found files" do
+        expect(search.files).to eq files
+      end
     end
   end
 end
