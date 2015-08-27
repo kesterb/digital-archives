@@ -18,4 +18,5 @@
 //= require classie
 //= require ionrangeslider
 //= require cbpGridGallery
+//= require video-grid
 //= require isotope.pkgd.min

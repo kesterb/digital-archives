@@ -21,10 +21,14 @@
       //   that.send('search');
       // }
     });
+
     // Init the image gallery
     var gallery = $('#grid-gallery')
     if (gallery.length) {
       new CBPGridGallery(gallery.get(0));
     }
+
+    // Init the video viewer
+    VideoGrid.init();
   });
 </script>
