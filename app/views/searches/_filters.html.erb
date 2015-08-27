@@ -5,9 +5,11 @@
         <div class="search-filter filter-works">
           <div class="search-filter-inner">
             <h3 class="filter-title">Work</h3>
-            <select class="works-list">
-              <option>Select a work</option>
-            </select>
+            <%= select_tag "work",
+                   options_from_collection_for_select(@works, "title", "title", @search.work_name),
+                   prompt: "Select a work",
+                   class: "works-list",
+                   onchange: "this.form.submit();" %>
           </div>
         </div>
       </div>
