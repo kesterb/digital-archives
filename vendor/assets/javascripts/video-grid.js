@@ -1,3 +1,5 @@
+// Adapted from http://tympanus.net/codrops/2013/03/19/thumbnail-grid-with-expanding-preview/
+
 var VideoGrid = (function() {
 
     // list of items
