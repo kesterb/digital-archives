@@ -35,23 +35,18 @@ class GenericFile < ActiveFedora::Base
   end
 
   def work
-    return if !work_id || work_id.empty? || work_id.first.nil?
-    ProductionCredits::Work.find(work_id)
+    ProductionCredits::Work.find(work_id) if work_id
   end
 
   def production
-    return if !production_id || production_id.empty? || production_id.first.nil?
-    ProductionCredits::Production.find(production_id)
+    ProductionCredits::Production.find(production_id) if production_id
   end
 
   def venue
-    if venue_id && !venue_id.empty? && !venue_id.first.nil?
+    if venue_id
       venue = ProductionCredits::Venue.find(venue_id)
-    end
-
-    if !venue && production
+    elsif production
       venue = production.venue
     end
-    venue
   end
 end
