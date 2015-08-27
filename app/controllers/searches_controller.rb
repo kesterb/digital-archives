@@ -4,16 +4,8 @@ class SearchesController < CatalogController
   layout 'client'
 
   def index
-    files = []
-    if params.has_key?(:q)
-      query = { q: params[:q] }
-      (response, documents) = search_results(query, search_params_logic)
-      files = GenericFile.find(documents.map(&:id))
-    else
-      files = GenericFile.where(highlighted: "1")
-    end
-
-    @results = SearchResults.new(files)
+    search = FileSearch.new(params, catalog_query: self)
+    @results = SearchResults.new(search.results)
 
     # @query = params[:q]
     # @query = 'featured'
