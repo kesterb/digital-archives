@@ -21,8 +21,12 @@
       //   that.send('search');
       // }
     });
+
     // Init the image gallery
-    new CBPGridGallery(document.getElementById('grid-gallery'));
+    var gallery = $('#grid-gallery')
+    if (gallery.length) {
+      new CBPGridGallery(gallery.get(0));
+    }
 
     // Init the video viewer
     VideoGrid.init();
