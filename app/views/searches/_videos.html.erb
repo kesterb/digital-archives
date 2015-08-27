@@ -7,8 +7,8 @@
   <ul class="js-videos-grid videos-grid">
     <% @files.fetch("Video", []).each do |video| %>
       <li class="js-video-container card-container">
-        <a class="js-video card card--has-img card--overlay-content data-webm=<%= sufia.download_path(video, datastream_id: 'webm') %> data-mp4=<%= sufia.download_path(video, datastream_id: 'mp4') %> data-title=<%= video.title.first %>
-           data-description=<%= video.description %> data-description=<%= video.venue_name %>">
+        <a class="js-video card card--has-img card--overlay-content" data-webm=<%= sufia.download_path(video, datastream_id: 'webm') %> data-mp4=<%= sufia.download_path(video, datastream_id: 'mp4') %> data-title=<%= video.title.first %>
+           data-description=<%= video.description %> data-description=<%= video.venue_name %>>
            <div class="card-figure-img">
               <div class="card-figure-img-wrapper">
                 <img src="<%= sufia.download_path(video, datastream_id: 'thumbnail') %>" alt="<%= video.title.first %>" />
