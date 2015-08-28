@@ -17,18 +17,17 @@
         <div class="search-filter filter-venues">
           <div class="search-filter-inner">
             <h3 class="filter-title">Venue</h3>
-            <ul class="js-filters filter-list">
-              <li class="filter-venue-item">
-                <a class='active' data-type='Elizabethan'>Elizabethan</a>
-              </li>
-
-              <li class="filter-venue-item">
-                <a class='active' data-type='Thomas'>Thomas</a>
-              </li>
-              <li class="filter-venue-item">
-                <a class='active' data-type='Angus Bowmer'>Angus Bowmer</a>
-              </li>
-            </ul>
+            <%= select_tag "venues[]",
+                  options_for_select(@venues.map { |venue|
+                    [
+                      venue.name,
+                      {
+                        "data-img-src" => "http://dummyimage.com/40x40/000/fff&text=#{venue.name}",
+                        "data-img-label" => venue.name,
+                        class: "filter-venue-item" }]
+                    }, @search.venue_names),
+                  class: "js-venue-list filter-list",
+                  multiple: "multiple" %>
           </div>
         </div>
       </div>

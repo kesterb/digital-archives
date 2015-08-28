@@ -15,6 +15,10 @@ class FileSearch
     params[:work]
   end
 
+  def venue_names
+    params.fetch(:venues) { [] }
+  end
+
   def results
     SearchResults.new(files)
   end
@@ -34,13 +38,25 @@ class FileSearch
   def filtered_files
     query = {}
     query[:q] = search_term if search_term
-    query[:f] = filters if filters
+    query[:f] = filters unless filters.empty?
 
     (response, documents) = catalog_query.search_results(query, catalog_query.search_params_logic)
     files = file_query.find(documents.map(&:id))
   end
 
   def filters
-    work_name ? { Solrizer.solr_name("work_name") => work_name } : nil
+    {}
+      .merge(work_filter)
+      .merge(venue_filter)
+  end
+
+  def work_filter
+    return {} unless work_name
+    { Solrizer.solr_name("work_name") => work_name }
+  end
+
+  def venue_filter
+    return {} if venue_names.empty?
+    { Solrizer.solr_name("venue_name") => venue_names }
   end
 end

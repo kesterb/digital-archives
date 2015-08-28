@@ -2,6 +2,13 @@ require "spec_helper"
 require "models/file_search"
 
 describe FileSearch do
+  # TODO: Write a custom matcher to check that the Solr query is what we want,
+  # rather than checking the returned files over and over again.  The query is
+  # what we're really interested in.
+  #
+  # We might have to test things the same way as we do now, but we can hide
+  # the duplication in the matcher.
+
   subject(:search) { described_class.new(params, catalog_query: catalog_query, file_query: file_query) }
   let(:logic) { double("Search Params Logic") }
   let(:catalog_query) { double("Catalog query", search_params_logic: logic) }
@@ -44,6 +51,26 @@ describe FileSearch do
 
       it "returns found files" do
         expect(search.files).to eq files
+      end
+    end
+
+    describe "by venue" do
+      context "with one venue selected" do
+        let(:params) { { venues: %w[VENUE] } }
+        let(:expected_query) { { f: { Solrizer.solr_name("venue_name") => %w[VENUE] } } }
+
+        it "returns found files" do
+          expect(search.files).to eq files
+        end
+      end
+
+      context "with several venues selected" do
+        let(:params) { { venues: %w[VENUE1 VENUE2] } }
+        let(:expected_query) { { f: { Solrizer.solr_name("venue_name") => %w[VENUE1 VENUE2] } } }
+
+        it "returns found files" do
+          expect(search.files).to eq files
+        end
       end
     end
   end

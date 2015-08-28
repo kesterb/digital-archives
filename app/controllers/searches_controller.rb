@@ -5,6 +5,7 @@ class SearchesController < CatalogController
 
   def index
     @works = ProductionCredits::Work.order(:title)
+    @venues = ProductionCredits::Venue.order(:name)
     @search = FileSearch.new(params, catalog_query: self)
     @results = @search.results
 
