@@ -56,6 +56,7 @@ class FileSearch
   end
 
   def venue_filter
+    # TODO: Handle venue "Other"
     return {} if venue_names.empty?
     { Solrizer.solr_name("venue_name") => venue_names }
   end
