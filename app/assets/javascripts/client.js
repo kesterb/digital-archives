@@ -20,3 +20,4 @@
 //= require cbpGridGallery
 //= require video-grid
 //= require isotope.pkgd.min
+//= require image-picker

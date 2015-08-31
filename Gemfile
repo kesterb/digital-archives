@@ -44,6 +44,7 @@ gem 'devise-guests', '~> 0.3'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-ionrangeslider', '~> 2.0.2'
+  gem 'rails-assets-image-picker', '~> 0.2.4'
 end
 
 group :development, :test do

@@ -1,7 +1,7 @@
 <div class="sidebar-container"></div>
 
 <div class="page-container">
-  <%= form_tag(searches_path, method: "get") do %>
+  <%= form_tag(searches_path, method: "get", id: "filter-form") do %>
     <%= render "header" %>
     <%= render "filters" %>
   <% end %>
@@ -12,6 +12,13 @@
 
 <script type="text/javascript">
   $(function(){
+    $('.js-venue-list').imagepicker({
+      show_label: true,
+      changed: function () {
+          $('#filter-form').submit()
+      }
+    });
+
     $('.js-year-range').ionRangeSlider({
       type: "double",
       min: "1935",
