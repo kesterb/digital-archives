@@ -19,6 +19,23 @@ class FileSearch
     params.fetch(:venues) { [] }
   end
 
+  def self.year_range_limit
+    1935..Date.today.year
+  end
+
+  def year_range_limit
+    self.class.year_range_limit
+  end
+
+  def year_range
+    raw = params.fetch(:years) { "" }
+    from, to = raw.split(";").map(&method(:Integer))
+    return year_range_limit unless from && to
+    from..to
+  rescue ArgumentError
+    year_range_limit
+  end
+
   def results
     SearchResults.new(files)
   end
@@ -48,6 +65,7 @@ class FileSearch
     {}
       .merge(work_filter)
       .merge(venue_filter)
+      .merge(year_filter)
   end
 
   def work_filter
@@ -59,5 +77,10 @@ class FileSearch
     # TODO: Handle venue "Other"
     return {} if venue_names.empty?
     { Solrizer.solr_name("venue_name") => venue_names }
+  end
+
+  def year_filter
+    return {} if year_range == year_range_limit
+    { Solrizer.solr_name("year_created") => [year_range] }
   end
 end

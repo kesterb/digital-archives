@@ -73,5 +73,61 @@ describe FileSearch do
         end
       end
     end
+
+    describe "by year range" do
+      context "with a limited range" do
+        let(:params) { { years: "1968;1991" } }
+        let(:expected_query) { { f: { Solrizer.solr_name("year_created") => [1968..1991] } } }
+
+        it "returns found files" do
+          expect(search.files).to eq files
+        end
+      end
+
+      context "with the full date range" do
+        let(:params) { { years: "#{default_range.begin};#{default_range.end}" } }
+        let(:expected_query) { {} }
+        let(:default_range) { described_class.year_range_limit }
+
+        it "returns found files" do
+          expect(search.files).to eq files
+        end
+      end
+    end
+  end
+
+  describe "years parameter parsing" do
+    let(:range) { search.year_range }
+    let(:default_range) { described_class.year_range_limit }
+
+    context "with no years parameter" do
+      let(:params) { {} }
+
+      specify { expect(range).to eq default_range }
+    end
+
+    context "with empty years parameter" do
+      let(:params) { { years: "" } }
+
+      specify { expect(range).to eq default_range }
+    end
+
+    context "with no separator" do
+      let(:params) { { years: "1492" } }
+
+      specify { expect(range).to eq default_range }
+    end
+
+    context "with non-integer values" do
+      let(:params) { { years: "not;integer"} }
+
+      specify { expect(range).to eq default_range }
+    end
+
+    context "with valid range" do
+      let(:params) { { years: "1942;1968"} }
+
+      specify { expect(range).to eq 1942..1968 }
+    end
   end
 end
