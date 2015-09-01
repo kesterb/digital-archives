@@ -105,4 +105,38 @@ describe GenericFile do
       end
     end
   end
+
+  describe "creation year" do
+    context "when there is a creation date" do
+      let(:date) { "1968-03-07" }
+      before do
+        file.date_created = [date]
+        file.save!
+      end
+
+      it "sets the creation year" do
+        expect(file.year_created).to eq 1968
+      end
+    end
+
+    context "when there isn't a creation date" do
+      before do
+        file.date_created = nil
+      end
+
+      it "doesn't change the creation year" do
+        expect { file.save! }.not_to change { file.year_created }
+      end
+    end
+
+    context "when creation dates are empty" do
+      before do
+        file.date_created = []
+      end
+
+      it "doesn't change the creation year" do
+        expect { file.save! }.not_to change { file.year_created }
+      end
+    end
+  end
 end

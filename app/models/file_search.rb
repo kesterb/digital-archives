@@ -81,6 +81,6 @@ class FileSearch
 
   def year_filter
     return {} if year_range == year_range_limit
-    { Solrizer.solr_name("year_created") => [year_range] }
+    { Solrizer.solr_name("year_created", :stored_sortable, type: :integer) => [year_range] }
   end
 end
