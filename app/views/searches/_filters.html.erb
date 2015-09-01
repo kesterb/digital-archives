@@ -23,7 +23,6 @@
                       venue.name,
                       {
                         "data-img-src" => "http://dummyimage.com/40x40/000/fff&text=#{venue.name}",
-                        "data-img-label" => venue.name,
                         class: "filter-venue-item" }]
                     }, @search.venue_names),
                   class: "js-venue-list filter-list",
@@ -60,7 +59,13 @@
         <div class="search-filter filter-year">
           <div class="search-filter-inner">
             <h3 class="filter-title">Year Range</h3>
-            <input class="js-year-range" />
+            <input class="js-year-range"
+                   name="years"
+                   data-min="<%= @search.year_range_limit.begin %>"
+                   data-max="<%= @search.year_range_limit.end %>"
+                   data-from="<%= @search.year_range.begin %>"
+                   data-to="<%= @search.year_range.end %>"
+                   />
           </div>
         </div>
       </div>

@@ -21,14 +21,11 @@
 
     $('.js-year-range').ionRangeSlider({
       type: "double",
-      min: "1935",
-      max: "2015",
       hide_min_max: true,
-      step: 1 //,
-      // onFinish: function () {
-      //   that.set('target', that.controller.get('target'));
-      //   that.send('search');
-      // }
+      step: 1,
+      onFinish: function () {
+        $('#filter-form').submit()
+      }
     });
 
     // Init the image gallery
