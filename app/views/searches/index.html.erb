@@ -19,9 +19,23 @@
       }
     });
 
+    var difference = function(first, second) {
+       return $(first).not(second).get();
+    }
+
+    var updateSectionVisibility = function(oldTypes, newTypes) {
+      $.each(difference(oldTypes, newTypes), function (_, recordType) {
+        $('.' + recordType).removeClass("is-active")
+      });
+
+      $.each(difference(newTypes, oldTypes), function (_, recordType) {
+        $('.' + recordType).addClass("is-active")
+      });
+    };
+
     $('.js-type-list').imagepicker({
-      show_label: false //,
-      // changed: updateSelectionState
+      show_label: false,
+      changed: updateSectionVisibility
     });
 
     $('.js-year-range').ionRangeSlider({
