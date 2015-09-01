@@ -1,5 +1,4 @@
-<% if @results.has_videos? %>
-<section class="results-section videos is-active" data-total-items='1'>
+<section class="results-section videos <%= (@results.has_videos? && @search.show_videos?) ? "is-active" : "" %>">
   <div class="sidebar-item">
     <a class="file-type active" data-type='videos'>Videos</a>
     <p class="file-type-count"><%= @results.video_count %></p>
@@ -30,10 +29,9 @@
       </li>
     <% end %>
   </ul>
-  <div class="paging">
+  <!-- <div class="paging">
     if hasNextPage
       a{action 'page' 'videos' 1} href="#"
         | More
-  </div>
+  </div> -->
 </section>
-<% end %>

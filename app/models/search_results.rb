@@ -50,7 +50,7 @@ class SearchResults
   def has_images?
     image_count > 0
   end
-  
+
   private
 
   attr_reader :items

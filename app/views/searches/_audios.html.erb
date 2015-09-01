@@ -1,5 +1,4 @@
-<% if @results.has_audios? %>
-<section class="results-section audios is-active" data-total-items='1'>
+<section class="results-section audios <%= (@results.has_audios? && @search.show_audios?) ? "is-active" : "" %>">
   <div class="sidebar-item">
     <a class='file-type active' data-type='audios'>Audios</a>
     <p class="file-type-count"><%= @results.audio_count %></p>
@@ -14,10 +13,9 @@
       </li>
     <% end %>
   </div>
-  <div class="paging">
+  <!-- <div class="paging">
     if hasNextPage
       a{action 'page' 'audios' 1} href="#"
         | More
-  </div>
+  </div> -->
 </section>
-<% end %>

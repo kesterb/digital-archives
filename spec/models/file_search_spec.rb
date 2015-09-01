@@ -87,7 +87,7 @@ describe FileSearch do
       context "with the full date range" do
         let(:params) { { years: "#{default_range.begin};#{default_range.end}" } }
         let(:expected_query) { {} }
-        let(:default_range) { described_class.year_range_limit }
+        let(:default_range) { described_class.all_years }
 
         it "returns found files" do
           expect(search.files).to eq files
@@ -98,7 +98,7 @@ describe FileSearch do
 
   describe "years parameter parsing" do
     let(:range) { search.year_range }
-    let(:default_range) { described_class.year_range_limit }
+    let(:default_range) { described_class.all_years }
 
     context "with no years parameter" do
       let(:params) { {} }
