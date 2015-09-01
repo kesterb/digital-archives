@@ -23,6 +23,11 @@ class GenericFile < ActiveFedora::Base
     index.as :stored_searchable, :facetable
   end
 
+  property :year_created, predicate: ::RDF::URI('http://docs/osfashland.org/terms/year_created'), multiple: false do |index|
+    index.type :integer
+    index.as :stored_sortable, :facetable
+  end
+
   before_save :set_calculated_fields
 
   private
@@ -31,7 +36,7 @@ class GenericFile < ActiveFedora::Base
     self.production_name = production.production_name if production
     self.venue_name = venue.name if venue
     self.work_name = work.title if work
-    # self.asset_create_year = year_created if year_created
+    self.year_created = creation_year if creation_year
   end
 
   def work
@@ -48,5 +53,12 @@ class GenericFile < ActiveFedora::Base
     elsif production
       venue = production.venue
     end
+  end
+
+  def creation_year
+    first_date = date_created.try(:first)
+    first_date && Date.parse(first_date).year
+  rescue ArgumentError
+    nil
   end
 end
