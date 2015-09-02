@@ -43,6 +43,6 @@ class SearchBuilder < Blacklight::SearchBuilder
   end
 
   def conjuction(field)
-    field[0] == "!" ? " AND " : " OR "
+    field.start_with?("!") ? " AND " : " OR "
   end
 end
