@@ -58,6 +58,7 @@ group :development, :test do
 end
 
 group :production do
+  gem 'unicorn-rails'
   gem 'mysql2'
   gem 'capistrano', '~> 3.1'
   gem 'capistrano-rails', '~> 1.1'
