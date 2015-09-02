@@ -76,11 +76,11 @@ class FileSearch
   def venue_filter
     # TODO: Handle venue "Other"
     return {} if venue_names.empty?
-    { Solrizer.solr_name("venue_name") => venue_names }
+    { Solrizer.solr_name("venue_name", :facetable) => venue_names }
   end
 
   def year_filter
     return {} if year_range == year_range_limit
-    { Solrizer.solr_name("year_created", :stored_sortable, type: :integer) => [year_range] }
+    { Solrizer.solr_name("year_created", :stored_sortable, type: :integer) => year_range }
   end
 end
