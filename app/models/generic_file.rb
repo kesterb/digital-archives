@@ -33,22 +33,22 @@ class GenericFile < ActiveFedora::Base
   private
 
   def set_calculated_fields
-    self.production_name = production.production_name if production
-    self.venue_name = venue.name if venue
-    self.work_name = work.title if work
-    self.year_created = creation_year if creation_year
+    self.production_name = production.try(:production_name)
+    self.venue_name = venue.try(:name)
+    self.work_name = work.try(:title)
+    self.year_created = creation_year
   end
 
   def work
-    ProductionCredits::Work.find(work_id) if work_id
+    ProductionCredits::Work.find(work_id) if work_id.present?
   end
 
   def production
-    ProductionCredits::Production.find(production_id) if production_id
+    ProductionCredits::Production.find(production_id) if production_id.present?
   end
 
   def venue
-    if venue_id
+    if venue_id.present?
       venue = ProductionCredits::Venue.find(venue_id)
     elsif production
       venue = production.venue

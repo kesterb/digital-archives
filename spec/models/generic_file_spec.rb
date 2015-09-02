@@ -32,11 +32,24 @@ describe GenericFile do
     context "when there isn't a production_id" do
       before do
         file.production_id = nil
-        file.production_name = "DON'T OVERWRITE ME!"
+        file.production_name = "PRODUCTION"
+        file.save!
       end
 
-      it "doesn't change the production name" do
-        expect { file.save! }.not_to change { file.production_name }
+      it "clears the production name" do
+        expect(file.production_name).to be_blank
+      end
+    end
+
+    context "when production_id is blank" do
+      before do
+        file.production_id = ""
+        file.production_name = "PRODUCTION"
+        file.save!
+      end
+
+      it "clears the production name" do
+        expect(file.production_name).to be_blank
       end
     end
   end
@@ -56,11 +69,24 @@ describe GenericFile do
     context "when there isn't a work_id" do
       before do
         file.work_id = nil
-        file.work_name = "DON'T OVERWRITE ME!"
+        file.work_name = "WORK"
+        file.save!
       end
 
-      it "doesn't change the work name" do
-        expect { file.save! }.not_to change { file.work_name }
+      it "clears the work name" do
+        expect(file.work_name).to be_blank
+      end
+    end
+
+    context "when work_id is blank" do
+      before do
+        file.work_id = ""
+        file.work_name = "WORK"
+        file.save!
+      end
+
+      it "clears the work name" do
+        expect(file.work_name).to be_blank
       end
     end
   end
@@ -80,7 +106,7 @@ describe GenericFile do
     context "when there isn't a venue_id" do
       before do
         file.venue_id = nil
-        file.venue_name = "DON'T OVERWRITE ME!"
+        file.venue_name = "VENUE"
       end
 
       context "when there is a production" do
@@ -97,11 +123,24 @@ describe GenericFile do
       context "when there isn't a production" do
         before do
           file.production_id = nil
+          file.save!
         end
 
-        it "doesn't change the venue name" do
-          expect { file.save! }.not_to change { file.venue_name }
+        it "clears the venue name" do
+          expect(file.venue_name).to be_blank
         end
+      end
+    end
+
+    context "when venue_id is blank" do
+      before do
+        file.venue_id = ""
+        file.venue_name = "VENUE"
+        file.save!
+      end
+
+      it "clears the venue name" do
+        expect(file.venue_name).to be_blank
       end
     end
   end
@@ -122,20 +161,24 @@ describe GenericFile do
     context "when there isn't a creation date" do
       before do
         file.date_created = nil
+        file.year_created = 1492
+        file.save!
       end
 
-      it "doesn't change the creation year" do
-        expect { file.save! }.not_to change { file.year_created }
+      it "clears the creation year" do
+        expect(file.year_created).to be_blank
       end
     end
 
     context "when creation dates are empty" do
       before do
         file.date_created = []
+        file.year_created = 1492
+        file.save!
       end
 
-      it "doesn't change the creation year" do
-        expect { file.save! }.not_to change { file.year_created }
+      it "clears the creation year" do
+        expect(file.year_created).to be_blank
       end
     end
   end
