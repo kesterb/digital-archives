@@ -80,16 +80,17 @@ class FileSearch
     params.empty? ? highlighted_files : filtered_files
   end
 
-  private
-
-  VENUES = ["Elizabethan", "Angus Bowmer", "Thomas", "The Green Show"]
+  PRIMARY_VENUES = ["Elizabethan", "Angus Bowmer", "Thomas", "The Green Show"]
+  OTHER_VENUE = "Other"
   RECORD_TYPES = %w[images videos audios articles]
+
+  private
 
   attr_reader :params, :catalog_query, :file_query
 
   def hardcoded_venues
-    VENUES.map { |name| ProductionCredits::Venue.find_by(name: name) }.compact.tap do |venues|
-      venues << ProductionCredits::Venue.new(name: "Other")
+    PRIMARY_VENUES.map { |name| ProductionCredits::Venue.find_by(name: name) }.compact.tap do |venues|
+      venues << ProductionCredits::Venue.new(name: OTHER_VENUE)
     end
   end
 
@@ -115,17 +116,20 @@ class FileSearch
 
   def work_filter
     return {} unless work_name
-    { Solrizer.solr_name("work_name") => work_name }
+    { Solrizer.solr_name("work_name", :facetable) => work_name }
   end
 
   def venue_filter
-    # TODO: Handle venue "Other"
     return {} if venue_names.empty? || venue_names == all_venue_names
-    { Solrizer.solr_name("venue_name") => venue_names }
+    if venue_names.include?(OTHER_VENUE)
+      { Solrizer.solr_name("!venue_name", :facetable) => PRIMARY_VENUES - venue_names }
+    else
+      { Solrizer.solr_name("venue_name", :facetable) => venue_names }
+    end
   end
 
   def year_filter
     return {} if year_range == all_years
-    { Solrizer.solr_name("year_created", :stored_sortable, type: :integer) => [year_range] }
+    { Solrizer.solr_name("year_created", :stored_sortable, type: :integer) => year_range }
   end
 end

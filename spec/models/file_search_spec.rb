@@ -1,5 +1,4 @@
-require "spec_helper"
-require "models/file_search"
+require "rails_helper"
 
 describe FileSearch do
   # TODO: Write a custom matcher to check that the Solr query is what we want,
@@ -47,7 +46,7 @@ describe FileSearch do
 
     context "with a selected work" do
       let(:params) { { work: "WORK" } }
-      let(:expected_query) { { f: { Solrizer.solr_name("work_name") => "WORK" } } }
+      let(:expected_query) { { f: { "work_name_sim" => "WORK" } } }
 
       it "returns found files" do
         expect(search.files).to eq files
@@ -55,9 +54,15 @@ describe FileSearch do
     end
 
     describe "by venue" do
+      before do
+        described_class::PRIMARY_VENUES.each do |name|
+          ProductionCredits::Venue.create(name: name)
+        end
+      end
+
       context "with one venue selected" do
         let(:params) { { venues: %w[VENUE] } }
-        let(:expected_query) { { f: { Solrizer.solr_name("venue_name") => %w[VENUE] } } }
+        let(:expected_query) { { f: { "venue_name_sim" => %w[VENUE] } } }
 
         it "returns found files" do
           expect(search.files).to eq files
@@ -66,7 +71,25 @@ describe FileSearch do
 
       context "with several venues selected" do
         let(:params) { { venues: %w[VENUE1 VENUE2] } }
-        let(:expected_query) { { f: { Solrizer.solr_name("venue_name") => %w[VENUE1 VENUE2] } } }
+        let(:expected_query) { { f: { "venue_name_sim" => %w[VENUE1 VENUE2] } } }
+
+        it "returns found files" do
+          expect(search.files).to eq files
+        end
+      end
+
+      context "with other venue selected" do
+        let(:params) { { venues: [described_class::OTHER_VENUE] } }
+        let(:expected_query) { { f: { "!venue_name_sim" => described_class::PRIMARY_VENUES } } }
+
+        it "returns found files" do
+          expect(search.files).to eq files
+        end
+      end
+
+      context "with the other venue and some primary venues selected" do
+        let(:params) { { venues: described_class::PRIMARY_VENUES.take(2) + [described_class::OTHER_VENUE] } }
+        let(:expected_query) { { f: { "!venue_name_sim" => described_class::PRIMARY_VENUES.drop(2) } } }
 
         it "returns found files" do
           expect(search.files).to eq files
@@ -77,7 +100,7 @@ describe FileSearch do
     describe "by year range" do
       context "with a limited range" do
         let(:params) { { years: "1968;1991" } }
-        let(:expected_query) { { f: { "year_created_isi" => [1968..1991] } } }
+        let(:expected_query) { { f: { "year_created_isi" => 1968..1991 } } }
 
         it "returns found files" do
           expect(search.files).to eq files
