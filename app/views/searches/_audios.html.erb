@@ -1,6 +1,8 @@
 <section class="results-section audios <%= (@results.has_audios? && @search.show_audios?) ? "is-active" : "" %>">
   <div class="sidebar-item">
-    <a class='file-type active' data-type='audios'>Audios</a>
+    <a class="file-type">
+      <%= image_tag("icons/icon-audios", alt: "Audios", class: "filter-type-image") %>
+    </a>
     <p class="file-type-count"><%= @results.audio_count %></p>
   </div>
   <h2 class="results-section-title">Audio</h2>

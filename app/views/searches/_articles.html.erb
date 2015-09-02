@@ -1,6 +1,8 @@
 <section class="results-section articles <%= (@results.has_articles? && @search.show_articles?) ? "is-active" : "" %>">
   <div class="sidebar-item">
-    <a class='file-type active' data-type='articles'>Articles</a>
+    <a class="file-type">
+      <%= image_tag("icons/icon-articles", alt: "Articles", class: "filter-type-image") %>
+    </a>
     <p class="file-type-count"><%= @results.article_count %></p>
   </div>
   <h2 class="results-section-title">Documents</h2>

@@ -25,13 +25,6 @@
   transform: translateY(-50%);
 }
 
-.filter-list {
-  @extend %clearfix;
-  margin: 0;
-  padding: 0;
-  position: relative;
-}
-
 .filter-title {
   color: $neutral-mid;
   font-size: 16px;
@@ -60,9 +53,39 @@
 
 .filter-types {
   list-style-type: none;
+
+  .selected {
+    img {
+      filter: grayscale(0%);
+      opacity: 1;
+    }
+  }
 }
 
-.filter-type-item,
+// Needed for ImagePicker plugin
+.image_picker_selector {
+  @extend %clearfix;
+  cursor: pointer;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    float: left;
+    margin-right: 15px;
+  }
+
+  img {
+    display: block;
+    height: 40px;
+    width: 40px;
+    filter: grayscale(100%);
+    opacity: .4;
+    transition: opacity .3s, filter .3s;
+  }
+}
+
+
 .filter-venue-item {
   float: left;
   margin-right: 15px;
@@ -83,58 +106,16 @@
 }
 
 .file-type {
-  background-image: url('icons/icons-file-type.png');
-  background-position: 0 -41px;
   cursor: pointer;
   display: block;
   height: 40px;
   overflow: hidden;
-  text-indent: -9999px;
   width: 40px;
+}
 
-  &:hover {
-    opacity: .6;
-  }
-
-  &.active {
-    opacity: 1;
-  }
-
-  &[data-type="images"] {
-    background-position: 0 -41px;
-
-    &:hover,
-    &.active {
-      background-position: 0 0;
-    }
-  }
-
-  &[data-type="videos"] {
-    background-position: -42px -41px;
-
-    &:hover,
-    &.active {
-      background-position: -42px 0;
-    }
-  }
-
-  &[data-type="audios"] {
-    background-position: -84px -41px;
-
-    &:hover,
-    &.active {
-      background-position: -84px 0;
-    }
-  }
-
-  &[data-type="articles"] {
-    background-position: -126px -41px;
-
-    &:hover,
-    &.active {
-      background-position: -126px 0;
-    }
-  }
+.filter-type-image {
+  height: 40px;
+  width: 40px;
 }
 
 // Range slider overrides

@@ -25,7 +25,7 @@
                         "data-img-src" => "http://dummyimage.com/40x40/000/fff&text=#{venue.name}",
                         class: "filter-venue-item" }]
                     }, @search.venue_names),
-                  class: "js-venue-list filter-list",
+                  class: "js-venue-list",
                   multiple: "multiple" %>
           </div>
         </div>
@@ -43,12 +43,11 @@
                     [
                       type,
                       {
-                        "data-img-src" => image_path("icons/icons-file-type.png"),
-                        class: "filter-type-item file-type"
+                        "data-img-src" => image_path("icons/icon-#{type}.png")
                       }
                     ]
                     }, @search.record_types),
-                    class: "js-type-list filter-list",
+                    class: "js-type-list",
                     multiple: "multiple" %>
           </div>
         </div>
