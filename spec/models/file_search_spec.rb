@@ -77,7 +77,7 @@ describe FileSearch do
     describe "by year range" do
       context "with a limited range" do
         let(:params) { { years: "1968;1991" } }
-        let(:expected_query) { { f: { "year_created_isi" => [1968..1991] } } }
+        let(:expected_query) { { f: { "year_created_isi" => 1968..1991 } } }
 
         it "returns found files" do
           expect(search.files).to eq files
