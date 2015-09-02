@@ -1,5 +1,4 @@
-<% if @results.has_images? %>
-<section class="results-section images is-active" data-total-items='1'>
+<section class="results-section images <%= (@results.has_images? && @search.show_images?) ? "is-active" : "" %>">
   <div class="sidebar-item">
     <a class="file-type active" data-type='images'>Images</a>
     <p class="file-type-count"><%= @results.image_count %></p>
@@ -30,11 +29,11 @@
       </li>
       </ul>
     </section>
-    <div class="paging">
+    <!-- <div class="paging">
       if hasNextPage
         a{action 'page' 'images' 1} href="#"
           | Load More
-    </div>
+    </div> -->
     <section class="slideshow">
       <ul>
         <% @results.images.each do |image| %>
@@ -60,4 +59,3 @@
       <div class="info-keys icon">Navigate with arrow keys</div>
   </div>
 </section>
-<% end %>
