@@ -4,4 +4,4 @@ development:
 test:
   url: http://localhost:8081/solr/osfsufia
 production:
-  url: http://your.production.server:8080/bl_solr/core0
+  url: http://<%= ENV['SOLR_HOST" %>:<%= ENV['SOLR_PORT" %>/solr/osfsufia
