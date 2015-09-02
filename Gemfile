@@ -56,3 +56,11 @@ group :development, :test do
   gem "capybara"
   gem "factory_girl_rails"
 end
+
+group :production do
+  gem 'mysql2'
+  gem 'capistrano', '~> 3.1'
+  gem 'capistrano-rails', '~> 1.1'
+  gem 'capistrano-rvm'
+end
+
