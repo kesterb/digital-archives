@@ -77,7 +77,12 @@ class FileSearch
   end
 
   def files
-    params.empty? ? highlighted_files : filtered_files
+    query = {}
+    query[:q] = search_term if search_term
+    query[:f] = filters unless filters.empty?
+
+    (response, documents) = catalog_query.search_results(query, catalog_query.search_params_logic)
+    files = file_query.find(documents.map(&:id))
   end
 
   PRIMARY_VENUES = ["Elizabethan", "Angus Bowmer", "Thomas", "The Green Show"]
@@ -88,23 +93,14 @@ class FileSearch
 
   attr_reader :params, :catalog_query, :file_query
 
+  def has_query_params?
+      (params.keys & %i(q work venues years record_types)).any?
+  end
+
   def hardcoded_venues
     PRIMARY_VENUES.map { |name| ProductionCredits::Venue.find_by(name: name) }.compact.tap do |venues|
       venues << ProductionCredits::Venue.new(name: OTHER_VENUE)
     end
-  end
-
-  def highlighted_files
-    file_query.where(highlighted: "1")
-  end
-
-  def filtered_files
-    query = {}
-    query[:q] = search_term if search_term
-    query[:f] = filters unless filters.empty?
-
-    (response, documents) = catalog_query.search_results(query, catalog_query.search_params_logic)
-    files = file_query.find(documents.map(&:id))
   end
 
   def filters
@@ -112,6 +108,13 @@ class FileSearch
       .merge(work_filter)
       .merge(venue_filter)
       .merge(year_filter)
+      .merge(highlight_filter)
+  end
+
+  def highlight_filter
+     # 'highlighted' is only used on first view of index
+    return {} if has_query_params?
+    { Solrizer.solr_name("highlighted", :facetable) => "1" }
   end
 
   def work_filter

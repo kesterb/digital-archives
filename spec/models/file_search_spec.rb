@@ -15,10 +15,14 @@ describe FileSearch do
   let(:files) { [double("GenericFile1"), double("GenericFile2")] }
 
   context "with no params" do
-    let(:params) { {} }
+    let(:params) { { } }
+    let(:expected_query) { { f: {"highlighted_sim"=>"1"} } }
+    let(:document_ids) { [42, 58] }
+    let(:documents) { document_ids.map { |id| double("SolrDocument", id: id) } }
 
     before do
-      allow(file_query).to receive(:where).with(highlighted: "1") { files }
+      allow(catalog_query).to receive(:search_results).with(expected_query, logic) { [double("Response"), documents] }
+      allow(file_query).to receive(:find).with(document_ids) { files }
     end
 
     it "returns highlighted files" do
