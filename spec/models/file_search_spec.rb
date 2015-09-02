@@ -47,7 +47,7 @@ describe FileSearch do
 
     context "with a selected work" do
       let(:params) { { work: "WORK" } }
-      let(:expected_query) { { f: { "work_name_tesim" => "WORK" } } }
+      let(:expected_query) { { f: { "work_name_sim" => "WORK" } } }
 
       it "returns found files" do
         expect(search.files).to eq files

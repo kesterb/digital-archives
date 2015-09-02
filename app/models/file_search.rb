@@ -70,7 +70,7 @@ class FileSearch
 
   def work_filter
     return {} unless work_name
-    { Solrizer.solr_name("work_name") => work_name }
+    { Solrizer.solr_name("work_name", :facetable) => work_name }
   end
 
   def venue_filter
