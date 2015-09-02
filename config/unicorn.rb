@@ -1,4 +1,4 @@
-APP_PATH "/var/www/unicorn"
+APP_PATH = "/var/www/unicorn"
 working_directory APP_PATH
 
 pid APP_PATH + "/pids/unicorn.pid"
