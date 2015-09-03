@@ -1,7 +1,7 @@
 APP_PATH = "/var/www/unicorn"
 working_directory APP_PATH
 
-pid APP_PATH + "/pids/unicorn.pid"
+pid APP_PATH + "/tmp/pids/unicorn.pid"
 
 stderr_path APP_PATH + "/log/unicorn.log"
 stdout_path APP_PATH + "/log/unicorn.log"
