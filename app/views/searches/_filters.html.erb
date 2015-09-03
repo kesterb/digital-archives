@@ -38,15 +38,15 @@
         <div class="search-filter filter-types">
           <div class="search-filter-inner">
             <h3 class="filter-title">File Type</h3>
-            <%= select_tag "record_types[]",
-                  options_for_select(@search.all_record_types.map { |type|
+            <%= select_tag "resource_types[]",
+                  options_for_select(@search.all_resource_types.map { |type|
                     [
                       type,
                       {
                         "data-img-src" => image_path("icons/icon-#{type}.png")
                       }
                     ]
-                    }, @search.record_types),
+                    }, @search.resource_types),
                     class: "js-type-list",
                     multiple: "multiple" %>
           </div>

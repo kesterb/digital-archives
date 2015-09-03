@@ -23,8 +23,8 @@ class FileSearch
     all_venues.map(&:name)
   end
 
-  def all_record_types
-    @all_record_types ||= RECORD_TYPES
+  def all_resource_types
+    @all_resource_types ||= RESOURCE_TYPES
   end
 
   def all_years
@@ -43,24 +43,24 @@ class FileSearch
     params.fetch(:venues) { all_venue_names }
   end
 
-  def record_types
-    params.fetch(:record_types) { all_record_types }
+  def resource_types
+    params.fetch(:resource_types) { all_resource_types }
   end
 
   def show_articles?
-    record_types.include?("articles")
+    resource_types.include?("articles")
   end
 
   def show_images?
-    record_types.include?("images")
+    resource_types.include?("images")
   end
 
   def show_audios?
-    record_types.include?("audios")
+    resource_types.include?("audios")
   end
 
   def show_videos?
-    record_types.include?("videos")
+    resource_types.include?("videos")
   end
 
   def year_range
@@ -87,14 +87,14 @@ class FileSearch
 
   PRIMARY_VENUES = ["Elizabethan", "Angus Bowmer", "Thomas", "The Green Show"]
   OTHER_VENUE = "Other"
-  RECORD_TYPES = %w[images videos audios articles]
+  RESOURCE_TYPES = %w[images videos audios articles]
 
   private
 
   attr_reader :params, :catalog_query, :file_query
 
   def has_query_params?
-      (params.keys & %i(q work venues years record_types)).any?
+      (params.keys & %i(q work venues years resource_types)).any?
   end
 
   def hardcoded_venues
