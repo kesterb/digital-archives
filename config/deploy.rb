@@ -2,7 +2,7 @@
 lock '3.4.0'
 
 set :application, "digital-archives"
-set :deploy_user, "deploy"
+set :deploy_user, "unicorn"
 set :pty, true
 set :scm, :git
 set :repo_url, "git@github.com:OregonShakespeareFestival/digital-archives.git"
