@@ -1,27 +1,19 @@
 # config valid only for current version of Capistrano
 lock '3.4.0'
 
-set :application, 'digital-archives'
-set :deploy_user, 'unicorn'
-
+set :application, "digital-archives"
+set :deploy_user, "deploy"
+set :pty, true
 set :scm, :git
-set :repo_url, 'git@github.com:OregonShakespeareFestival/digital-archives.git'
+set :repo_url, "git@github.com:OregonShakespeareFestival/digital-archives.git"
 
-set :deploy_to, '/var/www/unicorn'
-
-#TODO: setup git ??
+set :deploy_to, "/var/www/unicorn"
 
 set :keep_releases, 5
-
 set :tests, []
-
-
-# Default value for default_env is {}
-# set :default_env, { path: "/opt/ruby/bin:$PATH" }
-
+set :bundle_flags, " --quiet"
 
 namespace :deploy do
-  before :deploy, "deploy:check_revision"
   after :finishing, "deploy:cleanup"
 
   after :restart, :clear_cache do
@@ -34,3 +26,5 @@ namespace :deploy do
   end
 
 end
+
+after "deploy", "service:restart_unicorn"
