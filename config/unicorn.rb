@@ -1,4 +1,4 @@
-APP_PATH = "/var/www/unicorn"
+APP_PATH = "/var/www/unicorn/current"
 working_directory APP_PATH
 
 pid APP_PATH + "/tmp/pids/unicorn.pid"
@@ -6,7 +6,7 @@ pid APP_PATH + "/tmp/pids/unicorn.pid"
 stderr_path APP_PATH + "/log/unicorn.log"
 stdout_path APP_PATH + "/log/unicorn.log"
 
-listen APP_PATH + "/tmp/sockets/unicorn.sock"
+listen "/var/www/unicorn/tmp/sockets/unicorn.sock"
 
 worker_processes 4
 
