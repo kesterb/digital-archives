@@ -13,8 +13,9 @@ class GenericFilePresenter < Sufia::GenericFilePresenter
     :identifier,
     :based_near,
     :related_url,
-    :production_name,
-    :venue_name,
-    :work_name
+    :production_id,
+    :venue_id,
+    :work_id,
+    :highlighted
   ]
 end

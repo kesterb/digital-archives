@@ -10,8 +10,12 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require openseadragon
- *= require blacklight_gallery
+ *= require ionrangeslider/ion.rangeSlider
+ *= require ionrangeslider/ion.rangeSlider.skinNice
  *= require_self
- *= require sufia
  */
+
+ @import 'base/base';
+ @import 'layout/layout';
+ @import 'components/components';
+ @import 'modules/modules';

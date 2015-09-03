@@ -7,6 +7,9 @@ gem 'rails', '4.2.3'
 gem 'sqlite3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
+
+gem 'autoprefixer-rails', '~> 5.2'
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
@@ -41,6 +44,11 @@ gem 'rails_admin', github: 'codingzeal/rails_admin', branch: 'sufia-6.2.0'
 gem 'rsolr', '~> 1.0.6'
 gem 'devise'
 gem 'devise-guests', '~> 0.3'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-ionrangeslider', '~> 2.0.2'
+  gem 'rails-assets-image-picker', '~> 0.2.4'
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
