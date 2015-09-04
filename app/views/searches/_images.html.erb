@@ -1,9 +1,9 @@
-<section class="results-section images <%= (@results.has_images? && @search.show_images?) ? "is-active" : "" %>">
+<section class="results-section images <%= @images.any? ? "is-active" : "" %>">
   <div class="sidebar-item">
     <a class="file-type">
       <%= image_tag("icons/icon-images", alt: "Images", class: "filter-type-image") %>
     </a>
-    <p class="file-type-count"><%= @results.image_count %></p>
+    <p class="file-type-count"><%= @images.size %></p>
   </div>
   <h2 class="results-section-title">Images</h2>
 
@@ -11,7 +11,7 @@
     <section class="grid-wrap">
       <ul class="grid card-grid">
         <li class="grid-sizer" />
-        <% @results.images.each do |image| %>
+        <% @images.each do |image| %>
           <li class="card-container">
             <a class="card card--has-image card--overlay-content">
               <figure class="card__figure">
@@ -38,7 +38,7 @@
     </div> -->
     <section class="slideshow">
       <ul>
-        <% @results.images.each do |image| %>
+        <% @images.each do |image| %>
           <li>
             <figure>
               <img class="slideshow-img" src="<%= sufia.download_path(image) %>" alt="<%= image.title.first %>" />

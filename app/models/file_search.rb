@@ -47,20 +47,24 @@ class FileSearch
     params.fetch(:resource_types) { all_resource_types }
   end
 
+  def types
+    params.fetch(:types) { all_resource_types }
+  end
+
   def show_articles?
-    resource_types.include?("articles")
+    types.include?("articles")
   end
 
   def show_images?
-    resource_types.include?("images")
+    types.include?("images")
   end
 
   def show_audios?
-    resource_types.include?("audios")
+    types.include?("audios")
   end
 
   def show_videos?
-    resource_types.include?("videos")
+    types.include?("videos")
   end
 
   def year_range
@@ -72,8 +76,20 @@ class FileSearch
     all_years
   end
 
-  def results
-    SearchResults.new(files)
+  def articles
+    show_articles? ? files.select { |file| file.resource_type == ['Article'] } : []
+  end
+
+  def audios
+    show_audios? ? files.select { |file| file.resource_type == ['Audio'] } : []
+  end
+
+  def images
+    show_images? ? files.select { |file| file.resource_type == ['Image'] } : []
+  end
+
+  def videos
+    show_videos? ? files.select { |file| file.resource_type == 'Video' } : []
   end
 
   def files
@@ -94,7 +110,7 @@ class FileSearch
   attr_reader :params, :catalog_query, :file_query
 
   def has_query_params?
-      (params.keys & %i(q work venues years resource_types)).any?
+    (params.stringify_keys.keys & %w(q work venues years types)).any?
   end
 
   def hardcoded_venues
@@ -105,16 +121,23 @@ class FileSearch
 
   def filters
     {}
-      .merge(work_filter)
-      .merge(venue_filter)
-      .merge(year_filter)
-      .merge(highlight_filter)
+    .merge(work_filter)
+    .merge(venue_filter)
+    .merge(year_filter)
+    .merge(resource_type_filter)
+    .merge(highlight_filter)
   end
 
   def highlight_filter
-     # 'highlighted' is only used on first view of index
+    # 'highlighted' is only used on first view of index
     return {} if has_query_params?
     { Solrizer.solr_name("highlighted", :facetable) => "1" }
+  end
+
+  def resource_type_filter
+    return {} if resource_types.empty? || resource_types == all_resource_types
+    types = resource_types.map { |type| type.singularize.capitalize }
+    { Solrizer.solr_name("resource_type", :facetable) => types }
   end
 
   def work_filter

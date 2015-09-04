@@ -1,13 +1,13 @@
-<section class="results-section articles <%= (@results.has_articles? && @search.show_articles?) ? "is-active" : "" %>">
+<section class="results-section articles <%= @articles.any? ? "is-active" : "" %>">
   <div class="sidebar-item">
     <a class="file-type">
       <%= image_tag("icons/icon-articles", alt: "Articles", class: "filter-type-image") %>
     </a>
-    <p class="file-type-count"><%= @results.article_count %></p>
+    <p class="file-type-count"><%= @articles.size %></p>
   </div>
   <h2 class="results-section-title">Documents</h2>
   <div class="card-grid">
-    <% @results.articles.each do |article| %>
+    <% @articles.each do |article| %>
       <li class="card-container">
         <a class="card card--has-img" target=_blank href=<%= sufia.download_path(article) %>>
           <div class="card-figure-img">

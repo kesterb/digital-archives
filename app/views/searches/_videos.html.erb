@@ -1,13 +1,13 @@
-<section class="results-section videos <%= (@results.has_videos? && @search.show_videos?) ? "is-active" : "" %>">
+<section class="results-section videos <%= @videos.any? ? "is-active" : "" %>">
   <div class="sidebar-item">
     <a class="file-type">
       <%= image_tag("icons/icon-videos", alt: "Videos", class: "filter-type-image") %>
     </a>
-    <p class="file-type-count"><%= @results.video_count %></p>
+    <p class="file-type-count"><%= @videos.size %></p>
   </div>
   <h2 class="results-section-title">Videos</h2>
   <ul class="js-videos-grid videos-grid">
-    <% @results.videos.each do |video| %>
+    <% @videos.each do |video| %>
       <li class="js-video-container card-container">
         <a class="js-video card card--has-img card--overlay-content" data-webm=<%= sufia.download_path(video, datastream_id: 'webm') %> data-mp4=<%= sufia.download_path(video, datastream_id: 'mp4') %> data-title=<%= video.title.first %>
            data-description=<%= video.description %> data-description=<%= video.venue_name %>>

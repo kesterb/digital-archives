@@ -5,7 +5,12 @@ class SearchesController < CatalogController
 
   def index
     @search = FileSearch.new(params, catalog_query: self)
-    @results = @search.results
+    @articles = FileSearch.new(params.merge(:resource_types => ['Article']), catalog_query: self).articles
+    @audios = FileSearch.new(params.merge(:resource_types => ['Audio']), catalog_query: self).audios
+    @images = FileSearch.new(params.merge(:resource_types => ['Image']), catalog_query: self).images
+    @videos = FileSearch.new(params.merge(:resource_types => ['Video']), catalog_query: self).videos
+
+
     # page = params[:page] || 1
     # per_page = params[:per_page] || 10
     # resource_type = params[:t].singularize.capitalize

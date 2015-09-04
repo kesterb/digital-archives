@@ -38,7 +38,7 @@
         <div class="search-filter filter-types">
           <div class="search-filter-inner">
             <h3 class="filter-title">File Type</h3>
-            <%= select_tag "resource_types[]",
+            <%= select_tag "types[]",
                   options_for_select(@search.all_resource_types.map { |type|
                     [
                       type,

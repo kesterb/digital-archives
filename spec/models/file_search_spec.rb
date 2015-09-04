@@ -16,7 +16,7 @@ describe FileSearch do
 
   context "with no params" do
     let(:params) { { } }
-    let(:expected_query) { { f: {"highlighted_sim"=>"1"} } }
+    let(:expected_query) { { "f": {"highlighted_sim"=>"1"} } }
     let(:document_ids) { [42, 58] }
     let(:documents) { document_ids.map { |id| double("SolrDocument", id: id) } }
 
@@ -27,6 +27,15 @@ describe FileSearch do
 
     it "returns highlighted files" do
       expect(search.files).to eq files
+    end
+
+    context "with resource_type selected and no other filters" do
+      let(:params) { { resource_types: %w[Audio] } }
+      let(:expected_query) { { f: { "resource_type_sim" => %w[Audio], "highlighted_sim"=>"1" } } }
+
+      it "returns found files" do
+        expect(search.files).to eq files
+      end
     end
   end
 
