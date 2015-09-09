@@ -12,5 +12,11 @@ Rails.application.routes.draw do
 
   resources :searches
 
+  get "public_about" => 'cms_pages#show', id: 'about_page'
+  get "policies" => 'cms_pages#show', id: 'policies_page'
+
+  # For editing via the Sufia backend
+  get "admin/policies" => 'pages#show', id: 'policies_page'
+
   root to: 'homepage#index'
 end
