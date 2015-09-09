@@ -1,9 +1,9 @@
-<section class="results-section images <%= @images.any? ? "is-active" : "" %>">
+<section class="results-section images <%= @images_search.show_images? && @images_search.has_items? ? "is-active" : "" %>">
   <div class="sidebar-item">
     <a class="file-type">
       <%= image_tag("icons/icon-images", alt: "Images", class: "filter-type-image") %>
     </a>
-    <p class="file-type-count"><%= @images.size %></p>
+    <p class="file-type-count"><%= @images_search.total_items %></p>
   </div>
   <h2 class="results-section-title">Images</h2>
 
@@ -15,7 +15,7 @@
           <li class="card-container">
             <a class="card card--has-image card--overlay-content">
               <figure class="card__figure">
-                <img class="card__figure__image" src="<%= sufia.download_path(image, datastream_id: 'thumbnail') %>" alt="<%= image.title.first %>" />
+                <img class="card__figure__image" src="<%= sufia.download_path(image, file: 'thumbnail') %>" alt="<%= image.title.first %>" />
               </figure>
               <div class="card__content">
                 <h1 class="card__content__title">
@@ -31,11 +31,11 @@
       </li>
       </ul>
     </section>
-    <!-- <div class="paging">
-      if hasNextPage
-        a{action 'page' 'images' 1} href="#"
-          | Load More
-    </div> -->
+    <div class="paging">
+      <% if @images_search.show_more? %>
+        <a href="#" class="js-load-more-images" data-page="<%= @images_search.next_page %>">Load More</a>
+      <% end %>
+    </div>
     <section class="slideshow">
       <ul>
         <% @images.each do |image| %>

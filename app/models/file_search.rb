@@ -1,6 +1,8 @@
 require "solrizer"
 
 class FileSearch
+  attr_accessor :current_page, :total_pages, :next_page, :total_items
+
   def initialize(params, catalog_query:, file_query: GenericFile)
     @params = params
     @catalog_query = catalog_query
@@ -33,6 +35,22 @@ class FileSearch
 
   def search_term
     params[:q]
+  end
+
+  def show_more?
+    @total_pages > @current_page
+  end
+
+  def has_items?
+    @total_items > 0
+  end
+
+  def page
+    params[:page]
+  end
+
+  def per_page
+    params[:per_page]
   end
 
   def work_name
@@ -76,29 +94,20 @@ class FileSearch
     all_years
   end
 
-  def articles
-    show_articles? ? files.select { |file| file.resource_type == ['Article'] } : []
-  end
-
-  def audios
-    show_audios? ? files.select { |file| file.resource_type == ['Audio'] } : []
-  end
-
-  def images
-    show_images? ? files.select { |file| file.resource_type == ['Image'] } : []
-  end
-
-  def videos
-    show_videos? ? files.select { |file| file.resource_type == 'Video' } : []
-  end
-
   def files
     query = {}
     query[:q] = search_term if search_term
     query[:f] = filters unless filters.empty?
+    query[:page] = page if page
 
     (response, documents) = catalog_query.search_results(query, catalog_query.search_params_logic)
-    files = file_query.find(documents.map(&:id))
+    if @response = response
+      @total_items = @response.response["numFound"]
+      @total_pages = @response.total_pages
+      @current_page = @response.current_page
+      @next_page = @response.next_page
+    end
+    @files ||= file_query.find(documents.map(&:id))
   end
 
   PRIMARY_VENUES = ["Elizabethan", "Angus Bowmer", "Thomas", "The Green Show"]

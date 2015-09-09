@@ -2,8 +2,8 @@
 
 <div class="page-container">
   <%= form_tag(searches_path, method: "get", id: "filter-form") do %>
-    <%= render "header" %>
-    <%= render "filters" %>
+  <%= render "header" %>
+  <%= render "filters" %>
   <% end %>
   <%= render "search_results" %>
 
@@ -11,49 +11,98 @@
 </div>
 
 <script type="text/javascript">
-  $(function(){
-    $('.js-venue-list').imagepicker({
-      show_label: true,
-      changed: function () {
-          $('#filter-form').submit()
-      }
-    });
-
-    var difference = function(first, second) {
-       return $(first).not(second).get();
+$(function(){
+  $('.js-venue-list').imagepicker({
+    show_label: true,
+    changed: function () {
+      $('#filter-form').submit()
     }
-
-    var updateSectionVisibility = function(oldTypes, newTypes) {
-      $.each(difference(oldTypes, newTypes), function (_, recordType) {
-        $('.' + recordType).removeClass("is-active")
-      });
-
-      $.each(difference(newTypes, oldTypes), function (_, recordType) {
-        $('.' + recordType).addClass("is-active")
-      });
-    };
-
-    $('.js-type-list').imagepicker({
-      show_label: false,
-      changed: updateSectionVisibility
-    });
-
-    $('.js-year-range').ionRangeSlider({
-      type: "double",
-      hide_min_max: true,
-      step: 1,
-      onFinish: function () {
-        $('#filter-form').submit()
-      }
-    });
-
-    // Init the image gallery
-    var gallery = $('#grid-gallery')
-    if (gallery.length) {
-      new CBPGridGallery(gallery.get(0));
-    }
-
-    // Init the video viewer
-    VideoGrid.init();
   });
+
+  var difference = function(first, second) {
+    return $(first).not(second).get();
+  }
+
+  var updateSectionVisibility = function(oldTypes, newTypes) {
+    $.each(difference(oldTypes, newTypes), function (_, recordType) {
+      $('.' + recordType).removeClass("is-active")
+    });
+
+    $.each(difference(newTypes, oldTypes), function (_, recordType) {
+      $('.' + recordType).addClass("is-active")
+    });
+  };
+
+  $('.js-type-list').imagepicker({
+    show_label: false,
+    changed: updateSectionVisibility
+  });
+
+  $('.js-year-range').ionRangeSlider({
+    type: "double",
+    hide_min_max: true,
+    step: 1,
+    onFinish: function () {
+      $('#filter-form').submit()
+    }
+  });
+
+  // Init the image gallery
+  var gallery = $('#grid-gallery')
+  if (gallery.length) {
+    new CBPGridGallery(gallery.get(0));
+  }
+
+  $('.js-load-more-audios').click(function() {
+    var page = $(this).data("page")
+    $.get( "/audios?page=" + page, function( data ) {
+      if ( $(data).data("more") == true ) {
+        $('.js-load-more-audios').data("page", $(data).data("page"))
+      } else {
+        $('.audios .paging').hide();
+      }
+      $( ".audios-grid ul" ).append($(data).html());
+    });
+  })
+
+  $('.js-load-more-videos').click(function() {
+    var page = $(this).data("page")
+    $.get( "/videos?page=" + page, function( data ) {
+      if ( $(data).data("more") == true ) {
+        $('.js-load-more-videos').data("page", $(data).data("page"))
+      } else {
+        $('.videos .paging').hide();
+      }
+      $( ".videos-grid" ).append($(data).html());
+      VideoGrid.init();
+    });
+  })
+
+  $('.js-load-more-articles').click(function() {
+    var page = $(this).data("page")
+    $.get( "/articles?page=" + page, function( data ) {
+      if ( $(data).data("more") == true ) {
+        $('.js-load-more-articles').data("page", $(data).data("page"))
+      } else {
+        $('.articles .paging').hide();
+      }
+      $( ".articles .card-grid ul" ).append($(data).html());
+    });
+  })
+
+  $('.js-load-more-images').click(function() {
+    var page = $(this).data("page")
+    $.get( "/images?page=" + page, function( data ) {
+      if ( $(data).data("more") == true ) {
+        $('.js-load-more-images').data("page", $(data).data("page"))
+      } else {
+        $('.images .paging').hide();
+      }
+      $( ".images .slideshow ul").append( $(data).find('#slideshow').html() );
+      $( ".images .card-grid" ).append( $(data).find('#thumbnails').html() );
+    });
+  })
+  // Init the video viewer
+  VideoGrid.init();
+});
 </script>

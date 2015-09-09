@@ -13,6 +13,12 @@ describe FileSearch do
   let(:catalog_query) { double("Catalog query", search_params_logic: logic) }
   let(:file_query) { double("File query") }
   let(:files) { [double("GenericFile1"), double("GenericFile2")] }
+  let(:response) { double("Response",
+                    total_pages: 2,
+                    current_page: 1,
+                    next_page: 2,
+                    response: { "numFound" => 20 }
+                    ) }
 
   context "with no params" do
     let(:params) { { } }
@@ -21,7 +27,7 @@ describe FileSearch do
     let(:documents) { document_ids.map { |id| double("SolrDocument", id: id) } }
 
     before do
-      allow(catalog_query).to receive(:search_results).with(expected_query, logic) { [double("Response"), documents] }
+      allow(catalog_query).to receive(:search_results).with(expected_query, logic) { [response, documents] }
       allow(file_query).to receive(:find).with(document_ids) { files }
     end
 
@@ -44,7 +50,7 @@ describe FileSearch do
     let(:documents) { document_ids.map { |id| double("SolrDocument", id: id) } }
 
     before do
-      allow(catalog_query).to receive(:search_results).with(expected_query, logic) { [double("Response"), documents] }
+      allow(catalog_query).to receive(:search_results).with(expected_query, logic) { [response, documents] }
       allow(file_query).to receive(:find).with(document_ids) { files }
     end
 

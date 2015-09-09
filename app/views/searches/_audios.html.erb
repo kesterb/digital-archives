@@ -1,23 +1,25 @@
-<section class="results-section audios <%= @audios.any? ? "is-active" : "" %>">
+<section class="results-section audios <%= @audios_search.show_audios? && @audios_search.has_items? ? "is-active" : "" %>">
   <div class="sidebar-item">
     <a class="file-type">
       <%= image_tag("icons/icon-audios", alt: "Audios", class: "filter-type-image") %>
     </a>
-    <p class="file-type-count"><%= @audios.size %></p>
+    <p class="file-type-count"><%= @audios_search.total_items %></p>
   </div>
   <h2 class="results-section-title">Audio</h2>
-  <div>
-    <% @audios.each do |audio| %>
-      <img src="<%= sufia.download_path(audio, datastream_id: 'thumbnail') %>" alt="<%= audio.title.first %>" />
-      <audio controls="controls">
-        <source src="<%= sufia.download_path(audio) %>" />
-      </audio>
+  <div class="audios-grid">
+    <ul>
+      <% @audios.each do |audio| %>
+      <li>
+        <audio controls preload="none">
+          <source src="<%= sufia.download_path(audio) %>" />
+        </audio>
       </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="paging">
+    <% if @audios_search.show_more? %>
+    <a href="#" class="js-load-more-audios" data-page="<%= @audios_search.next_page %>">Load More</a>
     <% end %>
   </div>
-  <!-- <div class="paging">
-    if hasNextPage
-      a{action 'page' 'audios' 1} href="#"
-        | More
-  </div> -->
 </section>

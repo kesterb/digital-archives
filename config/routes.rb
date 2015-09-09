@@ -12,5 +12,10 @@ Rails.application.routes.draw do
 
   resources :searches
 
+  get '/images', to: 'searches#images'
+  get '/articles', to: 'searches#articles'
+  get '/videos', to: 'searches#videos'
+  get '/audios', to: 'searches#audios'
+
   root to: 'homepage#index'
 end
