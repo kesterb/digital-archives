@@ -1,4 +1,4 @@
-<% record.production_names.each do |name| %>
-  <%= name %>
+<% ProductionCredits::Production.find(record.production_ids).each do |production| %>
+  <%= production.production_name %>
   <br />
 <% end %>
