@@ -13,16 +13,18 @@ describe FileSearch do
   let(:catalog_query) { double("Catalog query", search_params_logic: logic) }
   let(:file_query) { double("File query") }
   let(:files) { [double("GenericFile1"), double("GenericFile2")] }
-  let(:response) { double("Response",
-                    total_pages: 2,
-                    current_page: 1,
-                    next_page: 2,
-                    response: { "numFound" => 20 }
-                    ) }
+  let(:response) do
+    double("Response",
+            total_pages: 2,
+            current_page: 1,
+            next_page: 2,
+            response: { "numFound" => 20 }
+          )
+  end
 
   context "with no params" do
-    let(:params) { { } }
-    let(:expected_query) { { "f": {"highlighted_sim"=>"1"} } }
+    let(:params) { {} }
+    let(:expected_query) { { "f": {"highlighted_sim" => "1"} } }
     let(:document_ids) { [42, 58] }
     let(:documents) { document_ids.map { |id| double("SolrDocument", id: id) } }
 
@@ -37,7 +39,7 @@ describe FileSearch do
 
     context "with resource_type selected and no other filters" do
       let(:params) { { resource_types: %w[Audio] } }
-      let(:expected_query) { { f: { "resource_type_sim" => %w[Audio], "highlighted_sim"=>"1" } } }
+      let(:expected_query) { { f: { "resource_type_sim" => %w[Audio], "highlighted_sim" => "1" } } }
 
       it "returns found files" do
         expect(search.result.files).to eq files
