@@ -14,6 +14,12 @@ dependencies:
         pwd:
           vendor/engines/production_credits
 
+database:
+  post:
+    - bin/rake db:migrate RAILS_ENV=test:
+        pwd:
+          vendor/engines/production_credits
+
 test:
   pre:
     - ./bin/init-docker.sh
