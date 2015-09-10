@@ -1,15 +1,15 @@
 class GenericFile < ActiveFedora::Base
   include Sufia::GenericFile
 
-  property :production_id, predicate: ::RDF::URI('http://docs.osfashland.org/terms/production_id'), multiple: false
+  property :production_ids, predicate: ::RDF::URI('http://docs.osfashland.org/terms/production_ids'), multiple: true
 
-  property :production_name, predicate: ::RDF::URI('http://docs.osfashland.org/terms/production_name'), multiple: false do |index|
+  property :production_names, predicate: ::RDF::URI('http://docs.osfashland.org/terms/production_names'), multiple: true do |index|
     index.as :stored_searchable, :facetable
   end
 
-  property :venue_id, predicate: ::RDF::URI('http://docs.osfashland.org/terms/venue_id'), multiple: false
+  property :venue_ids, predicate: ::RDF::URI('http://docs.osfashland.org/terms/venue_ids'), multiple: true
 
-  property :venue_name, predicate: ::RDF::URI('http://docs.osfashland.org/terms/venue_name'), multiple: false do |index|
+  property :venue_names, predicate: ::RDF::URI('http://docs.osfashland.org/terms/venue_names'), multiple: true do |index|
     index.as :stored_searchable, :facetable
   end
 
@@ -33,8 +33,8 @@ class GenericFile < ActiveFedora::Base
   private
 
   def set_calculated_fields
-    self.production_name = production.try(:production_name)
-    self.venue_name = venue.try(:name)
+    self.production_names = productions.map(&:production_name).compact
+    self.venue_names = venues.map(&:name).compact
     self.work_name = work.try(:title)
     self.year_created = creation_year
   end
@@ -43,15 +43,17 @@ class GenericFile < ActiveFedora::Base
     ProductionCredits::Work.find(work_id) if work_id.present?
   end
 
-  def production
-    ProductionCredits::Production.find(production_id) if production_id.present?
+  def productions
+    production_ids ? ProductionCredits::Production.find(production_ids) : []
   end
 
-  def venue
-    if venue_id.present?
-      venue = ProductionCredits::Venue.find(venue_id)
-    elsif production
-      venue = production.venue
+  def venues
+    if (venue_ids || []).any?
+      ProductionCredits::Venue.find(venue_ids).compact
+    elsif productions.any?
+      productions.map(&:venue)
+    else
+      []
     end
   end
 

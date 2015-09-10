@@ -122,9 +122,9 @@ class FileSearch
   def venue_filter
     return {} if venue_names.empty? || venue_names == all_venue_names
     if venue_names.include?(OTHER_VENUE)
-      { Solrizer.solr_name("!venue_name", :facetable) => PRIMARY_VENUES - venue_names }
+      { Solrizer.solr_name("!venue_names", :facetable) => PRIMARY_VENUES - venue_names }
     else
-      { Solrizer.solr_name("venue_name", :facetable) => venue_names }
+      { Solrizer.solr_name("venue_names", :facetable) => venue_names }
     end
   end
 

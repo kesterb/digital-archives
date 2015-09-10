@@ -62,7 +62,7 @@ describe FileSearch do
 
       context "with one venue selected" do
         let(:params) { { venues: %w[VENUE] } }
-        let(:expected_query) { { f: { "venue_name_sim" => %w[VENUE] } } }
+        let(:expected_query) { { f: { "venue_names_sim" => %w[VENUE] } } }
 
         it "returns found files" do
           expect(search.files).to eq files
@@ -71,7 +71,7 @@ describe FileSearch do
 
       context "with several venues selected" do
         let(:params) { { venues: %w[VENUE1 VENUE2] } }
-        let(:expected_query) { { f: { "venue_name_sim" => %w[VENUE1 VENUE2] } } }
+        let(:expected_query) { { f: { "venue_names_sim" => %w[VENUE1 VENUE2] } } }
 
         it "returns found files" do
           expect(search.files).to eq files
@@ -80,7 +80,7 @@ describe FileSearch do
 
       context "with other venue selected" do
         let(:params) { { venues: [described_class::OTHER_VENUE] } }
-        let(:expected_query) { { f: { "!venue_name_sim" => described_class::PRIMARY_VENUES } } }
+        let(:expected_query) { { f: { "!venue_names_sim" => described_class::PRIMARY_VENUES } } }
 
         it "returns found files" do
           expect(search.files).to eq files
@@ -89,7 +89,7 @@ describe FileSearch do
 
       context "with the other venue and some primary venues selected" do
         let(:params) { { venues: described_class::PRIMARY_VENUES.take(2) + [described_class::OTHER_VENUE] } }
-        let(:expected_query) { { f: { "!venue_name_sim" => described_class::PRIMARY_VENUES.drop(2) } } }
+        let(:expected_query) { { f: { "!venue_names_sim" => described_class::PRIMARY_VENUES.drop(2) } } }
 
         it "returns found files" do
           expect(search.files).to eq files

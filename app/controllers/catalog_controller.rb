@@ -64,8 +64,8 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name("based_near", :facetable), label: "Location", limit: 5
     config.add_facet_field solr_name("publisher", :facetable), label: "Publisher", limit: 5
     config.add_facet_field solr_name("file_format", :facetable), label: "File Format", limit: 5
-    config.add_facet_field solr_name("production_name", :facetable), label: "Production", limit: 5
-    config.add_facet_field solr_name("venue_name", :facetable), label: "Venue", limit: 5
+    config.add_facet_field solr_name("production_names", :facetable), label: "Productions", limit: 5
+    config.add_facet_field solr_name("venue_names", :facetable), label: "Venues", limit: 5
     config.add_facet_field solr_name("work_name", :facetable), label: "Work", limit: 5
     config.add_facet_field solr_name("highlighted", :facetable), label: "Highlighted", limit: 5
     config.add_facet_field solr_name("year_created", :facetable, type: :integer), label: "Year Created", limit: 5
@@ -93,8 +93,8 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name("resource_type", :stored_searchable), label: "Resource Type"
     config.add_index_field solr_name("format", :stored_searchable), label: "File Format"
     config.add_index_field solr_name("identifier", :stored_searchable), label: "Identifier"
-    config.add_index_field solr_name("production_name", :stored_searchable), label: "Production"
-    config.add_index_field solr_name("venue_name", :stored_searchable), label: "Venue"
+    config.add_index_field solr_name("production_names", :stored_searchable), label: "Productions"
+    config.add_index_field solr_name("venue_names", :stored_searchable), label: "Venues"
     config.add_index_field solr_name("work_name", :stored_searchable), label: "Work"
     config.add_index_field solr_name("highlighted", :stored_searchable), label: "Highlighted"
 
@@ -116,8 +116,8 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name("resource_type", :stored_searchable), label: "Resource Type"
     config.add_show_field solr_name("format", :stored_searchable), label: "File Format"
     config.add_show_field solr_name("identifier", :stored_searchable), label: "Identifier"
-    config.add_show_field solr_name("production_name", :stored_searchable), label: "Production"
-    config.add_show_field solr_name("venue_name", :stored_searchable), label: "Venue"
+    config.add_show_field solr_name("production_names", :stored_searchable), label: "Productions"
+    config.add_show_field solr_name("venue_names", :stored_searchable), label: "Venues"
     config.add_show_field solr_name("work_name", :stored_searchable), label: "Work"
     config.add_show_field solr_name("highlighted", :stored_searchable), label: "Highlighted"
 
