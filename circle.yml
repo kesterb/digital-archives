@@ -12,8 +12,8 @@ dependencies:
 
 test:
   pre:
-    - ./bin/init-docker.sh; sleep 10
-    - ./bin/start-docker.sh; sleep 10
+    - ./bin/init-docker.sh
+    - ./bin/start-docker.sh
     - curl --retry 10 --retry-delay 5 -v http://localhost:8080
     - curl --retry 10 --retry-delay 5 -v http://localhost:8081
   post:
