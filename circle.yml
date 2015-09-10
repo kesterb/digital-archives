@@ -16,7 +16,7 @@ dependencies:
 
 database:
   post:
-    - bin/rake db:migrate RAILS_ENV=test:
+    - bundle exec rake db:migrate RAILS_ENV=test:
         pwd:
           vendor/engines/production_credits
 
