@@ -1,6 +1,6 @@
-<div data-page="<%= @images_search.next_page %>" data-more="<%= @images_search.show_more? %>">
+<div data-page="<%= @images.next_page %>" data-more="<%= @images.show_more? %>">
   <ul id="thumbnails">
-  <% @images.each do |image| %>
+  <% @images.files.each do |image| %>
   <li class="card-container">
     <a class="card card--has-image card--overlay-content">
       <figure class="card__figure">
@@ -20,7 +20,7 @@
   </ul>
 
   <ul id="slideshow">
-  <% @images.each do |image| %>
+  <% @images.files.each do |image| %>
   <li>
     <figure>
       <img class="slideshow-img" src="<%= sufia.download_path(image) %>" alt="<%= image.title.first %>" />

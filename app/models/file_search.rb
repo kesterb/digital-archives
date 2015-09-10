@@ -37,14 +37,6 @@ class FileSearch
     params[:q]
   end
 
-  def show_more?
-    @total_pages > @current_page
-  end
-
-  def has_items?
-    @total_items > 0
-  end
-
   def page
     params[:page]
   end
@@ -94,20 +86,9 @@ class FileSearch
     all_years
   end
 
-  def files
-    query = {}
-    query[:q] = search_term if search_term
-    query[:f] = filters unless filters.empty?
-    query[:page] = page if page
-
-    (response, documents) = catalog_query.search_results(query, catalog_query.search_params_logic)
-    if @response = response
-      @total_items = @response.response["numFound"]
-      @total_pages = @response.total_pages
-      @current_page = @response.current_page
-      @next_page = @response.next_page
-    end
-    @files ||= file_query.find(documents.map(&:id))
+  def result
+    (response, documents) = catalog_query.search_results(search_query, catalog_query.search_params_logic)
+    SearchResults.new(response, file_query.find(documents.map(&:id)))
   end
 
   PRIMARY_VENUES = ["Elizabethan", "Angus Bowmer", "Thomas", "The Green Show"]
@@ -117,6 +98,14 @@ class FileSearch
   private
 
   attr_reader :params, :catalog_query, :file_query
+
+  def search_query
+    query = {}
+    query[:q] = search_term if search_term
+    query[:f] = filters unless filters.empty?
+    query[:page] = page if page
+    query
+  end
 
   def has_query_params?
     (params.stringify_keys.keys & %w(q work venues years types)).any?
@@ -130,11 +119,11 @@ class FileSearch
 
   def filters
     {}
-    .merge(work_filter)
-    .merge(venue_filter)
-    .merge(year_filter)
-    .merge(resource_type_filter)
-    .merge(highlight_filter)
+      .merge(work_filter)
+      .merge(venue_filter)
+      .merge(year_filter)
+      .merge(resource_type_filter)
+      .merge(highlight_filter)
   end
 
   def highlight_filter

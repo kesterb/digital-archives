@@ -2,8 +2,8 @@
 
 <div class="page-container">
   <%= form_tag(searches_path, method: "get", id: "filter-form") do %>
-  <%= render "header" %>
-  <%= render "filters" %>
+    <%= render "header" %>
+    <%= render "filters" %>
   <% end %>
   <%= render "search_results" %>
 

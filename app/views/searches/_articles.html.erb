@@ -1,14 +1,14 @@
-<section class="results-section articles <%= @articles_search.show_articles? && @articles_search.has_items? ? "is-active" : "" %>">
+<section class="results-section articles <%= @articles_search.show_articles? && @articles.has_items? ? "is-active" : "" %>">
   <div class="sidebar-item">
     <a class="file-type">
       <%= image_tag("icons/icon-articles", alt: "Articles", class: "filter-type-image") %>
     </a>
-    <p class="file-type-count"><%= @articles_search.total_items %></p>
+    <p class="file-type-count"><%= @articles.total_items %></p>
   </div>
   <h2 class="results-section-title">Documents</h2>
   <div class="card-grid">
     <ul>
-      <% @articles.each do |article| %>
+      <% @articles.files.each do |article| %>
       <li class="card-container">
         <a class="card card--has-img" target=_blank href=<%= sufia.download_path(article) %>>
           <div class="card-figure-img">
@@ -28,8 +28,8 @@
     </ul>
   </div>
   <div class="paging">
-    <% if @articles_search.show_more? %>
-    <a href="#" class="js-load-more-articles" data-page="<%= @articles_search.next_page %>">Load More</a>
+    <% if @articles.show_more? %>
+    <a href="#" class="js-load-more-articles" data-page="<%= @articles.next_page %>">Load More</a>
     <% end %>
   </div>
 </section>

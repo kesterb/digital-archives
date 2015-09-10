@@ -32,7 +32,7 @@ describe FileSearch do
     end
 
     it "returns highlighted files" do
-      expect(search.files).to eq files
+      expect(search.result.files).to eq files
     end
 
     context "with resource_type selected and no other filters" do
@@ -40,7 +40,7 @@ describe FileSearch do
       let(:expected_query) { { f: { "resource_type_sim" => %w[Audio], "highlighted_sim"=>"1" } } }
 
       it "returns found files" do
-        expect(search.files).to eq files
+        expect(search.result.files).to eq files
       end
     end
   end
@@ -59,7 +59,7 @@ describe FileSearch do
       let(:expected_query) { { q: "TERM" } }
 
       it "returns found files" do
-        expect(search.files).to eq files
+        expect(search.result.files).to eq files
       end
     end
 
@@ -68,7 +68,7 @@ describe FileSearch do
       let(:expected_query) { { f: { "work_name_sim" => "WORK" } } }
 
       it "returns found files" do
-        expect(search.files).to eq files
+        expect(search.result.files).to eq files
       end
     end
 
@@ -84,7 +84,7 @@ describe FileSearch do
         let(:expected_query) { { f: { "venue_name_sim" => %w[VENUE] } } }
 
         it "returns found files" do
-          expect(search.files).to eq files
+          expect(search.result.files).to eq files
         end
       end
 
@@ -93,7 +93,7 @@ describe FileSearch do
         let(:expected_query) { { f: { "venue_name_sim" => %w[VENUE1 VENUE2] } } }
 
         it "returns found files" do
-          expect(search.files).to eq files
+          expect(search.result.files).to eq files
         end
       end
 
@@ -102,7 +102,7 @@ describe FileSearch do
         let(:expected_query) { { f: { "!venue_name_sim" => described_class::PRIMARY_VENUES } } }
 
         it "returns found files" do
-          expect(search.files).to eq files
+          expect(search.result.files).to eq files
         end
       end
 
@@ -111,7 +111,7 @@ describe FileSearch do
         let(:expected_query) { { f: { "!venue_name_sim" => described_class::PRIMARY_VENUES.drop(2) } } }
 
         it "returns found files" do
-          expect(search.files).to eq files
+          expect(search.result.files).to eq files
         end
       end
     end
@@ -122,7 +122,7 @@ describe FileSearch do
         let(:expected_query) { { f: { "year_created_isi" => 1968..1991 } } }
 
         it "returns found files" do
-          expect(search.files).to eq files
+          expect(search.result.files).to eq files
         end
       end
 
@@ -132,7 +132,7 @@ describe FileSearch do
         let(:default_range) { described_class.all_years }
 
         it "returns found files" do
-          expect(search.files).to eq files
+          expect(search.result.files).to eq files
         end
       end
     end

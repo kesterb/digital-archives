@@ -1,5 +1,5 @@
-<div data-page="<%= @videos_search.next_page %>" data-more="<%= @videos_search.show_more? %>">
-<% @videos.each do |video| %>
+<div data-page="<%= @videos.next_page %>" data-more="<%= @videos.show_more? %>">
+<% @videos.files.each do |video| %>
   <li class="js-video-container card-container">
     <a class="js-video card card--has-img card--overlay-content" data-webm=<%= sufia.download_path(video, datastream_id: 'webm') %> data-mp4=<%= sufia.download_path(video, datastream_id: 'mp4') %> data-title=<%= video.title.first %>
        data-description=<%= video.description %> data-description=<%= video.venue_name %>>

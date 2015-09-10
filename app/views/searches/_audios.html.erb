@@ -1,14 +1,14 @@
-<section class="results-section audios <%= @audios_search.show_audios? && @audios_search.has_items? ? "is-active" : "" %>">
+<section class="results-section audios <%= @audios_search.show_audios? && @audios.has_items? ? "is-active" : "" %>">
   <div class="sidebar-item">
     <a class="file-type">
       <%= image_tag("icons/icon-audios", alt: "Audios", class: "filter-type-image") %>
     </a>
-    <p class="file-type-count"><%= @audios_search.total_items %></p>
+    <p class="file-type-count"><%= @audios.total_items %></p>
   </div>
   <h2 class="results-section-title">Audio</h2>
   <div class="audios-grid">
     <ul>
-      <% @audios.each do |audio| %>
+      <% @audios.files.each do |audio| %>
       <li>
         <audio controls preload="none">
           <source src="<%= sufia.download_path(audio) %>" />
@@ -18,8 +18,8 @@
     </ul>
   </div>
   <div class="paging">
-    <% if @audios_search.show_more? %>
-    <a href="#" class="js-load-more-audios" data-page="<%= @audios_search.next_page %>">Load More</a>
+    <% if @audios.show_more? %>
+    <a href="#" class="js-load-more-audios" data-page="<%= @audios.next_page %>">Load More</a>
     <% end %>
   </div>
 </section>

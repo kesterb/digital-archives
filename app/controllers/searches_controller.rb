@@ -9,10 +9,6 @@ class SearchesController < CatalogController
     get_videos
     get_images
     get_articles
-    # page = params[:page] || 1
-    # per_page = params[:per_page] || 10
-    # resource_type = params[:t].singularize.capitalize
-    #
   end
 
   def videos
@@ -39,21 +35,21 @@ class SearchesController < CatalogController
 
   def get_audios
     @audios_search = FileSearch.new(params.merge(:resource_types => ['Audio']), catalog_query: self)
-    @audios = @audios_search.files
+    @audios = @audios_search.result
   end
 
   def get_videos
     @videos_search = FileSearch.new(params.merge(:resource_types => ['Video']), catalog_query: self)
-    @videos = @videos_search.files
+    @videos = @videos_search.result
   end
 
   def get_articles
     @articles_search = FileSearch.new(params.merge(:resource_types => ['Article']), catalog_query: self)
-    @articles = @articles_search.files
+    @articles = @articles_search.result
   end
 
   def get_images
     @images_search = FileSearch.new(params.merge(:resource_types => ['Image']), catalog_query: self)
-    @images = @images_search.files
+    @images = @images_search.result
   end
 end

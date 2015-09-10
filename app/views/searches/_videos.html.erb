@@ -1,13 +1,13 @@
-<section class="results-section videos <%= @videos_search.show_videos? && @videos_search.has_items? ? "is-active" : "" %>">
+<section class="results-section videos <%= @videos_search.show_videos? && @videos.has_items? ? "is-active" : "" %>">
   <div class="sidebar-item">
     <a class="file-type">
       <%= image_tag("icons/icon-videos", alt: "Videos", class: "filter-type-image") %>
     </a>
-    <p class="file-type-count"><%= @videos_search.total_items %></p>
+    <p class="file-type-count"><%= @videos.total_items %></p>
   </div>
   <h2 class="results-section-title">Videos</h2>
   <ul class="js-videos-grid videos-grid">
-    <% @videos.each do |video| %>
+    <% @videos.files.each do |video| %>
       <li class="js-video-container card-container">
         <a class="js-video card card--has-img card--overlay-content" data-webm=<%= sufia.download_path(video, datastream_id: 'webm') %> data-mp4=<%= sufia.download_path(video, datastream_id: 'mp4') %> data-title=<%= video.title.first %>
            data-description=<%= video.description %> data-description=<%= video.venue_name %>>
@@ -32,8 +32,8 @@
     <% end %>
   </ul>
   <div class="paging">
-    <% if @videos_search.show_more? %>
-    <a href="#" class="js-load-more-videos" data-page="<%= @videos_search.next_page %>">Load More</a>
+    <% if @videos.show_more? %>
+    <a href="#" class="js-load-more-videos" data-page="<%= @videos.next_page %>">Load More</a>
     <% end %>
   </div>
 </section>

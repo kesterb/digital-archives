@@ -1,5 +1,5 @@
-<div data-page="<%= @audios_search.next_page %>" data-more="<%= @audios_search.show_more? %>">
-  <% @audios.each do |audio| %>
+<div data-page="<%= @audios.next_page %>" data-more="<%= @audios.show_more? %>">
+  <% @audios.files.each do |audio| %>
   <li>
     <audio controls preload="none">
       <source src="<%= sufia.download_path(audio) %>" />
