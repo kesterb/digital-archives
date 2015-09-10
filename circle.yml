@@ -18,4 +18,5 @@ test:
     - curl --retry 10 --retry-delay 5 -v http://localhost:8081
   post:
     - bundle exec rspec spec:
-      pwd: vendor/engines/production_credits
+      pwd:
+        vendor/engines/production_credits
