@@ -8,8 +8,9 @@ describe FileSearch do
   # We might have to test things the same way as we do now, but we can hide
   # the duplication in the matcher.
 
-  subject(:search) { described_class.new(params, catalog_query: catalog_query, file_query: file_query) }
+  subject(:search) { described_class.new(params, resource_type: resource_type, catalog_query: catalog_query, file_query: file_query) }
   let(:logic) { double("Search Params Logic") }
+  let(:resource_type) { nil }
   let(:catalog_query) { double("Catalog query", search_params_logic: logic) }
   let(:file_query) { double("File query") }
   let(:files) { [double("GenericFile1"), double("GenericFile2")] }
@@ -24,7 +25,7 @@ describe FileSearch do
 
   context "with no params" do
     let(:params) { {} }
-    let(:expected_query) { { "f": {"highlighted_sim" => "1"} } }
+    let(:expected_query) { { "f": { "highlighted_sim" => "1" } } }
     let(:document_ids) { [42, 58] }
     let(:documents) { document_ids.map { |id| double("SolrDocument", id: id) } }
 
@@ -38,7 +39,7 @@ describe FileSearch do
     end
 
     context "with resource_type selected and no other filters" do
-      let(:params) { { resource_types: %w[Audio] } }
+      let(:resource_type) { :audio }
       let(:expected_query) { { f: { "resource_type_sim" => %w[Audio], "highlighted_sim" => "1" } } }
 
       it "returns found files" do

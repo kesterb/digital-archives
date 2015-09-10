@@ -3,8 +3,9 @@ require "solrizer"
 class FileSearch
   attr_accessor :current_page, :total_pages, :next_page, :total_items
 
-  def initialize(params, catalog_query:, file_query: GenericFile)
+  def initialize(params, resource_type:, catalog_query:, file_query: GenericFile)
     @params = params
+    @resource_type = resource_type
     @catalog_query = catalog_query
     @file_query = file_query
   end
@@ -54,7 +55,7 @@ class FileSearch
   end
 
   def resource_types
-    params.fetch(:resource_types) { all_resource_types }
+    resource_type.present? ? [resource_type.to_s] : []
   end
 
   def types
@@ -97,7 +98,7 @@ class FileSearch
 
   private
 
-  attr_reader :params, :catalog_query, :file_query
+  attr_reader :params, :catalog_query, :file_query, :resource_type
 
   def search_query
     query = {}
