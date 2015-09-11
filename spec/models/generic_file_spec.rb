@@ -12,9 +12,9 @@ describe GenericFile do
   end
   let(:production) do
     instance_double(Production,
-      id: 42,
-      production_name: "PRODUCTION",
-      venue: production_venue
+                    id: 42,
+                    production_name: "PRODUCTION",
+                    venue: production_venue
     )
   end
   let(:venue) { instance_double(Venue, id: 58, name: "VENUE") }

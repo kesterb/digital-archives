@@ -101,7 +101,7 @@ describe FileSearch do
         let(:params) do
           {
             venues: described_class::PRIMARY_VENUES.take(2) +
-                    [described_class::OTHER_VENUE]
+              [described_class::OTHER_VENUE]
           }
         end
         let(:expected_query) do
