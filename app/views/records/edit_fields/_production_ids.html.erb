@@ -1,0 +1,9 @@
+<%= f.input :production_ids,
+      label: "Productions",
+      as: :select,
+      collection: productions_for_select,
+      input_html: {
+        class: 'form-control',
+        multiple: true
+      }
+%>
