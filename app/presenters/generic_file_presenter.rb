@@ -18,4 +18,7 @@ class GenericFilePresenter < Sufia::GenericFilePresenter
     :work_id,
     :highlighted
   ]
+
+  # Names are not displayed directly so don't include them in `terms'.
+  delegate :production_names, :venue_names, :work_name, to: :model
 end

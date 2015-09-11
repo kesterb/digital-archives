@@ -1,4 +1,4 @@
-<% ProductionCredits::Venue.find(record.venue_ids).each do |venue| %>
-  <%= venue.name %>
+<% record.venue_names.each do |name| %>
+  <%= name %>
   <br />
 <% end %>
