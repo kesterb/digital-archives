@@ -511,6 +511,8 @@ Metrics/LineLength:
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#80-character-limits
   Enabled: true
   Max: 80
+  Exclude:
+  - app/controllers/catalog_controller.rb
   AllowURI: true
   URISchemes:
   - http
