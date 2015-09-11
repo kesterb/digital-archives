@@ -4,11 +4,19 @@ class SearchesController < CatalogController
   layout 'client'
 
   def index
+    # show only curated results
+    # Curated.new maybe?
+    # FileSearch.curated ?
     @search = FileSearch.new(params, resource_type: nil, catalog_query: self)
     get_audios
     get_videos
     get_images
     get_articles
+  end
+
+  def search
+    # show searched/filtered results
+    render :index
   end
 
   def videos
@@ -34,22 +42,22 @@ class SearchesController < CatalogController
   private
 
   def get_audios
-    @audios_search = FileSearch.new(params, resource_type: :audio, catalog_query: self)
-    @audios = @audios_search.result
+    audios_search = FileSearch.new(params, resource_type: :audio, catalog_query: self)
+    @audios = audios_search.result
   end
 
   def get_videos
-    @videos_search = FileSearch.new(params, resource_type: :video, catalog_query: self)
-    @videos = @videos_search.result
+    videos_search = FileSearch.new(params, resource_type: :video, catalog_query: self)
+    @videos = videos_search.result
   end
 
   def get_articles
-    @articles_search = FileSearch.new(params, resource_type: :article, catalog_query: self)
-    @articles = @articles_search.result
+    articles_search = FileSearch.new(params, resource_type: :article, catalog_query: self)
+    @articles = articles_search.result
   end
 
   def get_images
-    @images_search = FileSearch.new(params, resource_type: :image, catalog_query: self)
-    @images = @images_search.result
+    images_search = FileSearch.new(params, resource_type: :image, catalog_query: self)
+    @images = images_search.result
   end
 end

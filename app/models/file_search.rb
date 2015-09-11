@@ -3,11 +3,11 @@ require "solrizer"
 class FileSearch
   attr_accessor :current_page, :total_pages, :next_page, :total_items
 
-  def initialize(params, resource_type:, catalog_query:, file_query: GenericFile)
+  def initialize(params, options = {} )
     @params = params
-    @resource_type = resource_type
-    @catalog_query = catalog_query
-    @file_query = file_query
+    @resource_type = options[:resource_type]
+    @catalog_query = options[:catalog_query]
+    @file_query = options[:file_query] || GenericFile
   end
 
   def self.all_years
@@ -62,20 +62,8 @@ class FileSearch
     params.fetch(:types) { all_resource_types }
   end
 
-  def show_articles?
-    types.include?("articles")
-  end
-
-  def show_images?
-    types.include?("images")
-  end
-
-  def show_audios?
-    types.include?("audios")
-  end
-
-  def show_videos?
-    types.include?("videos")
+  def show?
+    types.include?(resource_type.to_s.pluralize)
   end
 
   def year_range
@@ -88,8 +76,14 @@ class FileSearch
   end
 
   def result
-    (response, documents) = catalog_query.search_results(search_query, catalog_query.search_params_logic)
-    SearchResults.new(response, file_query.find(documents.map(&:id)))
+    if show?
+      search_logic = catalog_query.search_params_logic
+      (response, documents) =
+        catalog_query.search_results(search_query, search_logic)
+      SearchResults.new(response, file_query.find(documents.map(&:id)))
+    else
+      SearchResults.empty
+    end
   end
 
   PRIMARY_VENUES = ["Elizabethan", "Angus Bowmer", "Thomas", "The Green Show"]
@@ -113,9 +107,11 @@ class FileSearch
   end
 
   def hardcoded_venues
-    PRIMARY_VENUES.map { |name| ProductionCredits::Venue.find_by(name: name) }.compact.tap do |venues|
-      venues << ProductionCredits::Venue.new(name: OTHER_VENUE)
-    end
+    PRIMARY_VENUES
+      .map { |name| ProductionCredits::Venue.find_by(name: name) }
+      .compact.tap do |venues|
+        venues << ProductionCredits::Venue.new(name: OTHER_VENUE)
+      end
   end
 
   def filters
@@ -147,7 +143,9 @@ class FileSearch
   def venue_filter
     return {} if venue_names.empty? || venue_names == all_venue_names
     if venue_names.include?(OTHER_VENUE)
-      { Solrizer.solr_name("!venue_name", :facetable) => PRIMARY_VENUES - venue_names }
+      { Solrizer.solr_name(
+        "!venue_name", :facetable
+        ) => PRIMARY_VENUES - venue_names }
     else
       { Solrizer.solr_name("venue_name", :facetable) => venue_names }
     end
@@ -155,6 +153,8 @@ class FileSearch
 
   def year_filter
     return {} if year_range == all_years
-    { Solrizer.solr_name("year_created", :stored_sortable, type: :integer) => year_range }
+    { Solrizer.solr_name(
+      "year_created", :stored_sortable, type: :integer
+      ) => year_range }
   end
 end

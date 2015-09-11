@@ -32,7 +32,29 @@ class SearchResults
     response.total_pages
   end
 
+  def self.empty
+    EmptySearchResults.new
+  end
+
   private
 
   attr_reader :response, :items
+end
+
+class EmptySearchResults
+  def has_items?
+    false
+  end
+
+  def total_items
+    0
+  end
+
+  def files
+    []
+  end
+
+  def show_more?
+    false
+  end
 end
