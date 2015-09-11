@@ -24,7 +24,8 @@ describe GenericFilesController do
     {
       production_ids: [production_id],
       venue_ids: [venue_id],
-      work_id: work_id }
+      work_id: work_id
+    }
   end
   let(:reloaded) { generic_file.reload }
 
@@ -32,7 +33,6 @@ describe GenericFilesController do
     allow(Production).to receive(:find)
       .with([production_id.to_s]) { [production] }
     allow(Production).to receive(:find).with([]) { [] }
-    allow(Venue).to receive(:find).with([venue_id.to_s]) { [venue] }
     allow(Venue).to receive(:find).with([venue_id.to_s]) { [venue] }
     allow(Work).to receive(:find).with(work_id.to_s) { work }
     sign_in user
