@@ -10,8 +10,8 @@ describe FileSearch do
 
   subject(:search) do
     described_class.new(params,
-      catalog_query: catalog_query,
-      file_query: file_query
+                        catalog_query: catalog_query,
+                        file_query: file_query
     )
   end
   let(:logic) { double("Search Params Logic") }

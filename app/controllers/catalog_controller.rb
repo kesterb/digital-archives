@@ -395,9 +395,9 @@ class CatalogController < ApplicationController
                           label: "date modified \u25BC"
     config.add_sort_field "#{modified_field} asc",
                           label: "date modified \u25B2"
-    config.add_sort_field "#{solr_name("year_created", :stored_sortable)} asc",
+    config.add_sort_field "#{solr_name('year_created', :stored_sortable)} asc",
                           label: "year created \u25B2"
-    config.add_sort_field "#{solr_name("year_created", :stored_sortable)} desc",
+    config.add_sort_field "#{solr_name('year_created', :stored_sortable)} desc",
                           label: "year created \u25BC"
 
     # If there are more than this many search results, no spelling ("did you
