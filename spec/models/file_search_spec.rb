@@ -8,7 +8,12 @@ describe FileSearch do
   # We might have to test things the same way as we do now, but we can hide
   # the duplication in the matcher.
 
-  subject(:search) { described_class.new(params, catalog_query: catalog_query, file_query: file_query) }
+  subject(:search) do
+    described_class.new(params,
+      catalog_query: catalog_query,
+      file_query: file_query
+    )
+  end
   let(:logic) { double("Search Params Logic") }
   let(:catalog_query) { double("Catalog query", search_params_logic: logic) }
   let(:file_query) { double("File query") }
@@ -31,7 +36,8 @@ describe FileSearch do
     let(:documents) { document_ids.map { |id| double("SolrDocument", id: id) } }
 
     before do
-      allow(catalog_query).to receive(:search_results).with(expected_query, logic) { [double("Response"), documents] }
+      allow(catalog_query).to receive(:search_results)
+        .with(expected_query, logic) { [double("Response"), documents] }
       allow(file_query).to receive(:find).with(document_ids) { files }
     end
 
@@ -71,7 +77,9 @@ describe FileSearch do
 
       context "with several venues selected" do
         let(:params) { { venues: %w[VENUE1 VENUE2] } }
-        let(:expected_query) { { f: { "venue_names_sim" => %w[VENUE1 VENUE2] } } }
+        let(:expected_query) do
+          { f: { "venue_names_sim" => %w[VENUE1 VENUE2] } }
+        end
 
         it "returns found files" do
           expect(search.files).to eq files
@@ -80,7 +88,9 @@ describe FileSearch do
 
       context "with other venue selected" do
         let(:params) { { venues: [described_class::OTHER_VENUE] } }
-        let(:expected_query) { { f: { "!venue_names_sim" => described_class::PRIMARY_VENUES } } }
+        let(:expected_query) do
+          { f: { "!venue_names_sim" => described_class::PRIMARY_VENUES } }
+        end
 
         it "returns found files" do
           expect(search.files).to eq files
@@ -88,8 +98,19 @@ describe FileSearch do
       end
 
       context "with the other venue and some primary venues selected" do
-        let(:params) { { venues: described_class::PRIMARY_VENUES.take(2) + [described_class::OTHER_VENUE] } }
-        let(:expected_query) { { f: { "!venue_names_sim" => described_class::PRIMARY_VENUES.drop(2) } } }
+        let(:params) do
+          {
+            venues: described_class::PRIMARY_VENUES.take(2) +
+                    [described_class::OTHER_VENUE]
+          }
+        end
+        let(:expected_query) do
+          {
+            f: {
+              "!venue_names_sim" => described_class::PRIMARY_VENUES.drop(2)
+            }
+          }
+        end
 
         it "returns found files" do
           expect(search.files).to eq files
@@ -108,7 +129,9 @@ describe FileSearch do
       end
 
       context "with the full date range" do
-        let(:params) { { years: "#{default_range.begin};#{default_range.end}" } }
+        let(:params) do
+          { years: "#{default_range.begin};#{default_range.end}" }
+        end
         let(:expected_query) { {} }
         let(:default_range) { described_class.all_years }
 

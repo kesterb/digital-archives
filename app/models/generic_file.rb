@@ -1,29 +1,34 @@
 class GenericFile < ActiveFedora::Base
   include Sufia::GenericFile
 
-  property :production_ids, predicate: ::RDF::URI('http://docs.osfashland.org/terms/production_ids'), multiple: true
+  def self.property(name, multiple:, &block)
+    predicate = ::RDF::URI("http://docs.osfashland.org/terms/#{name}")
+    super(name, predicate: predicate, multiple: multiple, &block)
+  end
 
-  property :production_names, predicate: ::RDF::URI('http://docs.osfashland.org/terms/production_names'), multiple: true do |index|
+  property :production_ids, multiple: true
+
+  property :production_names, multiple: true do |index|
     index.as :stored_searchable, :facetable
   end
 
-  property :venue_ids, predicate: ::RDF::URI('http://docs.osfashland.org/terms/venue_ids'), multiple: true
+  property :venue_ids, multiple: true
 
-  property :venue_names, predicate: ::RDF::URI('http://docs.osfashland.org/terms/venue_names'), multiple: true do |index|
+  property :venue_names, multiple: true do |index|
     index.as :stored_searchable, :facetable
   end
 
-  property :work_id, predicate: ::RDF::URI('http://docs.osfashland.org/terms/work_id'), multiple: false
+  property :work_id, multiple: false
 
-  property :work_name, predicate: ::RDF::URI('http://docs.osfashland.org/terms/work_name'), multiple: false do |index|
+  property :work_name, multiple: false do |index|
     index.as :stored_searchable, :facetable
   end
 
-  property :highlighted, predicate: ::RDF::URI('http://docs.osfashland.org/terms/highlighted'), multiple: false do |index|
+  property :highlighted, multiple: false do |index|
     index.as :stored_searchable, :facetable
   end
 
-  property :year_created, predicate: ::RDF::URI('http://docs/osfashland.org/terms/year_created'), multiple: false do |index|
+  property :year_created, multiple: false do |index|
     index.type :integer
     index.as :stored_sortable, :facetable
   end
