@@ -64,6 +64,7 @@ group :development, :test do
 end
 
 group :production do
+  gem 'mysql2', '~> 0.3.18'
   gem 'unicorn-rails'
 end
 
