@@ -109,7 +109,8 @@ class FileSearch
   def hardcoded_venues
     PRIMARY_VENUES
       .map { |name| ProductionCredits::Venue.find_by(name: name) }
-      .compact.tap do |venues|
+      .compact
+      .tap do |venues|
         venues << ProductionCredits::Venue.new(name: OTHER_VENUE)
       end
   end

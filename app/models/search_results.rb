@@ -54,6 +54,10 @@ class EmptySearchResults
     []
   end
 
+  def next_page
+    0
+  end
+
   def show_more?
     false
   end

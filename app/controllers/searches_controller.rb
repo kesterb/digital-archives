@@ -4,19 +4,11 @@ class SearchesController < CatalogController
   layout 'client'
 
   def index
-    # show only curated results
-    # Curated.new maybe?
-    # FileSearch.curated ?
     @search = FileSearch.new(params, resource_type: nil, catalog_query: self)
     get_audios
     get_videos
     get_images
     get_articles
-  end
-
-  def search
-    # show searched/filtered results
-    render :index
   end
 
   def videos
