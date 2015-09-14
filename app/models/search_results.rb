@@ -1,11 +1,15 @@
 class SearchResults
   def initialize(response, files)
     @response = response
-    @items = files
+    @files = files
+  end
+
+  def self.empty
+    EmptySearchResults.new
   end
 
   def files
-    @items
+    @files
   end
 
   def current_page
@@ -32,13 +36,9 @@ class SearchResults
     response.total_pages
   end
 
-  def self.empty
-    EmptySearchResults.new
-  end
-
   private
 
-  attr_reader :response, :items
+  attr_reader :response
 end
 
 class EmptySearchResults

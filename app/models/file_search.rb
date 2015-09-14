@@ -1,11 +1,11 @@
 require "solrizer"
 
 class FileSearch
-  attr_accessor :current_page, :total_pages, :next_page, :total_items
+  attr_reader :current_page, :total_pages, :next_page, :total_items
 
-  def initialize(params, options = {} )
+  def initialize(params, options = {})
     @params = params
-    @resource_type = options[:resource_type]
+    @resource_type = options[:resource_type].to_s
     @catalog_query = options[:catalog_query]
     @file_query = options[:file_query] || GenericFile
   end
@@ -55,7 +55,7 @@ class FileSearch
   end
 
   def resource_types
-    resource_type.present? ? [resource_type.to_s] : []
+    Array(resource_type)
   end
 
   def types
@@ -63,7 +63,7 @@ class FileSearch
   end
 
   def show?
-    types.include?(resource_type.to_s.pluralize)
+    types.include?(resource_type.pluralize)
   end
 
   def year_range
@@ -77,9 +77,7 @@ class FileSearch
 
   def result
     if show?
-      search_logic = catalog_query.search_params_logic
-      (response, documents) =
-        catalog_query.search_results(search_query, search_logic)
+      (response, documents) = catalog_query.search_results(search_query, catalog_query.search_params_logic)
       SearchResults.new(response, file_query.find(documents.map(&:id)))
     else
       SearchResults.empty
