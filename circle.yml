@@ -35,4 +35,5 @@ deployment:
   try:
     branch: master
     commands:
-      - ./bin/deploy.sh
+      - bundle exec 'cap production deploy'
+      - ssh -i ~/.ssh/id_sufia-dev.osfashland.org unicorn@sufia-dev.osfashland.org 'sudo systemctl restart unicorn'
