@@ -1,0 +1,22 @@
+#home_header {
+  background: image_url('home_bg.jpg') center 100% no-repeat;
+  background-size: cover;
+}
+
+.home_marketing_text {
+  background-color: transparent;
+}
+
+.home_share_work {
+  padding: 0;
+  background-color: transparent;
+
+  p {
+    background-color: transparent;
+
+    a {
+      color: #fff;
+      text-decoration: underline;
+    }
+  }
+}
