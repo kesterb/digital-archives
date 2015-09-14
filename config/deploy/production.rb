@@ -1,5 +1,4 @@
-set :stage, 'production'
-#set :branch, "master"
+set :branch, "master"
 set :branch, "chore/continuous_deployment"
 
 set :server_name, "sufia-dev.osfashland.org"
@@ -12,7 +11,7 @@ server 'sufia-dev.osfashland.org',
   user: 'unicorn',
   roles: %w{web app},
   ssh_options: {
-    user: 'deploy',
+    user: 'unicorn',
     keys: %w(~/.ssh/id_sufia-dev.osfashland.org),
     auth_methods: %w(publickey)
   }
