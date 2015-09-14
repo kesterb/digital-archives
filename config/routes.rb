@@ -4,11 +4,17 @@ Rails.application.routes.draw do
 
   # Sufia generated routes
   blacklight_for :catalog
-  devise_for :users
+
+  scope "/admin" do
+    devise_for :users
+  end
+
   Hydra::BatchEdit.add_routes(self)
-  # This must be the very last route in the file because it has a catch-all route for 404 errors.
-    # This behavior seems to show up only in production mode.
-  mount Sufia::Engine => "/"
+
+  # This must be the very last route in the file because it has a catch-all
+  # route for 404 errors.
+  # This behavior seems to show up only in production mode.
+  mount Sufia::Engine => "/admin"
 
   resources :searches
 
@@ -17,5 +23,11 @@ Rails.application.routes.draw do
   get "/videos", to: "searches#videos"
   get "/audios", to: "searches#audios"
 
-  root to: "homepage#index"
+  get "about" => "cms_pages#show", id: "about_page"
+  get "policies" => "cms_pages#show", id: "policies_page"
+
+  # For editing via the Sufia backend
+  get "admin/policies" => "pages#show", id: "policies_page"
+
+  root to: "searches#index"
 end

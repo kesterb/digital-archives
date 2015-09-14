@@ -13,9 +13,4 @@ gemspec
 # To use debugger
 # gem 'debugger'
 
-
-group :development, :test do
-  gem "rspec-rails"
-  gem 'factory_girl_rails'
-  gem 'shoulda-matchers', require: false
-end
+gem 'rails_admin', github: 'codingzeal/rails_admin', branch: 'sufia-6.2.0'

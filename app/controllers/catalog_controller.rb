@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 # -*- encoding : utf-8 -*-
-require 'blacklight/catalog'
-require 'blacklight_advanced_search'
+require "blacklight/catalog"
+require "blacklight_advanced_search"
 
-# bl_advanced_search 1.2.4 is doing unitialized constant on these because we're calling ParseBasicQ directly
-require 'parslet'
-require 'parsing_nesting/tree'
+# bl_advanced_search 1.2.4 is doing unitialized constant on these because
+# we"re calling ParseBasicQ directly
+require "parslet"
+require "parsing_nesting/tree"
 
 class CatalogController < ApplicationController
   include Hydra::Catalog
@@ -15,16 +16,19 @@ class CatalogController < ApplicationController
   # These before_filters apply the hydra access controls
   before_filter :enforce_show_permissions, only: :show
   # This applies appropriate access controls to all solr queries
-  CatalogController.search_params_logic += [:add_access_controls_to_solr_params, :add_advanced_parse_q_to_solr]
+  CatalogController.search_params_logic += [
+    :add_access_controls_to_solr_params,
+    :add_advanced_parse_q_to_solr
+  ]
 
   skip_before_filter :default_html_head
 
   def self.uploaded_field
-    solr_name('date_uploaded', :stored_sortable, type: :date)
+    solr_name("date_uploaded", :stored_sortable, type: :date)
   end
 
   def self.modified_field
-    solr_name('date_modified', :stored_sortable, type: :date)
+    solr_name("date_modified", :stored_sortable, type: :date)
   end
 
   configure_blacklight do |config|
@@ -35,11 +39,12 @@ class CatalogController < ApplicationController
     config.show.tile_source_field = :content_metadata_image_iiif_info_ssm
     config.show.partials.insert(1, :openseadragon)
 
-    #Show gallery view
+    # Show gallery view
     config.view.gallery.partials = [:index_header, :index]
     config.view.slideshow.partials = [:index]
 
-    ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
+    # Default parameters to send to solr for all search-like requests.
+    #  See also SolrHelper#solr_search_params
     config.default_solr_params = {
       qt: "search",
       rows: 10
@@ -64,11 +69,11 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name("based_near", :facetable), label: "Location", limit: 5
     config.add_facet_field solr_name("publisher", :facetable), label: "Publisher", limit: 5
     config.add_facet_field solr_name("file_format", :facetable), label: "File Format", limit: 5
-    config.add_facet_field solr_name("production_name", :facetable), label: "Production", limit: 5
-    config.add_facet_field solr_name("venue_name", :facetable), label: "Venue", limit: 5
+    config.add_facet_field solr_name("production_names", :facetable), label: "Productions", limit: 5
+    config.add_facet_field solr_name("venue_names", :facetable), label: "Venues", limit: 5
     config.add_facet_field solr_name("work_name", :facetable), label: "Work", limit: 5
     config.add_facet_field solr_name("highlighted", :facetable), label: "Highlighted", limit: 5
-    config.add_facet_field solr_name("year_created", :facetable, type: :integer), label: "Year Created", limit: 5
+    config.add_facet_field(solr_name("year_created", :facetable, type: :integer), label: "Year Created", limit: 5)
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
@@ -77,24 +82,24 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display
-    config.add_index_field solr_name("title", :stored_searchable), label: "Title", itemprop: 'name'
-    config.add_index_field solr_name("description", :stored_searchable), label: "Description", itemprop: 'description'
-    config.add_index_field solr_name("tag", :stored_searchable), label: "Keyword", itemprop: 'keywords'
-    config.add_index_field solr_name("subject", :stored_searchable), label: "Subject", itemprop: 'about'
-    config.add_index_field solr_name("creator", :stored_searchable), label: "Creator", itemprop: 'creator'
-    config.add_index_field solr_name("contributor", :stored_searchable), label: "Contributor", itemprop: 'contributor'
-    config.add_index_field solr_name("publisher", :stored_searchable), label: "Publisher", itemprop: 'publisher'
-    config.add_index_field solr_name("based_near", :stored_searchable), label: "Location", itemprop: 'contentLocation'
-    config.add_index_field solr_name("language", :stored_searchable), label: "Language", itemprop: 'inLanguage'
-    config.add_index_field solr_name("date_uploaded", :stored_searchable), label: "Date Uploaded", itemprop: 'datePublished'
-    config.add_index_field solr_name("date_modified", :stored_searchable), label: "Date Modified", itemprop: 'dateModified'
-    config.add_index_field solr_name("date_created", :stored_searchable), label: "Date Created", itemprop: 'dateCreated'
+    config.add_index_field solr_name("title", :stored_searchable), label: "Title", itemprop: "name"
+    config.add_index_field solr_name("description", :stored_searchable), label: "Description", itemprop: "description"
+    config.add_index_field solr_name("tag", :stored_searchable), label: "Keyword", itemprop: "keywords"
+    config.add_index_field solr_name("subject", :stored_searchable), label: "Subject", itemprop: "about"
+    config.add_index_field solr_name("creator", :stored_searchable), label: "Creator", itemprop: "creator"
+    config.add_index_field solr_name("contributor", :stored_searchable), label: "Contributor", itemprop: "contributor"
+    config.add_index_field solr_name("publisher", :stored_searchable), label: "Publisher", itemprop: "publisher"
+    config.add_index_field solr_name("based_near", :stored_searchable), label: "Location", itemprop: "contentLocation"
+    config.add_index_field solr_name("language", :stored_searchable), label: "Language", itemprop: "inLanguage"
+    config.add_index_field solr_name("date_uploaded", :stored_searchable), label: "Date Uploaded", itemprop: "datePublished"
+    config.add_index_field solr_name("date_modified", :stored_searchable), label: "Date Modified", itemprop: "dateModified"
+    config.add_index_field solr_name("date_created", :stored_searchable), label: "Date Created", itemprop: "dateCreated"
     config.add_index_field solr_name("rights", :stored_searchable), label: "Rights"
     config.add_index_field solr_name("resource_type", :stored_searchable), label: "Resource Type"
     config.add_index_field solr_name("format", :stored_searchable), label: "File Format"
     config.add_index_field solr_name("identifier", :stored_searchable), label: "Identifier"
-    config.add_index_field solr_name("production_name", :stored_searchable), label: "Production"
-    config.add_index_field solr_name("venue_name", :stored_searchable), label: "Venue"
+    config.add_index_field solr_name("production_names", :stored_searchable), label: "Productions"
+    config.add_index_field solr_name("venue_names", :stored_searchable), label: "Venues"
     config.add_index_field solr_name("work_name", :stored_searchable), label: "Work"
     config.add_index_field solr_name("highlighted", :stored_searchable), label: "Highlighted"
 
@@ -116,8 +121,8 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name("resource_type", :stored_searchable), label: "Resource Type"
     config.add_show_field solr_name("format", :stored_searchable), label: "File Format"
     config.add_show_field solr_name("identifier", :stored_searchable), label: "Identifier"
-    config.add_show_field solr_name("production_name", :stored_searchable), label: "Production"
-    config.add_show_field solr_name("venue_name", :stored_searchable), label: "Venue"
+    config.add_show_field solr_name("production_names", :stored_searchable), label: "Productions"
+    config.add_show_field solr_name("venue_names", :stored_searchable), label: "Venues"
     config.add_show_field solr_name("work_name", :stored_searchable), label: "Work"
     config.add_show_field solr_name("highlighted", :stored_searchable), label: "Highlighted"
 
@@ -136,9 +141,10 @@ class CatalogController < ApplicationController
     # or can be specified manually to be different.
     #
     # This one uses all the defaults set by the solr request handler. Which
-    # solr request handler? The one set in config[:default_solr_parameters][:qt],
-    # since we aren't specifying it otherwise.
-    config.add_search_field('all_fields', label: 'All Fields', include_in_advanced_search: false) do |field|
+    # solr request handler? The one set in
+    # config[:default_solr_parameters][:qt], since we aren't specifying it
+    # otherwise.
+    config.add_search_field("all_fields", label: "All Fields", include_in_advanced_search: false) do |field|
       all_names = config.show_fields.values.map{|val| val.field}.join(" ")
       title_name = solr_name("title", :stored_searchable)
       field.solr_parameters = {
@@ -152,7 +158,7 @@ class CatalogController < ApplicationController
     # of Solr search fields.
     # creator, title, description, publisher, date_created,
     # subject, language, resource_type, format, identifier, based_near,
-    config.add_search_field('contributor') do |field|
+    config.add_search_field("contributor") do |field|
       # solr_parameters hash are sent to Solr as ordinary url query params.
       field.solr_parameters = { :"spellcheck.dictionary" => "contributor" }
 
@@ -167,7 +173,7 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('creator') do |field|
+    config.add_search_field("creator") do |field|
       field.solr_parameters = { :"spellcheck.dictionary" => "creator" }
       solr_name = solr_name("creator", :stored_searchable)
       field.solr_local_parameters = {
@@ -176,7 +182,7 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('title') do |field|
+    config.add_search_field("title") do |field|
       field.solr_parameters = {
         :"spellcheck.dictionary" => "title"
       }
@@ -187,7 +193,7 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('description') do |field|
+    config.add_search_field("description") do |field|
       field.label = "Abstract or Summary"
       field.solr_parameters = {
         :"spellcheck.dictionary" => "description"
@@ -199,7 +205,7 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('publisher') do |field|
+    config.add_search_field("publisher") do |field|
       field.solr_parameters = {
         :"spellcheck.dictionary" => "publisher"
       }
@@ -210,7 +216,7 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('date_created') do |field|
+    config.add_search_field("date_created") do |field|
       field.solr_parameters = {
         :"spellcheck.dictionary" => "date_created"
       }
@@ -221,7 +227,7 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('subject') do |field|
+    config.add_search_field("subject") do |field|
       field.solr_parameters = {
         :"spellcheck.dictionary" => "subject"
       }
@@ -232,7 +238,7 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('language') do |field|
+    config.add_search_field("language") do |field|
       field.solr_parameters = {
         :"spellcheck.dictionary" => "language"
       }
@@ -243,7 +249,7 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('resource_type') do |field|
+    config.add_search_field("resource_type") do |field|
       field.solr_parameters = {
         :"spellcheck.dictionary" => "resource_type"
       }
@@ -254,7 +260,7 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('format') do |field|
+    config.add_search_field("format") do |field|
       field.include_in_advanced_search = false
       field.solr_parameters = {
         :"spellcheck.dictionary" => "format"
@@ -266,7 +272,7 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('identifier') do |field|
+    config.add_search_field("identifier") do |field|
       field.include_in_advanced_search = false
       field.solr_parameters = {
         :"spellcheck.dictionary" => "identifier"
@@ -278,7 +284,7 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('based_near') do |field|
+    config.add_search_field("based_near") do |field|
       field.label = "Location"
       field.solr_parameters = {
         :"spellcheck.dictionary" => "based_near"
@@ -290,7 +296,7 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('tag') do |field|
+    config.add_search_field("tag") do |field|
       field.solr_parameters = {
         :"spellcheck.dictionary" => "tag"
       }
@@ -301,7 +307,7 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('depositor') do |field|
+    config.add_search_field("depositor") do |field|
       solr_name = solr_name("depositor", :stored_searchable)
       field.solr_local_parameters = {
         qf: solr_name,
@@ -309,7 +315,7 @@ class CatalogController < ApplicationController
       }
     end
 
-    config.add_search_field('rights') do |field|
+    config.add_search_field("rights") do |field|
       solr_name = solr_name("rights", :stored_searchable)
       field.solr_local_parameters = {
         qf: solr_name,

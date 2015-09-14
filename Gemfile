@@ -50,6 +50,13 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-image-picker', '~> 0.2.4'
 end
 
+group :development do
+  gem "better_errors"
+  gem "binding_of_caller"
+  gem 'meta_request'
+  gem 'quiet_assets'
+end
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
