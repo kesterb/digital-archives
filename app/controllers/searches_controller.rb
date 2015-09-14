@@ -4,19 +4,52 @@ class SearchesController < CatalogController
   layout 'client'
 
   def index
-    @search = FileSearch.new(params, catalog_query: self)
-    @results = @search.results
-    # page = params[:page] || 1
-    # per_page = params[:per_page] || 10
-    # resource_type = params[:t].singularize.capitalize
-    #
+    @search = FileSearch.new(params, resource_type: nil, catalog_query: self)
+    get_audios
+    get_videos
+    get_images
+    get_articles
+  end
+
+  def videos
+    get_videos
+    render layout: false
+  end
+
+  def images
+    get_images
+    render layout: false
+  end
+
+  def articles
+    get_articles
+    render layout: false
+  end
+
+  def audios
+    get_audios
+    render layout: false
   end
 
   private
 
-  # def do_search(query, filters, resource_type, page, per_page)
-  #   facets = {desc_metadata__resource_type_sim: resource_type}
-  #   facets.merge!(filters_to_query_values(filters)) unless !filters || filters.empty?
-  #   q_params = {q: query, f: facets, page: page, per_page: per_page }
-  # end
+  def get_audios
+    audios_search = FileSearch.new(params, resource_type: :audio, catalog_query: self)
+    @audios = audios_search.result
+  end
+
+  def get_videos
+    videos_search = FileSearch.new(params, resource_type: :video, catalog_query: self)
+    @videos = videos_search.result
+  end
+
+  def get_articles
+    articles_search = FileSearch.new(params, resource_type: :article, catalog_query: self)
+    @articles = articles_search.result
+  end
+
+  def get_images
+    images_search = FileSearch.new(params, resource_type: :image, catalog_query: self)
+    @images = images_search.result
+  end
 end

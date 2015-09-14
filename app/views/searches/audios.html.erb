@@ -1,0 +1,17 @@
+<div data-page="<%= @audios.next_page %>" data-more="<%= @audios.show_more? %>">
+  <div id="audios">
+    <% @audios.files.each do |audio| %>
+    <li>
+      <audio controls preload="none">
+        <source src="<%= sufia.download_path(audio) %>" />
+      </audio>
+    </li>
+    <% end %>
+  </div>
+  
+  <div class="paging">
+    <% if @audios.show_more? %>
+    <a href="#" class="js-load-more-audios" data-page="<%= @audios.next_page %>">Load More</a>
+    <% end %>
+  </div>
+</div>
