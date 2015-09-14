@@ -30,3 +30,10 @@ test:
     - bundle exec rspec spec:
         pwd:
           vendor/engines/production_credits
+
+deployment:
+  try:
+    branch: master
+    commands:
+      - bundle exec 'cap production deploy'
+      - ssh -i ~/.ssh/id_sufia-dev.osfashland.org unicorn@sufia-dev.osfashland.org 'sudo systemctl restart unicorn'

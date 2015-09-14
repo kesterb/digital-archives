@@ -10,12 +10,18 @@ Rails.application.routes.draw do
   end
 
   Hydra::BatchEdit.add_routes(self)
+
   # This must be the very last route in the file because it has a catch-all
   # route for 404 errors.
   # This behavior seems to show up only in production mode.
   mount Sufia::Engine => "/admin"
 
   resources :searches
+
+  get "/images", to: "searches#images"
+  get "/articles", to: "searches#articles"
+  get "/videos", to: "searches#videos"
+  get "/audios", to: "searches#audios"
 
   get "about" => "cms_pages#show", id: "about_page"
   get "policies" => "cms_pages#show", id: "policies_page"
