@@ -30,3 +30,9 @@ test:
     - bundle exec rspec spec:
         pwd:
           vendor/engines/production_credits
+
+deployment:
+  try:
+    branch: master
+    commands:
+      - ./bin/deploy.sh

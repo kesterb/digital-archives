@@ -45,6 +45,10 @@ gem 'rsolr', '~> 1.0.6'
 gem 'devise'
 gem 'devise-guests', '~> 0.3'
 
+gem 'capistrano', '~> 3.1'
+gem 'capistrano-rails', '~> 1.1'
+gem 'capistrano-rvm'
+
 source 'https://rails-assets.org' do
   gem 'rails-assets-ionrangeslider', '~> 2.0.2'
   gem 'rails-assets-image-picker', '~> 0.2.4'
@@ -71,3 +75,9 @@ group :development, :test do
   gem "capybara"
   gem "factory_girl_rails"
 end
+
+group :production do
+  gem 'mysql2', '~> 0.3.18'
+  gem 'unicorn-rails'
+end
+
