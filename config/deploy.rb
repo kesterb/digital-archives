@@ -26,5 +26,3 @@ namespace :deploy do
   end
 
 end
-
-after "deploy", "service:restart_unicorn"
