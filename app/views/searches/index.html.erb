@@ -11,6 +11,8 @@
 </div>
 
 <script type="text/javascript">
+var refreshURL = '';
+
 $(function(){
   $('.js-venue-list').imagepicker({
     show_label: true,
@@ -26,10 +28,13 @@ $(function(){
   var updateSectionVisibility = function(oldTypes, newTypes) {
     $.each(difference(oldTypes, newTypes), function (_, recordType) {
       $('.' + recordType).removeClass("is-active")
+      refreshURL = window.location.search.substring(1).replace('&types%5B%5D='.concat(recordType), '')
     });
 
     $.each(difference(newTypes, oldTypes), function (_, recordType) {
       $('.' + recordType).addClass("is-active")
+      refreshURL = window.location.search.substring(1).concat('&types%5B%5D='.concat(recordType))
+      window["fetch" + capitalize(recordType)](1)
     });
   };
 
@@ -48,61 +53,138 @@ $(function(){
   });
 
   // Init the image gallery
+  initImageGallery();
+
+  // Init the video viewer
+  VideoGrid.init();
+
+  // bind load more buttons
+  initLoadMoreAudios();
+  initLoadMoreVideos();
+  initLoadMoreArticles();
+  initLoadMoreImages();
+});
+
+function initLoadMoreArticles() {
+  $('.js-load-more-articles').click(function() {
+    refreshURL = window.location.search.substring(1).concat('&types%5B%5D=articles')
+    var page = $(this).data("page");
+    fetchArticles(page);
+  })
+}
+
+function initLoadMoreVideos() {
+  $('.js-load-more-videos').click(function() {
+    refreshURL = window.location.search.substring(1).concat('&types%5B%5D=videos')
+    var page = $(this).data("page");
+    fetchVideos(page);
+  })
+}
+
+function initLoadMoreAudios() {
+  $('.js-load-more-audios').click(function() {
+    refreshURL = window.location.search.substring(1).concat('&types%5B%5D=audios')
+    var page = $(this).data("page");
+    fetchAudios(page);
+  })
+}
+
+function initLoadMoreImages() {
+  $('.js-load-more-images').click(function() {
+    refreshURL = window.location.search.substring(1).concat('&types%5B%5D=images')
+    var page = $(this).data("page")
+    fetchImages(page);
+  })
+}
+
+function initImageGallery() {
   var gallery = $('#grid-gallery')
   if (gallery.length) {
     new CBPGridGallery(gallery.get(0));
   }
+}
 
-  $('.js-load-more-audios').click(function() {
-    var page = $(this).data("page")
-    $.get( "/audios?page=" + page, function( data ) {
+function fetchAudios(page) {
+  $.get( "/audios?" + refreshURL + "&page=" + page,
+    function( data ) {
       if ( $(data).data("more") == true ) {
         $('.js-load-more-audios').data("page", $(data).data("page"))
-      } else {
-        $('.audios .paging').hide();
       }
-      $( ".audios-grid ul" ).append($(data).html());
-    });
-  })
 
-  $('.js-load-more-videos').click(function() {
-    var page = $(this).data("page")
-    $.get( "/videos?page=" + page, function( data ) {
-      if ( $(data).data("more") == true ) {
-        $('.js-load-more-videos').data("page", $(data).data("page"))
+      if (page == 1){
+        $( ".audios-grid ul" ).html($(data).find('#audios').html());
       } else {
-        $('.videos .paging').hide();
+        $( ".audios-grid ul" ).append($(data).find('#audios').html());
       }
-      $( ".videos-grid" ).append($(data).html());
-      VideoGrid.init();
-    });
-  })
 
-  $('.js-load-more-articles').click(function() {
-    var page = $(this).data("page")
-    $.get( "/articles?page=" + page, function( data ) {
+      $('.audios .file-type-count').text($(data).data("total-items"))
+      $(".audios .paging").html( $(data).find('.paging').html());
+      initLoadMoreAudios();
+    });
+}
+
+function fetchArticles(page) {
+  $.get( "/articles?" + refreshURL + "&page=" + page,
+    function( data ) {
       if ( $(data).data("more") == true ) {
         $('.js-load-more-articles').data("page", $(data).data("page"))
-      } else {
-        $('.articles .paging').hide();
       }
-      $( ".articles .card-grid ul" ).append($(data).html());
-    });
-  })
 
-  $('.js-load-more-images').click(function() {
-    var page = $(this).data("page")
-    $.get( "/images?page=" + page, function( data ) {
+      if (page == 1) {
+        $( ".articles .card-grid ul" ).html($(data).find('#articles').html());
+      } else {
+        $( ".articles .card-grid ul" ).append($(data).find('#articles').html());
+      }
+
+      $('.articles .file-type-count').text($(data).data("total-items"))
+      $(".articles .paging").html( $(data).find('.paging').html());
+      initLoadMoreArticles();
+    });
+}
+
+function fetchVideos(page) {
+  $.get( "/videos?" + refreshURL + "&page=" + page,
+    function( data ) {
+      if ( $(data).data("more") == true ) {
+        $('.js-load-more-videos').data("page", $(data).data("page"))
+      }
+
+      if (page == 1) {
+        $(".videos-grid").html($(data).find('#videos').html());
+      } else {
+        $(".videos-grid").append($(data).find('#videos').html());
+      }
+
+      $('.videos .file-type-count').text($(data).data("total-items"))
+      $(".videos .paging").html( $(data).find('.paging').html());
+      VideoGrid.init();
+      initLoadMoreVideos();
+    });
+}
+
+function fetchImages(page) {
+  $.get( "/images?" + refreshURL + "&page=" + page,
+    function( data ) {
       if ( $(data).data("more") == true ) {
         $('.js-load-more-images').data("page", $(data).data("page"))
-      } else {
-        $('.images .paging').hide();
       }
-      $( ".images .slideshow ul").append( $(data).find('#slideshow').html() );
-      $( ".images .card-grid" ).append( $(data).find('#thumbnails').html() );
+
+      if (page == 1) {
+        $(".images .slideshow ul").html( $(data).find('#slideshow').html());
+        $(".images .card-grid").html( $(data).find('#thumbnails').html());
+      } else {
+        $(".images .slideshow ul").append( $(data).find('#slideshow').html());
+        $(".images .card-grid").append( $(data).find('#thumbnails').html());
+      }
+
+      $('.images .file-type-count').text($(data).data("total-items"))
+      $(".images .paging").html( $(data).find('.paging').html());
+      initImageGallery();
+      initLoadMoreImages();
     });
-  })
-  // Init the video viewer
-  VideoGrid.init();
-});
+}
+
+function capitalize(text) {
+  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+}
 </script>

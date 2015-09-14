@@ -1,4 +1,4 @@
-<div data-page="<%= @images.next_page %>" data-more="<%= @images.show_more? %>">
+<div data-page="<%= @images.next_page %>" data-more="<%= @images.show_more? %>" data-total-items="<%= @images.total_items %>">
   <ul id="thumbnails">
   <% @images.files.each do |image| %>
   <li class="card-container">
@@ -35,4 +35,10 @@
   </li>
   <% end %>
   </ul>
+
+  <div class="paging">
+    <% if @images.show_more? %>
+      <a href="#" class="js-load-more-images" data-page="<%= @images.next_page %>">Load More</a>
+    <% end %>
+  </div>
 </div>
