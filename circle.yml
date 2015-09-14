@@ -19,5 +19,6 @@ test:
 
 deployment:
   try:
+    branch: chore/continuous_deployment
     commands:
       - ./bin/deploy.sh
