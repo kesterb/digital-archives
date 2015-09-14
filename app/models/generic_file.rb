@@ -35,6 +35,10 @@ class GenericFile < ActiveFedora::Base
 
   before_save :set_calculated_fields
 
+  def discoverable?
+    discover_groups.include?("public")
+  end
+
   private
 
   def set_calculated_fields
