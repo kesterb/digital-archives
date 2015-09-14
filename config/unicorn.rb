@@ -3,7 +3,7 @@ UNICORN_ROOT = "/var/www/unicorn"
 
 working_directory APP_PATH
 
-pid UNICORN_ROOT + "/var/www/tmp/pids/unicorn.pid"
+pid UNICORN_ROOT + "/tmp/pids/unicorn.pid"
 
 stderr_path APP_PATH + "/log/unicorn.log"
 stdout_path APP_PATH + "/log/unicorn.log"
