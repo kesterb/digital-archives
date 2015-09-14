@@ -2,6 +2,8 @@ require 'capybara/rspec'
 # require 'capybara/rails'
 require 'devise'
 
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'app'))
+
 module FactoryGirl
   def self.find_or_create(handle, by=:email)
     tmpl = FactoryGirl.build(handle)

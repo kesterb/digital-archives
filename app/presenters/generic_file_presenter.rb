@@ -13,8 +13,12 @@ class GenericFilePresenter < Sufia::GenericFilePresenter
     :identifier,
     :based_near,
     :related_url,
-    :production_name,
-    :venue_name,
-    :work_name
+    :production_ids,
+    :venue_ids,
+    :work_id,
+    :highlighted
   ]
+
+  # Names are not displayed directly so don't include them in `terms'.
+  delegate :production_names, :venue_names, :work_name, to: :model
 end

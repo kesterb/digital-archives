@@ -1,0 +1,71 @@
+<div class="search-filters">
+  <div class="row">
+    <div class="section-container">
+      <div class="col-1-2">
+        <div class="search-filter filter-works">
+          <div class="search-filter-inner">
+            <h3 class="filter-title">Work</h3>
+            <%= select_tag "work",
+                   options_from_collection_for_select(@search.all_works, "title", "title", @search.work_name),
+                   prompt: "Select a work",
+                   class: "works-list",
+                   onchange: "this.form.submit();" %>
+          </div>
+        </div>
+      </div>
+      <div class="col-1-2">
+        <div class="search-filter filter-venues">
+          <div class="search-filter-inner">
+            <h3 class="filter-title">Venue</h3>
+            <%= select_tag "venues[]",
+                  options_for_select(@search.all_venues.map { |venue|
+                    [
+                      venue.name,
+                      {
+                        "data-img-src" => image_path("icons/icon-#{venue.name.parameterize}"),
+                        class: "filter-venue-item" }]
+                    }, @search.venue_names),
+                  class: "js-venue-list",
+                  multiple: "multiple" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="section-container">
+      <div class="col-1-2">
+        <div class="search-filter filter-types">
+          <div class="search-filter-inner">
+            <h3 class="filter-title">File Type</h3>
+            <%= select_tag "record_types[]",
+                  options_for_select(@search.all_record_types.map { |type|
+                    [
+                      type,
+                      {
+                        "data-img-src" => image_path("icons/icon-#{type}.png")
+                      }
+                    ]
+                    }, @search.record_types),
+                    class: "js-type-list",
+                    multiple: "multiple" %>
+          </div>
+        </div>
+      </div>
+      <div class="col-1-2">
+        <div class="search-filter filter-year">
+          <div class="search-filter-inner">
+            <h3 class="filter-title">Year Range</h3>
+            <input class="js-year-range"
+                   name="years"
+                   data-min="<%= @search.all_years.begin %>"
+                   data-max="<%= @search.all_years.end %>"
+                   data-from="<%= @search.year_range.begin %>"
+                   data-to="<%= @search.year_range.end %>"
+                   />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

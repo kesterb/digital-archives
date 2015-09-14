@@ -9,10 +9,31 @@ dependencies:
     - docker info
     - docker pull andrewkrug/fedora4
     - docker pull joelferrier/solr
+  post:
+    - bundle install:
+        pwd:
+          vendor/engines/production_credits
+
+database:
+  post:
+    - bundle exec rake db:migrate RAILS_ENV=test:
+        pwd:
+          vendor/engines/production_credits
 
 test:
   pre:
-    - ./bin/init-docker.sh; sleep 10
-    - ./bin/start-docker.sh; sleep 10
+    - ./bin/init-docker.sh
+    - ./bin/start-docker.sh
     - curl --retry 10 --retry-delay 5 -v http://localhost:8080
     - curl --retry 10 --retry-delay 5 -v http://localhost:8081
+  post:
+    - bundle exec rspec spec:
+        pwd:
+          vendor/engines/production_credits
+
+deployment:
+  try:
+    branch: master
+    commands:
+      - bundle exec 'cap production deploy'
+      - ssh -i ~/.ssh/id_sufia-dev.osfashland.org unicorn@sufia-dev.osfashland.org 'sudo systemctl restart unicorn'

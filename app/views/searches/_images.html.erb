@@ -1,0 +1,63 @@
+<section class="results-section images <%= (@results.has_images? && @search.show_images?) ? "is-active" : "" %>">
+  <div class="sidebar-item">
+    <a class="file-type">
+      <%= image_tag("icons/icon-images", alt: "Images", class: "filter-type-image") %>
+    </a>
+    <p class="file-type-count"><%= @results.image_count %></p>
+  </div>
+  <h2 class="results-section-title">Images</h2>
+
+  <div id="grid-gallery" class="grid-gallery">
+    <section class="grid-wrap">
+      <ul class="grid card-grid">
+        <li class="grid-sizer" />
+        <% @results.images.each do |image| %>
+          <li class="card-container">
+            <a class="card card--has-image card--overlay-content">
+              <figure class="card__figure">
+                <img class="card__figure__image" src="<%= sufia.download_path(image, datastream_id: 'thumbnail') %>" alt="<%= image.title.first %>" />
+              </figure>
+              <div class="card__content">
+                <h1 class="card__content__title">
+                  <%= image.title.first %>
+                </h1>
+                <p class="card__content__date">
+                  <%= image.date_created.first %>
+                </p>
+              </div>
+            </a>
+          </li>
+        <% end %>
+      </li>
+      </ul>
+    </section>
+    <!-- <div class="paging">
+      if hasNextPage
+        a{action 'page' 'images' 1} href="#"
+          | Load More
+    </div> -->
+    <section class="slideshow">
+      <ul>
+        <% @results.images.each do |image| %>
+          <li>
+            <figure>
+              <img class="slideshow-img" src="<%= sufia.download_path(image) %>" alt="<%= image.title.first %>" />
+              <figcaption>
+                <h3><%= image.title.first %></h3>
+                <p><%= image.production_names.join(", ") %></p>
+                <p><%= image.venue_names.join(", ") %></p>
+                <p><%= image.description.first %></p>
+                <p><%= image.date_created.first %></p>
+              </figcaption>
+            </figure>
+          </li>
+        <% end %>
+      </ul>
+      <nav>
+        <span class="icon nav-prev"></span>
+        <span class="icon nav-next"></span>
+        <span class="icon nav-close"></span>
+      </nav>
+      <div class="info-keys icon">Navigate with arrow keys</div>
+  </div>
+</section>

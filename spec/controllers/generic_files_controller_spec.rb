@@ -1,30 +1,53 @@
 require 'rails_helper'
 
-shared_examples "a persisted custom property" do |property_name|
-  let(:attributes) { { property_name.to_sym => 'My Property' } }
+describe GenericFilesController do
+  Production = ProductionCredits::Production
+  Venue = ProductionCredits::Venue
+  Work = ProductionCredits::Work
+
+  routes { Sufia::Engine.routes }
+  let(:user) { FactoryGirl.find_or_create(:user) }
   let(:generic_file) do
     GenericFile.create do |gf|
       gf.apply_depositor_metadata(user)
     end
   end
+  let(:production) do
+    instance_double(Production, production_name: "The Production")
+  end
+  let(:venue) { instance_double(Venue, name: "The Venue") }
+  let(:work) { instance_double(Work, title: "The Work") }
+  let(:production_id) { 1 }
+  let(:venue_id) { 2 }
+  let(:work_id) { 3 }
+  let(:attributes) do
+    {
+      production_ids: [production_id],
+      venue_ids: [venue_id],
+      work_id: work_id
+    }
+  end
+  let(:reloaded) { generic_file.reload }
 
-  before { post :update, id: generic_file, generic_file: attributes }
-
-  subject do
-    generic_file.reload.send(property_name)
+  before do
+    allow(Production).to receive(:find)
+      .with([production_id.to_s]) { [production] }
+    allow(Production).to receive(:find).with([]) { [] }
+    allow(Venue).to receive(:find).with([venue_id.to_s]) { [venue] }
+    allow(Work).to receive(:find).with(work_id.to_s) { work }
+    sign_in user
+    post :update, id: generic_file, generic_file: attributes
   end
 
-  it { is_expected.to eq "My Property" }
-end
+  it "persists the ids" do
+    expect(reloaded.production_ids).to eq [production_id.to_s]
+    expect(reloaded.venue_ids).to eq [venue_id.to_s]
+    expect(reloaded.work_id).to eq work_id.to_s
+  end
 
-describe GenericFilesController do
-  routes { Sufia::Engine.routes }
-  let(:user) { FactoryGirl.find_or_create(:user) }
-  before { sign_in user }
-
-  describe "update" do
-    it_behaves_like "a persisted custom property", "production_name"
-    it_behaves_like "a persisted custom property", "venue_name"
-    it_behaves_like "a persisted custom property", "work_name"
+  it "finds and persists the names" do
+    expect(reloaded.production_names).to eq [production.production_name]
+    expect(reloaded.venue_names).to eq [venue.name]
+    expect(reloaded.work_name).to eq work.title
   end
 end

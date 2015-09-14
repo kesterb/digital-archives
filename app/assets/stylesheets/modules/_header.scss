@@ -1,0 +1,80 @@
+.header-primary {
+  @extend %centered-image;
+  height: 80vh;
+  max-height: 600px;
+  min-height: 400px;
+  position: relative;
+}
+
+.header-logo {
+  left: 50px;
+  position: absolute;
+  top: 32px;
+  z-index: 100;
+}
+
+.nav-primary {
+  background-image: -webkit-linear-gradient( 90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 100%);
+  height: 200px;
+  padding-right: 30px;
+  padding-top: 35px;
+  position: absolute;
+  text-align: right;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+}
+
+.nav-primary__link {
+  color: $white;
+  font-size: 16px;
+  font-weight: normal;
+  position: relative;
+  margin-left: 20px;
+}
+
+.page-title {
+  color: $white;
+  font-size: 60px;
+  font-weight: bold;
+  position: absolute;
+  text-align: center;
+  text-shadow: 2px 0px 2px rgba(0,0,0, 0.38);
+  text-transform: uppercase;
+  top: 50%;
+  transform: translatey(-50%);
+  width: 100%;
+}
+
+.search-the-archive {
+  background-color: rgba(0,0,0,.5);
+  bottom: 0;
+  left: 0;
+  padding: 28px 0;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  width: 100%;
+
+  input {
+    border-radius: 3px 0 0 3px;
+    width: 438px;
+  }
+
+  input[type=submit] {
+    width: 100px;
+    border: none;
+    border-radius: 0 3px 3px 0;
+    font-size: 14px;
+    height: 38px;
+    line-height: normal;
+    padding: 10px;
+
+    &:active,
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+}

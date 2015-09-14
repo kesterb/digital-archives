@@ -1,0 +1,58 @@
+<div class="sidebar-container"></div>
+
+<div class="page-container">
+  <%= form_tag(searches_path, method: "get", id: "filter-form") do %>
+    <%= render "header" %>
+    <%= render "filters" %>
+  <% end %>
+  <%= render "search_results" %>
+  <%= render "footer" %>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+    $('.js-venue-list').imagepicker({
+      show_label: true,
+      changed: function () {
+          $('#filter-form').submit()
+      }
+    });
+
+    var difference = function(first, second) {
+       return $(first).not(second).get();
+    }
+
+    var updateSectionVisibility = function(oldTypes, newTypes) {
+      $.each(difference(oldTypes, newTypes), function (_, recordType) {
+        $('.' + recordType).removeClass("is-active")
+      });
+
+      $.each(difference(newTypes, oldTypes), function (_, recordType) {
+        $('.' + recordType).addClass("is-active")
+      });
+    };
+
+    $('.js-type-list').imagepicker({
+      show_label: false,
+      changed: updateSectionVisibility
+    });
+
+    $('.js-year-range').ionRangeSlider({
+      type: "double",
+      hide_min_max: true,
+      step: 1,
+      onFinish: function () {
+        $('#filter-form').submit()
+      }
+    });
+
+    // Init the image gallery
+    var gallery = $('#grid-gallery')
+    if (gallery.length) {
+      new CBPGridGallery(gallery.get(0));
+    }
+
+    // Init the video viewer
+    VideoGrid.init();
+  });
+</script>

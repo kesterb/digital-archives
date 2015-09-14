@@ -1,0 +1,33 @@
+<section class="results-section articles <%= (@results.has_articles? && @search.show_articles?) ? "is-active" : "" %>">
+  <div class="sidebar-item">
+    <a class="file-type">
+      <%= image_tag("icons/icon-articles", alt: "Articles", class: "filter-type-image") %>
+    </a>
+    <p class="file-type-count"><%= @results.article_count %></p>
+  </div>
+  <h2 class="results-section-title">Documents</h2>
+  <div class="card-grid">
+    <% @results.articles.each do |article| %>
+      <li class="card-container">
+        <a class="card card--has-img" target=_blank href=<%= sufia.download_path(article) %>>
+          <div class="card-figure-img">
+            <img src="<%= sufia.download_path(article, datastream_id: 'thumbnail') %>" alt="<%= article.title.first %>">
+          </div>
+          <div class="card-content">
+            <h3 class="card-content-title">
+              <%= article.title.first %>
+            </h3>
+            <h4 class="card-content-subtitle">
+              <%= article.production_names.join(", ") %>
+            </h4>
+          </div>
+        </a>
+      </li>
+    <% end %>
+  </div>
+  <!-- <div class="paging">
+    if hasNextPage
+      a{action 'page' 'articles' 1} href="#"
+        | More
+  </div> -->
+</section>

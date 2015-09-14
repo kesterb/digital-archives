@@ -7,6 +7,9 @@ gem 'rails', '4.2.3'
 gem 'sqlite3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
+
+gem 'autoprefixer-rails', '~> 5.2'
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
@@ -42,6 +45,22 @@ gem 'rsolr', '~> 1.0.6'
 gem 'devise'
 gem 'devise-guests', '~> 0.3'
 
+gem 'capistrano', '~> 3.1'
+gem 'capistrano-rails', '~> 1.1'
+gem 'capistrano-rvm'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-ionrangeslider', '~> 2.0.2'
+  gem 'rails-assets-image-picker', '~> 0.2.4'
+end
+
+group :development do
+  gem "better_errors"
+  gem "binding_of_caller"
+  gem 'meta_request'
+  gem 'quiet_assets'
+end
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -56,3 +75,9 @@ group :development, :test do
   gem "capybara"
   gem "factory_girl_rails"
 end
+
+group :production do
+  gem 'mysql2', '~> 0.3.18'
+  gem 'unicorn-rails'
+end
+
