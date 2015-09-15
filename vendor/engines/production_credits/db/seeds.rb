@@ -4,7 +4,7 @@ module ProductionCredits
 
     tables = %w(production_credits_works production_credits_venues production_credits_productions)
     tables.each do |table|
-      connection.execute("DELETE FROM #{table}") unless table == "schema_migrations"
+      connection.execute("DELETE FROM #{table}")
     end
 
     connection.execute("VACUUM")
