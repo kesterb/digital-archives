@@ -40,7 +40,7 @@
   border: 1px solid #CAC9C9 !important;  /*Removes border*/
   -webkit-appearance: none;  /*Removes default chrome and safari style*/
   -moz-appearance: none; /* Removes Default Firefox style*/
-  background: #fff url(dropdown-arrow.png) no-repeat right 12px center;
+  background: $white image-url("dropdown-arrow") no-repeat right 12px center;
   width: 80%; /*Width of select dropdown to give space for arrow image*/
   text-indent: 0.01px; /* Removes default arrow from firefox*/
   text-overflow: "";  /*Removes default arrow from firefox*/ /*My custom style for fonts*/
