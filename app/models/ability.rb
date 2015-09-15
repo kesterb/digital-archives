@@ -34,7 +34,7 @@ class Ability
 
   def override_download_permissions
     can :download, ActiveFedora::File do |file|
-      parent_uri = file.uri.to_s.sub(/\/[^\/]*$/, '')
+      parent_uri = file.uri.to_s.sub(/\/[^\/]*$/, "")
       parent_id = ActiveFedora::Base.uri_to_id(parent_uri)
       if file.uri.end_with?("thumbnail")
         can? :discover, parent_id
@@ -57,7 +57,7 @@ class Ability
     return [] if doc.nil?
     dg = read_groups(id) | (doc[self.class.discover_group_field] || [])
     Rails.logger.debug("[CANCAN] discover_groups: #{dg.inspect}")
-    return dg
+    dg
   end
 
   # read implies discover, so discover_users is the union of read and discover users
@@ -66,7 +66,7 @@ class Ability
     return [] if doc.nil?
     dp = read_users(id) | (doc[self.class.discover_user_field] || [])
     Rails.logger.debug("[CANCAN] discover_users: #{dp.inspect}")
-    return dp
+    dp
   end
 
   def self.discover_group_field
