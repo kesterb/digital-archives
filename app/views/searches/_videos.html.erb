@@ -1,7 +1,7 @@
 <section class="results-section videos <%= @videos.has_items? ? "is-active" : "" %>">
   <div class="sidebar-item">
     <a class="file-type">
-      <img src="<%= image_path('icon-videos') %>" alt="Videos" class="filter-type-image" />
+      <img src="<%= image_path("icons/icon-videos.png") %>" alt="Videos" class="filter-type-image" />
     </a>
     <p class="file-type-count"><%= @videos.total_items %></p>
   </div>
