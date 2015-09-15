@@ -1,0 +1,4 @@
+<div class="form-group optional generic_file_identifier">
+  <%= f.label :date_created %>
+  <%= f.date_field :date_created, class: 'form-control', name: "generic_file[date_created][]", value: "#{@generic_file.date_created.first if @generic_file}" %>
+</div>
