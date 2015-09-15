@@ -1,7 +1,7 @@
 <section class="results-section audios <%= @audios.has_items? ? "is-active" : "" %>">
   <div class="sidebar-item">
     <a class="file-type">
-      <%= image_tag("icon-audios", alt: "Audios", class: "filter-type-image") %>
+      <img src="<%= image_path('icon-audios') %>" alt="Audios" class="filter-type-image" />
     </a>
     <p class="file-type-count"><%= @audios.total_items %></p>
   </div>
