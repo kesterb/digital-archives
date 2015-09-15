@@ -1,57 +1,64 @@
 class SearchResults
-  def initialize(files)
-    @items = files.group_by { |item| item.resource_type.first }
+  def initialize(response, files)
+    @response = response
+    @files = files
   end
 
-  def videos
-    items.fetch("Video") { [] }
+  def self.empty
+    EmptySearchResults.new
   end
 
-  def video_count
-    videos.size
+  def files
+    @files
   end
 
-  def has_videos?
-    video_count > 0
+  def current_page
+    response.current_page
   end
 
-  def articles
-    items.fetch("Article") { [] }
+  def next_page
+    response.next_page
   end
 
-  def article_count
-    articles.size
+  def show_more?
+    total_pages > current_page
   end
 
-  def has_articles?
-    article_count > 0
+  def has_items?
+    total_items > 0
   end
 
-  def audios
-    items.fetch("Audio") { [] }
+  def total_items
+    response.response["numFound"]
   end
 
-  def audio_count
-    audios.size
-  end
-
-  def has_audios?
-    audio_count > 0
-  end
-
-  def images
-    items.fetch("Image") { [] }
-  end
-
-  def image_count
-    images.size
-  end
-
-  def has_images?
-    image_count > 0
+  def total_pages
+    response.total_pages
   end
 
   private
 
-  attr_reader :items
+  attr_reader :response
+end
+
+class EmptySearchResults
+  def has_items?
+    false
+  end
+
+  def total_items
+    0
+  end
+
+  def files
+    []
+  end
+
+  def next_page
+    0
+  end
+
+  def show_more?
+    false
+  end
 end

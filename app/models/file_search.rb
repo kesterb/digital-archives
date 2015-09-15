@@ -1,10 +1,13 @@
 require "solrizer"
 
 class FileSearch
-  def initialize(params, catalog_query:, file_query: GenericFile)
+  attr_reader :current_page, :total_pages, :next_page, :total_items
+
+  def initialize(params, options = {})
     @params = params
-    @catalog_query = catalog_query
-    @file_query = file_query
+    @resource_type = options[:resource_type].to_s
+    @catalog_query = options[:catalog_query]
+    @file_query = options[:file_query] || GenericFile
   end
 
   def self.all_years
@@ -23,8 +26,8 @@ class FileSearch
     all_venues.map(&:name)
   end
 
-  def all_record_types
-    @all_record_types ||= RECORD_TYPES
+  def all_resource_types
+    @all_resource_types ||= RESOURCE_TYPES
   end
 
   def all_years
@@ -35,6 +38,14 @@ class FileSearch
     params[:q]
   end
 
+  def page
+    params[:page]
+  end
+
+  def per_page
+    params[:per_page]
+  end
+
   def work_name
     params[:work]
   end
@@ -43,24 +54,16 @@ class FileSearch
     params.fetch(:venues) { all_venue_names }
   end
 
-  def record_types
-    params.fetch(:record_types) { all_record_types }
+  def resource_types
+    Array(resource_type)
   end
 
-  def show_articles?
-    record_types.include?("articles")
+  def types
+    params.fetch(:types) { all_resource_types }
   end
 
-  def show_images?
-    record_types.include?("images")
-  end
-
-  def show_audios?
-    record_types.include?("audios")
-  end
-
-  def show_videos?
-    record_types.include?("videos")
+  def show?
+    types.include?(resource_type.pluralize)
   end
 
   def year_range
@@ -72,39 +75,42 @@ class FileSearch
     all_years
   end
 
-  def results
-    SearchResults.new(files)
-  end
-
-  def files
-    params.empty? ? highlighted_files : filtered_files
+  def result
+    if show?
+      (response, documents) = catalog_query.search_results(search_query, catalog_query.search_params_logic)
+      SearchResults.new(response, file_query.find(documents.map(&:id)))
+    else
+      SearchResults.empty
+    end
   end
 
   PRIMARY_VENUES = ["Elizabethan", "Angus Bowmer", "Thomas", "The Green Show"]
   OTHER_VENUE = "Other"
-  RECORD_TYPES = %w[images videos audios articles]
+  RESOURCE_TYPES = %w[images videos audios articles]
 
   private
 
-  attr_reader :params, :catalog_query, :file_query
+  attr_reader :params, :catalog_query, :file_query, :resource_type
 
-  def hardcoded_venues
-    PRIMARY_VENUES.map { |name| ProductionCredits::Venue.find_by(name: name) }.compact.tap do |venues|
-      venues << ProductionCredits::Venue.new(name: OTHER_VENUE)
-    end
-  end
-
-  def highlighted_files
-    file_query.where(highlighted: "1")
-  end
-
-  def filtered_files
+  def search_query
     query = {}
     query[:q] = search_term if search_term
     query[:f] = filters unless filters.empty?
+    query[:page] = page if page
+    query
+  end
 
-    (response, documents) = catalog_query.search_results(query, catalog_query.search_params_logic)
-    files = file_query.find(documents.map(&:id))
+  def has_query_params?
+    (params.stringify_keys.keys & %w(q work venues years types)).any?
+  end
+
+  def hardcoded_venues
+    PRIMARY_VENUES
+      .map { |name| ProductionCredits::Venue.find_by(name: name) }
+      .compact
+      .tap do |venues|
+        venues << ProductionCredits::Venue.new(name: OTHER_VENUE)
+      end
   end
 
   def filters
@@ -112,6 +118,20 @@ class FileSearch
       .merge(work_filter)
       .merge(venue_filter)
       .merge(year_filter)
+      .merge(resource_type_filter)
+      .merge(highlight_filter)
+  end
+
+  def highlight_filter
+    # 'highlighted' is only used on first view of index
+    return {} if has_query_params?
+    { Solrizer.solr_name("highlighted", :facetable) => "1" }
+  end
+
+  def resource_type_filter
+    return {} if resource_types.empty? || resource_types == all_resource_types
+    types = resource_types.map { |type| type.singularize.capitalize }
+    { Solrizer.solr_name("resource_type", :facetable) => types }
   end
 
   def work_filter
@@ -130,6 +150,8 @@ class FileSearch
 
   def year_filter
     return {} if year_range == all_years
-    { Solrizer.solr_name("year_created", :stored_sortable, type: :integer) => year_range }
+    { Solrizer.solr_name(
+      "year_created", :stored_sortable, type: :integer
+      ) => year_range }
   end
 end

@@ -1,5 +1,4 @@
 set :branch, "master"
-set :branch, "chore/continuous_deployment"
 
 set :server_name, "sufia-dev.osfashland.org"
 server 'sufia-dev.osfashland.org', user: 'unicorn', roles: %{web app}, primary: true
