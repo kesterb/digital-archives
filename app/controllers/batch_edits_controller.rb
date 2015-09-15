@@ -18,7 +18,7 @@ class BatchEditsController < ApplicationController
     @generic_file.depositor = current_user.user_key
     @terms = terms - [:title, :format, :resource_type]
 
-    h  = {}
+    h = {}
     @names = []
     permissions = []
 
@@ -43,11 +43,11 @@ class BatchEditsController < ApplicationController
 
     initialize_fields(h, @generic_file)
 
-    @generic_file.permissions_attributes = [{type: 'group', name: 'public', access: 'read'}]
+    @generic_file.permissions_attributes = [{ type: "group", name: "public", access: "read" }]
   end
 
   def generic_file_params
-    file_params = params[:generic_file] || ActionController::Parameters.new()
+    file_params = params[:generic_file] || ActionController::Parameters.new
     self.class.edit_form_class.model_attributes(file_params)
   end
 end
