@@ -1,7 +1,7 @@
 <section class="results-section images <%= @images.has_items? ? "is-active" : "" %>">
   <div class="sidebar-item">
     <a class="file-type">
-      <%= image_tag("icons/icon-images", alt: "Images", class: "filter-type-image") %>
+      <%= image_tag("icon-images", alt: "Images", class: "filter-type-image") %>
     </a>
     <p class="file-type-count"><%= @images.total_items %></p>
   </div>
