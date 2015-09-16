@@ -119,13 +119,13 @@ class FileSearch
       .merge(venue_filter)
       .merge(year_filter)
       .merge(resource_type_filter)
-      .merge(highlight_filter)
+      .merge(curated_filter)
   end
 
-  def highlight_filter
-    # 'highlighted' is only used on first view of index
+  def curated_filter
+    # 'curated' is only used on first view of index
     return {} if has_query_params?
-    { Solrizer.solr_name("highlighted", :facetable) => "1" }
+    { Solrizer.solr_name("curated", :facetable) => [1] }
   end
 
   def resource_type_filter

@@ -26,7 +26,7 @@ describe FileSearch do
   context "with no params" do
     let(:params) { { } }
     let(:resource_type) { :audio }
-    let(:expected_query) { { "f": { "resource_type_sim" => ["Audio"], "highlighted_sim" => "1" } } }
+    let(:expected_query) { { "f": { "resource_type_sim" => ["Audio"], "curated_sim" => "1" } } }
     let(:document_ids) { [42, 58] }
     let(:documents) { document_ids.map { |id| double("SolrDocument", id: id) } }
 
@@ -35,7 +35,7 @@ describe FileSearch do
       allow(file_query).to receive(:find).with(document_ids) { files }
     end
 
-    it "returns highlighted files" do
+    it "returns curated files" do
       expect(search.result.files).to eq files
     end
 

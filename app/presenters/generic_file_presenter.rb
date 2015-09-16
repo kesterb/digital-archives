@@ -16,7 +16,7 @@ class GenericFilePresenter < Sufia::GenericFilePresenter
     :production_ids,
     :venue_ids,
     :work_id,
-    :highlighted
+    :curated
   ]
 
   # Names are not displayed directly so don't include them in `terms'.
