@@ -24,7 +24,7 @@ class GenericFile < ActiveFedora::Base
     index.as :stored_searchable, :facetable
   end
 
-  property :highlighted, multiple: false do |index|
+  property :curated, multiple: false do |index|
     index.as :stored_searchable, :facetable
   end
 
