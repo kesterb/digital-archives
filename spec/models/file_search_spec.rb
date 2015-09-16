@@ -1,4 +1,6 @@
-require "rails_helper"
+require "spec_helper"
+require "models/file_search"
+require "models/search_results"
 
 describe FileSearch do
   # TODO: Write a custom matcher to check that the Solr query is what we want,
@@ -71,7 +73,7 @@ describe FileSearch do
 
     context "with a selected work" do
       let(:params) { { work: "WORK" } }
-      let(:expected_query) { { f: { "work_name_sim" => "WORK", "resource_type_sim" => ["Audio"] } } }
+      let(:expected_query) { { f: { "work_names_sim" => "WORK", "resource_type_sim" => ["Audio"] } } }
 
       it "returns found files" do
         expect(search.result.files).to eq files

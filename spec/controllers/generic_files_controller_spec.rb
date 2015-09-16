@@ -24,7 +24,7 @@ describe GenericFilesController do
     {
       production_ids: [production_id],
       venue_ids: [venue_id],
-      work_id: work_id
+      work_ids: [work_id]
     }
   end
   let(:reloaded) { generic_file.reload }
@@ -34,7 +34,8 @@ describe GenericFilesController do
       .with([production_id.to_s]) { [production] }
     allow(Production).to receive(:find).with([]) { [] }
     allow(Venue).to receive(:find).with([venue_id.to_s]) { [venue] }
-    allow(Work).to receive(:find).with(work_id.to_s) { work }
+    allow(Work).to receive(:find).with([work_id.to_s]) { [work] }
+    allow(Work).to receive(:find).with([]) { [] }
     sign_in user
     post :update, id: generic_file, generic_file: attributes
   end
@@ -42,12 +43,12 @@ describe GenericFilesController do
   it "persists the ids" do
     expect(reloaded.production_ids).to eq [production_id.to_s]
     expect(reloaded.venue_ids).to eq [venue_id.to_s]
-    expect(reloaded.work_id).to eq work_id.to_s
+    expect(reloaded.work_ids).to eq [work_id.to_s]
   end
 
   it "finds and persists the names" do
     expect(reloaded.production_names).to eq [production.production_name]
     expect(reloaded.venue_names).to eq [venue.name]
-    expect(reloaded.work_name).to eq work.title
+    expect(reloaded.work_names).to eq [work.title]
   end
 end

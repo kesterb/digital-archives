@@ -132,7 +132,7 @@ class FileSearch
 
   def work_filter
     return {} unless work_name
-    { Solrizer.solr_name("work_name", :facetable) => work_name }
+    { Solrizer.solr_name("work_names", :facetable) => work_name }
   end
 
   def venue_filter
@@ -143,7 +143,7 @@ class FileSearch
           (PRIMARY_VENUES.keys - venue_names).map(&method(:db_venue_name))
       }
     else
-      { 
+      {
         Solrizer.solr_name("venue_names", :facetable) =>
           venue_names.map(&method(:db_venue_name))
       }

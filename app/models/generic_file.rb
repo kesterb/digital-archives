@@ -18,9 +18,9 @@ class GenericFile < ActiveFedora::Base
     index.as :stored_searchable, :facetable
   end
 
-  property :work_id, multiple: false
+  property :work_ids, multiple: true
 
-  property :work_name, multiple: false do |index|
+  property :work_names, multiple: true do |index|
     index.as :stored_searchable, :facetable
   end
 
@@ -44,12 +44,12 @@ class GenericFile < ActiveFedora::Base
   def set_calculated_fields
     self.production_names = productions.map(&:production_name).compact
     self.venue_names = venues.map(&:name).compact
-    self.work_name = work.try(:title)
+    self.work_names = works.map(&:title).compact
     self.year_created = creation_year
   end
 
-  def work
-    ProductionCredits::Work.find(work_id) if work_id.present?
+  def works
+    work_ids ? ProductionCredits::Work.find(work_ids) : []
   end
 
   def productions
