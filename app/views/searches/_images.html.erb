@@ -22,7 +22,7 @@
                   <%= image.title.first %>
                 </h1>
                 <p class="card__content__date">
-                  <%= image.date_created.first %>
+                  <%= image.date_created.first.to_date.to_s(:long) %>
                 </p>
               </div>
             </a>
@@ -47,7 +47,7 @@
                 <p><%= image.production_names.join(", ") %></p>
                 <p><%= image.venue_names.join(", ") %></p>
                 <p><%= image.description.first %></p>
-                <p><%= image.date_created.first %></p>
+                <p><%= image.date_created.first.to_date.to_s(:long) %></p>
               </figcaption>
             </figure>
           </li>
