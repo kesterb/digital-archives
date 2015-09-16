@@ -24,7 +24,8 @@ describe GenericFile do
   before do
     allow(Production).to receive(:find).with([production.id]) { [production] }
     allow(Production).to receive(:find).with([]) { [] }
-    allow(Work).to receive(:find).with(work.id) { work }
+    allow(Work).to receive(:find).with([work.id]) { [work] }
+    allow(Work).to receive(:find).with([]) { [] }
     allow(Venue).to receive(:find).with([venue.id]) { [venue] }
     allow(Venue).to receive(:find).with([]) { [] }
   end
@@ -67,38 +68,38 @@ describe GenericFile do
   end
 
   describe "associated work" do
-    context "when there is a work_id" do
+    context "when there are work_ids" do
       before do
-        file.work_id = work.id
+        file.work_ids = [work.id]
         file.save!
       end
 
-      it "sets the work name" do
-        expect(file.work_name).to eq work.title
+      it "sets the work names" do
+        expect(file.work_names).to eq [work.title]
       end
     end
 
-    context "when there isn't a work_id" do
+    context "when there aren't a work_ids" do
       before do
-        file.work_id = nil
-        file.work_name = "WORK"
+        file.work_ids = []
+        file.work_names = ["WORK"]
         file.save!
       end
 
-      it "clears the work name" do
-        expect(file.work_name).to be_blank
+      it "clears the work names" do
+        expect(file.work_names).to be_empty
       end
     end
 
-    context "when work_id is blank" do
+    context "when work_ids is nil" do
       before do
-        file.work_id = ""
-        file.work_name = "WORK"
+        file.work_ids = nil
+        file.work_names = ["WORK"]
         file.save!
       end
 
-      it "clears the work name" do
-        expect(file.work_name).to be_blank
+      it "clears the work names" do
+        expect(file.work_names).to be_empty
       end
     end
   end
