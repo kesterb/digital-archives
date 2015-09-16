@@ -9,8 +9,8 @@
     <a class="nav-primary__link btn-primary" href="https://www.osfashland.org/experience-osf/current-season/buy-tickets.aspx">Buy Tickets</a>
   </nav>
   <h1 class="page-title">Welcome to the Archive</h1>
-  <div class="search-the-archive">
-    <%= search_field_tag(:q, @search.search_term, placeholder: "What are you looking for?", autofocus: true) %>
-    <%= submit_tag("Search", name: nil, class: "btn-primary") %>
+  <div class="search-archive">
+    <%= search_field_tag(:q, @search.search_term, placeholder: "What are you looking for?", autofocus: true, class: "search-archive-field") %>
+    <%= submit_tag("Search", name: nil, class: "btn-primary search-archive-submit") %>
   </div>
 </header>

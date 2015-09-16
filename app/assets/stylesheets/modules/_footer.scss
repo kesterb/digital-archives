@@ -1,0 +1,16 @@
+.page-footer {
+  background-color: $black;
+  padding: 5px 0 15px;
+
+  ul {
+    list-style-type: none;
+
+    li {
+      float: left;
+      margin-right: 30px;
+    }
+    a {
+      color: $neutral-light;
+    }
+  }
+}

@@ -1,7 +1,7 @@
 @import 'grid';
 
 .sidebar-container {
-  background-color: $neutral-dark;
+  background-color: $black;
   position: absolute;
   bottom: 0;
   right: 0;
@@ -22,4 +22,13 @@
 .main-content-region {
   background-color: $neutral-light-x;
   border-top: 1px solid #dce0e0;
+  padding-bottom: 79px;
+}
+
+.page-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: none;
 }
