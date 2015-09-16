@@ -121,7 +121,7 @@ class FileSearch
   def curated_filter
     # 'curated' is only used on first view of index
     return {} if has_query_params?
-    { Solrizer.solr_name("curated", :facetable) => [1] }
+    { Solrizer.solr_name("curated", :facetable) => "1" }
   end
 
   def resource_type_filter
