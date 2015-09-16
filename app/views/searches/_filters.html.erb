@@ -18,11 +18,11 @@
           <div class="search-filter-inner">
             <h3 class="filter-title">Venue</h3>
             <%= select_tag "venues[]",
-                  options_for_select(@search.all_venues.map { |venue|
+                  options_for_select(@search.all_venue_names.map { |name|
                     [
-                      venue.name,
+                      name,
                       {
-                        "data-img-src" => image_path("icons/icon-#{venue.name.parameterize}"),
+                        "data-img-src" => image_path("icons/icon-#{name.parameterize}"),
                         class: "filter-venue-item" }]
                     }, @search.venue_names),
                   class: "js-venue-list",

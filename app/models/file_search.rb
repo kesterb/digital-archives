@@ -18,12 +18,8 @@ class FileSearch
     @all_works ||= ProductionCredits::Work.order(:title)
   end
 
-  def all_venues
-    @all_venues ||= hardcoded_venues
-  end
-
   def all_venue_names
-    all_venues.map(&:name)
+    @all_venue_names ||= hardcoded_venues
   end
 
   def all_resource_types
@@ -84,7 +80,12 @@ class FileSearch
     end
   end
 
-  PRIMARY_VENUES = ["Elizabethan", "Angus Bowmer", "Thomas", "The Green Show"]
+  PRIMARY_VENUES = {
+    "Elizabethan" => "Elizabethan Theatre",
+    "Angus Bowmer" => "Angus Bowmer Theatre",
+    "Thomas" => "Thomas Theatre",
+    "Courtyard" => "Courtyard"
+  }
   OTHER_VENUE = "Other"
   RESOURCE_TYPES = %w[images videos audios articles]
 
@@ -105,12 +106,7 @@ class FileSearch
   end
 
   def hardcoded_venues
-    PRIMARY_VENUES
-      .map { |name| ProductionCredits::Venue.find_by(name: name) }
-      .compact
-      .tap do |venues|
-        venues << ProductionCredits::Venue.new(name: OTHER_VENUE)
-      end
+    PRIMARY_VENUES.keys + [OTHER_VENUE]
   end
 
   def filters
@@ -142,10 +138,20 @@ class FileSearch
   def venue_filter
     return {} if venue_names.empty? || venue_names == all_venue_names
     if venue_names.include?(OTHER_VENUE)
-      { Solrizer.solr_name("!venue_names", :facetable) => PRIMARY_VENUES - venue_names }
+      {
+        Solrizer.solr_name("!venue_names", :facetable) =>
+          (PRIMARY_VENUES.keys - venue_names).map(&method(:db_venue_name))
+      }
     else
-      { Solrizer.solr_name("venue_names", :facetable) => venue_names }
+      { 
+        Solrizer.solr_name("venue_names", :facetable) =>
+          venue_names.map(&method(:db_venue_name))
+      }
     end
+  end
+
+  def db_venue_name(venue_name)
+    PRIMARY_VENUES.fetch(venue_name) { venue_name }
   end
 
   def year_filter
