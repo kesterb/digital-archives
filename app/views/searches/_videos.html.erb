@@ -24,7 +24,7 @@
               <%= video.venue_names.join(", ") %>
             </h4>
             <p class="card__content__date">
-              <%= video.date_created.first.to_date.to_s(:long) %>
+              <%= video.date_created.first.to_date.to_s(:mdy) %>
             </p>
           </div>
         </a>
