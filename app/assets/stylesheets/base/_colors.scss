@@ -1,14 +1,22 @@
 // Colors
-$blue: #005372;
+$blue-dark: #005372;
+$blue: #0182c5;
+$orange: #b64c30;
+$green: #619c44;
+$red: #bf2245;
+
 
 // Neutral Palette
 $white: #fff;
-$black: #333;
-$neutral-dark: #292929;
-$neutral-dark-mid: #565a5c;
-$neutral-mid: #878B8C;
-$neutral-light: #e8e8e8;
 $neutral-light-x: #f1f1f1;
+$neutral-light: #e8e8e8;
+$neutral-mid: #c2c1c1;
+$neutral-dark: #848383;
+$neutral-dark-x: #434343;
+$black: #292929;
 
 // Accent Palette
 $accent-primary: $blue;
+$accent-secondary: $orange;
+
+$cta-primary: $blue-dark;

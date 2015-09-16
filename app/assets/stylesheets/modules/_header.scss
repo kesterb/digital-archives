@@ -47,7 +47,7 @@
   width: 100%;
 }
 
-.search-the-archive {
+.search-archive {
   background-color: rgba(0,0,0,.5);
   bottom: 0;
   left: 0;
@@ -56,25 +56,27 @@
   right: 0;
   text-align: center;
   width: 100%;
+}
 
-  input {
-    border-radius: 3px 0 0 3px;
-    width: 438px;
-  }
+.search-archive-field {
+  border-radius: 3px 0 0 3px;
+  margin-right: -4px;
+  width: 438px;
+}
 
-  input[type=submit] {
-    width: 100px;
-    border: none;
-    border-radius: 0 3px 3px 0;
-    font-size: 14px;
-    height: 38px;
-    line-height: normal;
-    padding: 10px;
+.search-archive-submit {
+  width: 100px;
+  border: none;
+  border-radius: 0 3px 3px 0;
+  font-size: 14px;
+  height: 38px;
+  line-height: normal;
+  margin-left: 0;
+  padding: 10px;
 
-    &:active,
-    &:focus {
-      outline: none;
-      box-shadow: none;
-    }
+  &:active,
+  &:focus {
+    outline: none;
+    box-shadow: none;
   }
 }
