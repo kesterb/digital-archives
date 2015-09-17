@@ -10,7 +10,7 @@ class GenericFilesController < ApplicationController
       @generic_file.set_discover_groups(%w[public], [])
       params[:visibility] = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
     end
-    
+
     super
   end
 end
