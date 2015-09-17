@@ -12,14 +12,16 @@ describe GenericFile do
   end
   let(:production) do
     instance_double(Production,
-                    id: 42,
-                    production_name: "PRODUCTION",
-                    venue: production_venue
+    id: 42,
+    production_name: "PRODUCTION",
+    venue: production_venue,
+    work: production_work
     )
   end
   let(:venue) { instance_double(Venue, id: 58, name: "VENUE") }
   let(:production_venue) { instance_double(Venue, name: "PRODUCTION VENUE") }
   let(:work) { instance_double(Work, id: 123, title: "WORK") }
+  let(:production_work) { instance_double(Work, title: "PRODUCTION WORK") }
 
   before do
     allow(Production).to receive(:find).with([production.id]) { [production] }
@@ -79,15 +81,32 @@ describe GenericFile do
       end
     end
 
-    context "when there aren't a work_ids" do
+    context "when there aren't work_ids" do
       before do
         file.work_ids = []
         file.work_names = ["WORK"]
-        file.save!
       end
 
-      it "clears the work names" do
-        expect(file.work_names).to be_empty
+      context "when there are productions" do
+        before do
+          file.production_ids = [production.id]
+          file.save!
+        end
+
+        it "uses the productions' work's titles" do
+          expect(file.work_names).to eq [production_work.title]
+        end
+      end
+
+      context "when there aren't productions" do
+        before do
+          file.production_ids = []
+          file.save!
+        end
+
+        it "clears the work names" do
+          expect(file.work_names).to be_empty
+        end
       end
     end
 

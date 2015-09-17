@@ -48,19 +48,25 @@ class GenericFile < ActiveFedora::Base
     self.year_created = creation_year
   end
 
-  def works
-    work_ids ? ProductionCredits::Work.find(work_ids) : []
-  end
-
   def productions
     production_ids ? ProductionCredits::Production.find(production_ids) : []
   end
 
   def venues
     if (venue_ids || []).any?
-      ProductionCredits::Venue.find(venue_ids).compact
+      ProductionCredits::Venue.find(venue_ids)
     elsif productions.any?
       productions.map(&:venue)
+    else
+      []
+    end
+  end
+
+  def works
+    if (work_ids || []).any?
+      ProductionCredits::Work.find(work_ids)
+    elsif productions.any?
+      productions.map(&:work)
     else
       []
     end
