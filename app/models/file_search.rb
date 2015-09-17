@@ -104,7 +104,7 @@ class FileSearch
   end
 
   def has_query_params?
-    (params.stringify_keys.keys & %w(q work venues years types)).any?
+    (params.stringify_keys.keys & %w(q work venues years)).any?
   end
 
   def hardcoded_venues

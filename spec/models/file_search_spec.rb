@@ -44,9 +44,9 @@ describe FileSearch do
     context "with resource_type selected and no other filters" do
       let(:params) { { types: ["audios"] } }
       let(:resource_type) { :audio }
-      let(:expected_query) { { f: { "resource_type_sim" => %w[Audio] }, :per_page => 10 } }
+      let(:expected_query) { { f: { "resource_type_sim" => %w[Audio], "curated_sim" => "1" }, :per_page => 10 } }
 
-      it "returns found files" do
+      it "returns curated files" do
         expect(search.result.files).to eq files
       end
     end
