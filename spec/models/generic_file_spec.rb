@@ -1,35 +1,31 @@
 require 'rails_helper'
 
 describe GenericFile do
-  Production = ProductionCredits::Production
-  Venue = ProductionCredits::Venue
-  Work = ProductionCredits::Work
-
   subject(:file) do
     GenericFile.create do |f|
       f.apply_depositor_metadata "user"
     end
   end
   let(:production) do
-    instance_double(Production,
+    instance_double(ProductionCredits::Production,
     id: 42,
     production_name: "PRODUCTION",
     venue: production_venue,
     work: production_work
     )
   end
-  let(:venue) { instance_double(Venue, id: 58, name: "VENUE") }
-  let(:production_venue) { instance_double(Venue, name: "PRODUCTION VENUE") }
-  let(:work) { instance_double(Work, id: 123, title: "WORK") }
-  let(:production_work) { instance_double(Work, title: "PRODUCTION WORK") }
+  let(:venue) { instance_double(ProductionCredits::Venue, id: 58, name: "VENUE") }
+  let(:production_venue) { instance_double(ProductionCredits::Venue, name: "PRODUCTION VENUE") }
+  let(:work) { instance_double(ProductionCredits::Work, id: 123, title: "WORK") }
+  let(:production_work) { instance_double(ProductionCredits::Work, title: "PRODUCTION WORK") }
 
   before do
-    allow(Production).to receive(:find).with([production.id]) { [production] }
-    allow(Production).to receive(:find).with([]) { [] }
-    allow(Work).to receive(:find).with([work.id]) { [work] }
-    allow(Work).to receive(:find).with([]) { [] }
-    allow(Venue).to receive(:find).with([venue.id]) { [venue] }
-    allow(Venue).to receive(:find).with([]) { [] }
+    allow(ProductionCredits::Production).to receive(:find).with([production.id]) { [production] }
+    allow(ProductionCredits::Production).to receive(:find).with([]) { [] }
+    allow(ProductionCredits::Work).to receive(:find).with([work.id]) { [work] }
+    allow(ProductionCredits::Work).to receive(:find).with([]) { [] }
+    allow(ProductionCredits::Venue).to receive(:find).with([venue.id]) { [venue] }
+    allow(ProductionCredits::Venue).to receive(:find).with([]) { [] }
   end
 
   describe "associated production" do
