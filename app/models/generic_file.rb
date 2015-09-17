@@ -49,14 +49,14 @@ class GenericFile < ActiveFedora::Base
   end
 
   def productions
-    production_ids ? ProductionCredits::Production.find(production_ids) : []
+    production_ids ? ProductionCredits::Production.find(production_ids).compact : []
   end
 
   def venues
     if (venue_ids || []).any?
-      ProductionCredits::Venue.find(venue_ids)
+      ProductionCredits::Venue.find(venue_ids).compact
     elsif productions.any?
-      productions.map(&:venue)
+      productions.map(&:venue).compact
     else
       []
     end
@@ -64,9 +64,9 @@ class GenericFile < ActiveFedora::Base
 
   def works
     if (work_ids || []).any?
-      ProductionCredits::Work.find(work_ids)
+      ProductionCredits::Work.find(work_ids).compact
     elsif productions.any?
-      productions.map(&:work)
+      productions.map(&:work).compact
     else
       []
     end
