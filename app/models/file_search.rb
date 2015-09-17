@@ -5,6 +5,7 @@ class FileSearch
 
   def initialize(params, options = {})
     @params = params
+    @per_page = options[:per_page] || 10
     @resource_type = options[:resource_type].to_s
     @catalog_query = options[:catalog_query]
     @file_query = options[:file_query] || GenericFile
@@ -39,7 +40,7 @@ class FileSearch
   end
 
   def per_page
-    params[:per_page]
+    @per_page
   end
 
   def work_name
@@ -98,6 +99,7 @@ class FileSearch
     query[:q] = search_term if search_term
     query[:f] = filters unless filters.empty?
     query[:page] = page if page
+    query[:per_page] = per_page
     query
   end
 
