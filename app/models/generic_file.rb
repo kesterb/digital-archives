@@ -42,34 +42,8 @@ class GenericFile < ActiveFedora::Base
   private
 
   def set_calculated_fields
-    self.production_names = productions.map(&:production_name).compact
-    self.venue_names = venues.map(&:name).compact
-    self.work_names = works.map(&:title).compact
+    UpdatesProductionCredits.update(self)
     self.year_created = creation_year
-  end
-
-  def productions
-    production_ids ? ProductionCredits::Production.find(production_ids).compact : []
-  end
-
-  def venues
-    if (venue_ids || []).any?
-      ProductionCredits::Venue.find(venue_ids).compact
-    elsif productions.any?
-      productions.map(&:venue).compact
-    else
-      []
-    end
-  end
-
-  def works
-    if (work_ids || []).any?
-      ProductionCredits::Work.find(work_ids).compact
-    elsif productions.any?
-      productions.map(&:work).compact
-    else
-      []
-    end
   end
 
   def creation_year

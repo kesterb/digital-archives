@@ -15,9 +15,9 @@ describe GenericFile do
     )
   end
   let(:venue) { instance_double(ProductionCredits::Venue, id: 58, name: "VENUE") }
-  let(:production_venue) { instance_double(ProductionCredits::Venue, name: "PRODUCTION VENUE") }
+  let(:production_venue) { instance_double(ProductionCredits::Venue, id: 42, name: "PRODUCTION VENUE") }
   let(:work) { instance_double(ProductionCredits::Work, id: 123, title: "WORK") }
-  let(:production_work) { instance_double(ProductionCredits::Work, title: "PRODUCTION WORK") }
+  let(:production_work) { instance_double(ProductionCredits::Work, id: 443, title: "PRODUCTION WORK") }
 
   before do
     allow(ProductionCredits::Production).to receive(:find).with([production.id]) { [production] }
@@ -89,6 +89,10 @@ describe GenericFile do
           file.save!
         end
 
+        it "uses the productions' work's ids" do
+          expect(file.work_ids).to eq [production_work.id]
+        end
+
         it "uses the productions' work's titles" do
           expect(file.work_names).to eq [production_work.title]
         end
@@ -141,6 +145,10 @@ describe GenericFile do
         before do
           file.production_ids = [production.id]
           file.save!
+        end
+
+        it "uses the productions' venue's ids" do
+          expect(file.venue_ids).to eq [production_venue.id]
         end
 
         it "uses the productions' venue's names" do
