@@ -9,15 +9,16 @@ describe GenericFilesController do
     end
   end
   let(:production) do
-    instance_double(ProductionCredits::Production, id: 1, production_name: "The Production")
+    instance_double(ProductionCredits::Production,
+                    id: 1,
+                    production_name: "The Production",
+                    work: nil)
   end
   let(:venue) { instance_double(ProductionCredits::Venue, id: 2, name: "The Venue") }
-  let(:work) { instance_double(ProductionCredits::Work, id: 3, title: "The Work") }
   let(:attributes) do
     {
       production_ids: [production.id],
-      venue_ids: [venue.id],
-      work_ids: [work.id]
+      venue_ids: [venue.id]
     }
   end
   let(:reloaded) { generic_file.reload }
@@ -27,8 +28,6 @@ describe GenericFilesController do
       .with([production.id.to_s]) { [production] }
     allow(ProductionCredits::Production).to receive(:find).with([]) { [] }
     allow(ProductionCredits::Venue).to receive(:find).with([venue.id.to_s]) { [venue] }
-    allow(ProductionCredits::Work).to receive(:find).with([work.id.to_s]) { [work] }
-    allow(ProductionCredits::Work).to receive(:find).with([]) { [] }
     sign_in user
     post :update, id: generic_file, generic_file: attributes
   end
@@ -36,12 +35,10 @@ describe GenericFilesController do
   it "persists the ids" do
     expect(reloaded.production_ids).to eq [production.id.to_s]
     expect(reloaded.venue_ids).to eq [venue.id.to_s]
-    expect(reloaded.work_ids).to eq [work.id.to_s]
   end
 
   it "finds and persists the names" do
     expect(reloaded.production_names).to eq [production.production_name]
     expect(reloaded.venue_names).to eq [venue.name]
-    expect(reloaded.work_names).to eq [work.title]
   end
 end
