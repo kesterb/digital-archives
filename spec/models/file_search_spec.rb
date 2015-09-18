@@ -28,7 +28,7 @@ describe FileSearch do
   context "with no params" do
     let(:params) { { } }
     let(:resource_type) { :audio }
-    let(:expected_query) { { "f": { "resource_type_sim" => ["Audio"], "curated_sim" => "1" }, :per_page => 10 } }
+    let(:expected_query) { { "f": { "resource_type_sim" => ["Audio"], "curated_sim" => "1" }, per_page: 10 } }
     let(:document_ids) { [42, 58] }
     let(:documents) { document_ids.map { |id| double("SolrDocument", id: id) } }
 
@@ -44,7 +44,7 @@ describe FileSearch do
     context "with resource_type selected and no other filters" do
       let(:params) { { types: ["audios"] } }
       let(:resource_type) { :audio }
-      let(:expected_query) { { f: { "resource_type_sim" => %w[Audio], "curated_sim" => "1" }, :per_page => 10 } }
+      let(:expected_query) { { f: { "resource_type_sim" => %w[Audio] }, per_page: 10 } }
 
       it "returns curated files" do
         expect(search.result.files).to eq files
@@ -64,7 +64,7 @@ describe FileSearch do
 
     context "with a search term" do
       let(:params) { { q: "TERM" } }
-      let(:expected_query) { { q: "TERM", f: { "resource_type_sim" => %w[Audio] }, :per_page => 10 } }
+      let(:expected_query) { { q: "TERM", f: { "resource_type_sim" => %w[Audio] }, per_page: 10 } }
 
       it "returns found files" do
         expect(search.result.files).to eq files
@@ -73,7 +73,7 @@ describe FileSearch do
 
     context "with a selected work" do
       let(:params) { { work: "WORK" } }
-      let(:expected_query) { { f: { "work_names_sim" => "WORK", "resource_type_sim" => ["Audio"] }, :per_page => 10 } }
+      let(:expected_query) { { f: { "work_names_sim" => "WORK", "resource_type_sim" => ["Audio"] }, per_page: 10 } }
 
       it "returns found files" do
         expect(search.result.files).to eq files
@@ -83,7 +83,7 @@ describe FileSearch do
     describe "by venue" do
       context "with one venue selected" do
         let(:params) { { venues: %w[VENUE] } }
-        let(:expected_query) { { f: { "venue_names_sim" => %w[VENUE], "resource_type_sim" => ["Audio"] }, :per_page => 10 } }
+        let(:expected_query) { { f: { "venue_names_sim" => %w[VENUE], "resource_type_sim" => ["Audio"] }, per_page: 10 } }
 
         it "returns found files" do
           expect(search.result.files).to eq files
@@ -92,7 +92,7 @@ describe FileSearch do
 
       context "with several venues selected" do
         let(:params) { { venues: %w[VENUE1 VENUE2] } }
-        let(:expected_query) { { f: { "venue_names_sim" => %w[VENUE1 VENUE2], "resource_type_sim" => ["Audio"] }, :per_page => 10 } }
+        let(:expected_query) { { f: { "venue_names_sim" => %w[VENUE1 VENUE2], "resource_type_sim" => ["Audio"] }, per_page: 10 } }
 
         it "returns found files" do
           expect(search.result.files).to eq files
@@ -101,7 +101,7 @@ describe FileSearch do
 
       context "with other venue selected" do
         let(:params) { { venues: [described_class::OTHER_VENUE] } }
-        let(:expected_query) { { f: { "!venue_names_sim" => described_class::PRIMARY_VENUES.values, "resource_type_sim" => ["Audio"] }, :per_page => 10 } }
+        let(:expected_query) { { f: { "!venue_names_sim" => described_class::PRIMARY_VENUES.values, "resource_type_sim" => ["Audio"] }, per_page: 10 } }
 
         it "returns found files" do
           expect(search.result.files).to eq files
@@ -110,7 +110,7 @@ describe FileSearch do
 
       context "with the other venue and some primary venues selected" do
         let(:params) { { venues: described_class::PRIMARY_VENUES.keys.take(2) + [described_class::OTHER_VENUE] } }
-        let(:expected_query) { { f: { "!venue_names_sim" => described_class::PRIMARY_VENUES.values.drop(2), "resource_type_sim" => ["Audio"] }, :per_page => 10 } }
+        let(:expected_query) { { f: { "!venue_names_sim" => described_class::PRIMARY_VENUES.values.drop(2), "resource_type_sim" => ["Audio"] }, per_page: 10 } }
 
         it "returns found files" do
           expect(search.result.files).to eq files
@@ -121,7 +121,7 @@ describe FileSearch do
     describe "by year range" do
       context "with a limited range" do
         let(:params) { { years: "1968;1991" } }
-        let(:expected_query) { { f: { "year_created_isi" => 1968..1991, "resource_type_sim" => ["Audio"] }, :per_page => 10 } }
+        let(:expected_query) { { f: { "year_created_isi" => 1968..1991, "resource_type_sim" => ["Audio"] }, per_page: 10 } }
 
         it "returns found files" do
           expect(search.result.files).to eq files
@@ -130,7 +130,7 @@ describe FileSearch do
 
       context "with the full date range" do
         let(:params) { { years: "#{default_range.begin};#{default_range.end}" } }
-        let(:expected_query) { { f: { "resource_type_sim" => %w[Audio] }, :per_page => 10 } }
+        let(:expected_query) { { f: { "resource_type_sim" => %w[Audio] }, per_page: 10 } }
         let(:default_range) { described_class.all_years }
 
         it "returns found files" do

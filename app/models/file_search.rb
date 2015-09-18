@@ -1,7 +1,7 @@
 require "solrizer"
 
 class FileSearch
-  attr_reader :current_page, :total_pages, :next_page, :total_items
+  attr_reader :current_page, :total_pages, :next_page, :total_items, :per_page
 
   def initialize(params, options = {})
     @params = params
@@ -37,10 +37,6 @@ class FileSearch
 
   def page
     params[:page]
-  end
-
-  def per_page
-    @per_page
   end
 
   def work_name
@@ -104,7 +100,7 @@ class FileSearch
   end
 
   def has_query_params?
-    (params.stringify_keys.keys & %w(q work venues years)).any?
+    (params.stringify_keys.keys & %w(q work venues years types)).any?
   end
 
   def hardcoded_venues
