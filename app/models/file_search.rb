@@ -1,10 +1,11 @@
 require "solrizer"
 
 class FileSearch
-  attr_reader :current_page, :total_pages, :next_page, :total_items
+  attr_reader :current_page, :total_pages, :next_page, :total_items, :per_page
 
   def initialize(params, options = {})
     @params = params
+    @per_page = options[:per_page] || 10
     @resource_type = options[:resource_type].to_s
     @catalog_query = options[:catalog_query]
     @file_query = options[:file_query] || GenericFile
@@ -36,10 +37,6 @@ class FileSearch
 
   def page
     params[:page]
-  end
-
-  def per_page
-    params[:per_page]
   end
 
   def work_name
@@ -98,6 +95,7 @@ class FileSearch
     query[:q] = search_term if search_term
     query[:f] = filters unless filters.empty?
     query[:page] = page if page
+    query[:per_page] = per_page
     query
   end
 
