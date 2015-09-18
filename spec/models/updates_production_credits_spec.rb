@@ -5,10 +5,10 @@ describe UpdatesProductionCredits do
   let(:file) { GenericFile.new }
   let(:production) do
     instance_double(ProductionCredits::Production,
-    id: 42,
-    production_name: "PRODUCTION",
-    venue: production_venue,
-    work: production_work
+                    id: 42,
+                    production_name: "PRODUCTION",
+                    venue: production_venue,
+                    work: production_work
     )
   end
   let(:venue) { instance_double(ProductionCredits::Venue, id: 58, name: "VENUE") }
