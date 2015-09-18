@@ -28,6 +28,7 @@ describe GenericFilesController do
       .with([production.id.to_s]) { [production] }
     allow(ProductionCredits::Production).to receive(:find).with([]) { [] }
     allow(ProductionCredits::Venue).to receive(:find).with([venue.id.to_s]) { [venue] }
+    allow(ProductionCredits::Venue).to receive(:find).with([]) { [] }
     sign_in user
     post :update, id: generic_file, generic_file: attributes
   end
