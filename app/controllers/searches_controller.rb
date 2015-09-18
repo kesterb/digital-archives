@@ -34,22 +34,22 @@ class SearchesController < CatalogController
   private
 
   def get_audios
-    audios_search = FileSearch.new(params, resource_type: :audio, catalog_query: self)
+    audios_search = FileSearch.new(params, per_page: 8, resource_type: :audio, catalog_query: self)
     @audios = audios_search.result
   end
 
   def get_videos
-    videos_search = FileSearch.new(params, resource_type: :video, catalog_query: self)
+    videos_search = FileSearch.new(params, per_page: 8, resource_type: :video, catalog_query: self)
     @videos = videos_search.result
   end
 
   def get_articles
-    articles_search = FileSearch.new(params, resource_type: :article, catalog_query: self)
+    articles_search = FileSearch.new(params, per_page: 8, resource_type: :article, catalog_query: self)
     @articles = articles_search.result
   end
 
   def get_images
-    images_search = FileSearch.new(params, resource_type: :image, catalog_query: self)
+    images_search = FileSearch.new(params, per_page: 15, resource_type: :image, catalog_query: self)
     @images = images_search.result
   end
 end
