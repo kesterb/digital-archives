@@ -22,7 +22,6 @@ class UpdatesProductionCredits
   end
 
   def update_venues
-    generic_file.venue_ids = venues.map(&:id).compact.map(&:to_s)
     generic_file.venue_names = venues.map(&:name).compact
   end
 
@@ -40,8 +39,8 @@ class UpdatesProductionCredits
 
   def venues
     @venues ||= begin
-      ids = generic_file.venue_ids || []
-      (ids.any? ? ProductionCredits::Venue.find(ids) : productions.map(&:venue)).compact
+      ids = generic_file.venue_ids
+      ids ? ProductionCredits::Venue.find(ids).compact : []
     end
   end
 

@@ -7,12 +7,10 @@ describe UpdatesProductionCredits do
     instance_double(ProductionCredits::Production,
                     id: 42,
                     production_name: "PRODUCTION",
-                    venue: production_venue,
                     work: production_work
     )
   end
   let(:venue) { instance_double(ProductionCredits::Venue, id: 58, name: "VENUE") }
-  let(:production_venue) { instance_double(ProductionCredits::Venue, id: 42, name: "PRODUCTION VENUE") }
   let(:work) { instance_double(ProductionCredits::Work, id: 123, title: "WORK") }
   let(:production_work) { instance_double(ProductionCredits::Work, id: 443, title: "PRODUCTION WORK") }
 
@@ -136,32 +134,11 @@ describe UpdatesProductionCredits do
       before do
         file.venue_ids = []
         file.venue_names = ["VENUE"]
+        subject.update
       end
 
-      context "when there are productions" do
-        before do
-          file.production_ids = [production.id]
-          subject.update
-        end
-
-        it "uses the productions' venue's ids" do
-          expect(file.venue_ids).to eq [production_venue.id.to_s]
-        end
-
-        it "uses the productions' venue's names" do
-          expect(file.venue_names).to eq [production_venue.name]
-        end
-      end
-
-      context "when there aren't productions" do
-        before do
-          file.production_ids = []
-          subject.update
-        end
-
-        it "clears the venue name" do
-          expect(file.venue_names).to be_empty
-        end
+      it "clears the venue name" do
+        expect(file.venue_names).to be_empty
       end
     end
 
