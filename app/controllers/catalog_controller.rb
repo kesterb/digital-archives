@@ -194,7 +194,7 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field("description") do |field|
-      field.label = "Abstract or Summary"
+      field.label = "Description"
       field.solr_parameters = {
         :"spellcheck.dictionary" => "description"
       }
