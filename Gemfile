@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.3'
 # Use sqlite3 as the database for Active Record
@@ -35,7 +34,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'sufia', '6.2.0'
+gem 'sufia', '6.3.0'
 gem 'kaminari', github: 'jcoyne/kaminari', branch: 'sufia'
 
 gem 'production_credits', path: 'vendor/engines/production_credits'
@@ -80,4 +79,3 @@ group :production do
   gem 'mysql2', '~> 0.3.18'
   gem 'unicorn-rails'
 end
-
