@@ -24,5 +24,4 @@
 /vendor/engines/production_credits/spec/dummy/log/*.log
 /vendor/engines/production_credits/spec/dummy/tmp/
 /vendor/engines/production_credits/spec/dummy/.sass-cache
-Gemfile.lock
 gems/
