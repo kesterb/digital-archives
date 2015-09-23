@@ -8,3 +8,9 @@ en:
     upload:
       my_computer:
         sr_instructions: "Select files.  Press the Start Upload Button once all files have been selected."
+  simple_form:
+    labels:
+      generic_file:
+        description:      "Description"
+      collection:
+        description:      "Description"

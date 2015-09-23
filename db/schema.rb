@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150717205436) do
+ActiveRecord::Schema.define(version: 20150923180044) do
 
   create_table "bookmarks", force: :cascade do |t|
     t.integer  "user_id",       null: false
@@ -180,12 +180,18 @@ ActiveRecord::Schema.define(version: 20150717205436) do
     t.date    "open_on"
     t.date    "close_on"
     t.integer "work_id"
-    t.integer "venue_id"
     t.string  "venue_alias"
   end
 
-  add_index "production_credits_productions", ["venue_id"], name: "index_production_credits_productions_on_venue_id"
   add_index "production_credits_productions", ["work_id"], name: "index_production_credits_productions_on_work_id"
+
+  create_table "production_credits_productions_venues", id: false, force: :cascade do |t|
+    t.integer "production_id"
+    t.integer "venue_id"
+  end
+
+  add_index "production_credits_productions_venues", ["production_id", "venue_id"], name: "index_productions_venues"
+  add_index "production_credits_productions_venues", ["venue_id", "production_id"], name: "index_venues_productions"
 
   create_table "production_credits_venues", force: :cascade do |t|
     t.string   "name"
