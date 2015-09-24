@@ -7,29 +7,7 @@
   </div>
   <h2 class="results-section-title">Documents</h2>
   <div class="card-grid">
-    <ul>
-      <% @articles.files.each do |article| %>
-      <li class="card-container">
-        <a class="card card--has-img" target=_blank href=<%= sufia.download_path(article) %>>
-          <div class="card-figure-img">
-            <img src="<%= sufia.download_path(article, file: 'thumbnail') %>" alt="<%= article.title.first %>">
-          </div>
-          <div class="card-content">
-            <h3 class="card-content-title">
-              <%= article.title.first %>
-            </h3>
-            <h4 class="card-content-subtitle">
-              <%= article.production_names.join(", ") %>
-            </h4>
-          </div>
-        </a>
-      </li>
-      <% end %>
-    </ul>
+    <ul></ul>
   </div>
-  <div class="paging">
-    <% if @articles.show_more? %>
-    <a href="#" class="js-load-more-articles" data-page="<%= @articles.next_page %>">Load More</a>
-    <% end %>
-  </div>
+  <div class="paging"></div>
 </section>
