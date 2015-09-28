@@ -24,6 +24,12 @@ class GenericFile < ActiveFedora::Base
     index.as :stored_searchable, :facetable
   end
 
+  property :event_type_id, multiple: false
+
+  property :event_type_name, multiple: false do |index|
+    index.as :stored_searchable, :facetable
+  end
+
   property :curated, multiple: false do |index|
     index.as :stored_searchable, :facetable
   end

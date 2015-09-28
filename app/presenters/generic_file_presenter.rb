@@ -15,11 +15,12 @@ class GenericFilePresenter < Sufia::GenericFilePresenter
     :related_url,
     :production_ids,
     :venue_ids,
+    :event_type_id,
     :curated
   ]
 
   # Names are not displayed directly so don't include them in `terms'.
-  delegate :production_names, :venue_names, to: :model
+  delegate :production_names, :venue_names, :event_type_name, to: :model
 
   delegate :public?, :discoverable?, :restricted?, :private?, to: :model
 end

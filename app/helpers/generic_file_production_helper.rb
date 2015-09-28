@@ -14,10 +14,15 @@ module GenericFileProductionHelper
     venues.collect{|v| {"#{v.name}" => v.id}}.reduce({}, :update)
   end
 
+  def event_types_for_select
+    types = ProductionCredits::EventType.order(:name)
+    types.collect { |type| { type.name => type.id } }.reduce({}, :update)
+  end
+
   def formatted_creation_date(file)
     date = file.date_created.first
     return "" unless date
-    
+
     date.to_date.to_s(:mdy)
   end
 end

@@ -3,14 +3,6 @@ class BatchEditsController < ApplicationController
   include GenericFileHelper
   include Sufia::BatchEditsControllerBehavior
 
-  def self.edit_form_class
-    BatchEditForm
-  end
-
-  def terms
-    self.class.edit_form_class.terms
-  end
-
   # This is an override of sufia/app/controllers/concerns/sufia/batch_edits_controller_behavior.rb.
   # See below for changes.
   def edit
@@ -46,8 +38,25 @@ class BatchEditsController < ApplicationController
     @generic_file.permissions_attributes = [{ type: "group", name: "public", access: "read" }]
   end
 
+  private
+
+  # Override to keep singular properties singular
+  def initialize_fields(attributes, file)
+    terms.each do |key|
+      file[key] = attributes[key]
+    end
+  end
+
+  def terms
+    self.class.edit_form_class.terms
+  end
+
   def generic_file_params
     file_params = params[:generic_file] || ActionController::Parameters.new
     self.class.edit_form_class.model_attributes(file_params)
+  end
+
+  def self.edit_form_class
+    BatchEditForm
   end
 end
