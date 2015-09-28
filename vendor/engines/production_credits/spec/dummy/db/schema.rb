@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150928185120) do
+ActiveRecord::Schema.define(version: 20150928212441) do
 
   create_table "production_credits_event_types", force: :cascade do |t|
     t.string   "name"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20150928185120) do
     t.date    "open_on"
     t.date    "close_on"
     t.integer "work_id"
+    t.integer "legacy_id"
   end
 
   add_index "production_credits_productions", ["work_id"], name: "index_production_credits_productions_on_work_id"
@@ -42,6 +43,7 @@ ActiveRecord::Schema.define(version: 20150928185120) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "canonical_venue_id"
+    t.integer  "legacy_id"
   end
 
   add_index "production_credits_venues", ["canonical_venue_id"], name: "index_production_credits_venues_on_canonical_venue_id"
