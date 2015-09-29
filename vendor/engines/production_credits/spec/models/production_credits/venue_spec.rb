@@ -22,5 +22,23 @@ module ProductionCredits
         end
       end
     end
+
+    describe "all names" do
+      context "with a canonical venue" do
+        let(:venue) { canonical_venue }
+
+        it "includes only its own name" do
+          expect(venue.all_names).to eq [venue.name]
+        end
+      end
+
+      context "with an alias" do
+        let(:venue) { alias_venue }
+
+        it "includes its own name and its canonical name" do
+          expect(venue.all_names).to include(venue.name, canonical_venue.name)
+        end
+      end
+    end
   end
 end

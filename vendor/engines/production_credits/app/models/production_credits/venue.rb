@@ -6,7 +6,15 @@ module ProductionCredits
     has_and_belongs_to_many :productions
 
     def full_name
-      canonical_venue ? "#{name} (#{canonical_venue.name})" : name
+      canonical_name ? "#{name} (#{canonical_name})" : name
+    end
+
+    def all_names
+      [name, canonical_name].compact
+    end
+
+    def canonical_name
+      canonical_venue.try(:name)
     end
   end
 end
