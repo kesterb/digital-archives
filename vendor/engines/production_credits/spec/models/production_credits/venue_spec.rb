@@ -2,8 +2,59 @@ require 'spec_helper'
 
 module ProductionCredits
   RSpec.describe Venue, :type => :model do
-    let(:canonical_venue) { Venue.create(name: "Canonical") }
-    let(:alias_venue) { Venue.create(name: "Alias", canonical_venue: canonical_venue) }
+    let!(:canonical_venue) { Venue.create!(name: "Canonical") }
+    let!(:alias_venue) { Venue.create!(name: "Alias", canonical_venue: canonical_venue) }
+
+    describe "alias validation" do
+      context "with a canonical venue" do
+        let(:venue) { canonical_venue }
+        let!(:new_alias) { Venue.create!(name: "New Alias") }
+
+        before do
+          new_alias.canonical_venue = venue
+        end
+
+        it "is valid" do
+          expect(new_alias).to be_valid
+        end
+      end
+
+      context "with an alias" do
+        let(:venue) { alias_venue }
+        let(:new_alias) { Venue.create!(name: "New Alias") }
+
+        before do
+          new_alias.canonical_venue = venue
+        end
+
+        it "is not valid" do
+          expect(new_alias).not_to be_valid
+        end
+      end
+
+      context "with a venue that has aliases" do
+        let(:venue) { canonical_venue }
+        let(:new_canonical_venue) { Venue.create!(name: "New Canonical") }
+
+        before do
+          venue.canonical_venue = new_canonical_venue
+        end
+
+        it "is not valid" do
+          expect(venue).not_to be_valid
+        end
+      end
+    end
+
+    describe "deleting a canonical venue" do
+      before do
+        canonical_venue.destroy!
+      end
+
+      it "makes any aliases into canonical venues" do
+        expect(alias_venue.reload).to be_canonical
+      end
+    end
 
     describe "full name" do
       context "with a canonical venue" do
