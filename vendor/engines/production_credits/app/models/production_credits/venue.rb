@@ -1,10 +1,14 @@
 module ProductionCredits
   class Venue < ActiveRecord::Base
+    include VenueAdmin
+
+    scope :canonical, -> { where(canonical_venue_id: nil) }
+
     validates_presence_of :name
     validate :canonical_venue_cannot_be_an_alias,
              :alias_cannot_have_aliases
 
-    belongs_to :canonical_venue, class_name: Venue
+    belongs_to :canonical_venue, class_name: Venue, inverse_of: :aliases
     has_many :aliases,
              class_name: Venue,
              dependent: :nullify,
