@@ -11,7 +11,7 @@ module GenericFileProductionHelper
 
   def venues_for_select
     venues = ProductionCredits::Venue.order(:name)
-    venues.map { |v| { v.name => v.id } }.reduce({}, :update)
+    venues.map { |v| { v.full_name => v.id } }.reduce({}, :update)
   end
 
   def event_types_for_select
