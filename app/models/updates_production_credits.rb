@@ -23,7 +23,7 @@ class UpdatesProductionCredits
   end
 
   def update_venues
-    generic_file.venue_names = venues.map(&:name).compact
+    generic_file.venue_names = venues.flat_map(&:all_names).compact
   end
 
   def update_works

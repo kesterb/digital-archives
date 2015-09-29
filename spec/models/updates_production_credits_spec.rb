@@ -10,7 +10,7 @@ describe UpdatesProductionCredits do
                     work: production_work
     )
   end
-  let(:venue) { instance_double(ProductionCredits::Venue, id: 58, name: "VENUE") }
+  let(:venue) { instance_double(ProductionCredits::Venue, id: 58, all_names: %w[ALIAS VENUE]) }
   let(:work) { instance_double(ProductionCredits::Work, id: 123, title: "WORK") }
   let(:production_work) { instance_double(ProductionCredits::Work, id: 443, title: "PRODUCTION WORK") }
   let(:event_type) { instance_double(ProductionCredits::EventType, id: 254, name: "EVENT") }
@@ -128,7 +128,7 @@ describe UpdatesProductionCredits do
       end
 
       it "sets the venue names" do
-        expect(file.venue_names).to eq [venue.name]
+        expect(file.venue_names).to eq venue.all_names
       end
     end
 
