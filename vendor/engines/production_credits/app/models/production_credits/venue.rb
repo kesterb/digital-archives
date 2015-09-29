@@ -41,8 +41,8 @@ module ProductionCredits
     end
 
     def alias_cannot_have_aliases
-      if aliases.any?
-        errors.add(:base, "A venue with aliases if its own cannot be an alias")
+      if alias? && aliases.any?
+        errors.add(:base, "A venue with aliases of its own cannot be an alias")
       end
     end
   end

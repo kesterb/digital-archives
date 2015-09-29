@@ -6,7 +6,7 @@ module ProductionCredits
     let!(:alias_venue) { Venue.create!(name: "Alias", canonical_venue: canonical_venue) }
 
     describe "alias validation" do
-      context "with a canonical venue" do
+      context "when adding an alias to a canonical venue" do
         let(:venue) { canonical_venue }
         let!(:new_alias) { Venue.create!(name: "New Alias") }
 
@@ -14,12 +14,16 @@ module ProductionCredits
           new_alias.canonical_venue = venue
         end
 
-        it "is valid" do
+        specify "the alias is valid" do
           expect(new_alias).to be_valid
+        end
+
+        specify "the canonical venue is valid" do
+          expect(venue).to be_valid
         end
       end
 
-      context "with an alias" do
+      context "when adding an alias to an alias" do
         let(:venue) { alias_venue }
         let(:new_alias) { Venue.create!(name: "New Alias") }
 
@@ -32,7 +36,7 @@ module ProductionCredits
         end
       end
 
-      context "with a venue that has aliases" do
+      context "when adding a venue with aliases as an alias" do
         let(:venue) { canonical_venue }
         let(:new_canonical_venue) { Venue.create!(name: "New Canonical") }
 
