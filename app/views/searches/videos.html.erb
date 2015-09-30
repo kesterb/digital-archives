@@ -3,7 +3,7 @@
     <% @videos.files.each do |video| %>
       <li class="js-video-container card-container">
         <a class="js-video card card--has-img card--overlay-content" data-webm=<%= sufia.download_path(video, datastream_id: 'webm') %> data-mp4=<%= sufia.download_path(video, datastream_id: 'mp4') %> data-title=<%= video.title.first %>
-           data-description=<%= video.description %> data-description=<%= video.venue_names %>>
+           data-description=<%= video.description %> data-description=<%= video.venue_full_names %>>
            <div class="card-figure-img">
               <div class="card-figure-img-wrapper">
                 <img src="<%= sufia.download_path(video, file: 'thumbnail') %>" alt="<%= video.title.first %>" />
@@ -14,7 +14,7 @@
               <%= video.title.first %>
             </h3>
             <h4 class="card__content_subtitle">
-              <%= video.venue_names %>
+              <%= video.venue_full_names %>
             </h4>
             <p class="card__content__date">
               <%= formatted_creation_date(video) %>

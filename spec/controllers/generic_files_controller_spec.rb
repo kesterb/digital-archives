@@ -14,7 +14,7 @@ describe GenericFilesController do
                     production_name: "The Production",
                     work: nil)
   end
-  let(:venue) { instance_double(ProductionCredits::Venue, id: 2, all_names: ["The Venue"]) }
+  let(:venue) { instance_double(ProductionCredits::Venue, id: 2, full_name: "The Venue", all_names: ["The Venue"]) }
   let(:event_type) { instance_double(ProductionCredits::EventType, id: 3, name: "The Event") }
   let(:attributes) do
     {
@@ -45,6 +45,7 @@ describe GenericFilesController do
   it "finds and persists the names" do
     expect(reloaded.production_names).to eq [production.production_name]
     expect(reloaded.venue_names).to eq venue.all_names
+    expect(reloaded.venue_full_names).to eq [venue.full_name]
     expect(reloaded.event_type_name).to eq event_type.name
   end
 end

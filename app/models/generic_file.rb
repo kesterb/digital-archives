@@ -18,6 +18,8 @@ class GenericFile < ActiveFedora::Base
     index.as :stored_searchable, :facetable
   end
 
+  property :venue_full_names, multiple: true
+
   property :work_ids, multiple: true
 
   property :work_names, multiple: true do |index|
