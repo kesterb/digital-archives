@@ -34,7 +34,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'sufia', '6.3.0'
+gem 'sufia', github: 'OregonShakespeareFestival/sufia', branch: 'osf_integration'
 gem 'kaminari', github: 'jcoyne/kaminari', branch: 'sufia'
 
 gem 'production_credits', path: 'vendor/engines/production_credits'
