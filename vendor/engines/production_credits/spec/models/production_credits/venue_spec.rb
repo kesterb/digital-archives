@@ -48,6 +48,18 @@ module ProductionCredits
           expect(venue).not_to be_valid
         end
       end
+
+      context "adding a venue as an alias of itself" do
+        let(:venue) { Venue.create!(name: "Self Alias") }
+
+        before do
+          venue.canonical_venue = venue
+        end
+
+        it "is not valid" do
+            expect(venue).not_to be_valid
+        end
+      end
     end
 
     describe "deleting a canonical venue" do
