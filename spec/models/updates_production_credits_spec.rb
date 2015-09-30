@@ -10,7 +10,7 @@ describe UpdatesProductionCredits do
                     work: production_work
     )
   end
-  let(:venue) { instance_double(ProductionCredits::Venue, id: 58, all_names: %w[ALIAS VENUE]) }
+  let(:venue) { instance_double(ProductionCredits::Venue, id: 58, full_name: "ALIAS (VENUE)", all_names: %w[ALIAS VENUE]) }
   let(:work) { instance_double(ProductionCredits::Work, id: 123, title: "WORK") }
   let(:production_work) { instance_double(ProductionCredits::Work, id: 443, title: "PRODUCTION WORK") }
   let(:event_type) { instance_double(ProductionCredits::EventType, id: 254, name: "EVENT") }
@@ -130,6 +130,10 @@ describe UpdatesProductionCredits do
       it "sets the venue names" do
         expect(file.venue_names).to eq venue.all_names
       end
+
+      it "sets the venue full names" do
+        expect(file.venue_full_names).to eq [venue.full_name]
+      end
     end
 
     context "when there aren't venue_ids" do
@@ -139,8 +143,12 @@ describe UpdatesProductionCredits do
         subject.update
       end
 
-      it "clears the venue name" do
+      it "clears the venue names" do
         expect(file.venue_names).to be_empty
+      end
+
+      it "clears the venue full names" do
+        expect(file.venue_full_names).to be_empty
       end
     end
 
@@ -153,6 +161,10 @@ describe UpdatesProductionCredits do
 
       it "clears the venue names" do
         expect(file.venue_names).to be_empty
+      end
+
+      it "clears the venue full names" do
+        expect(file.venue_full_names).to be_empty
       end
     end
   end

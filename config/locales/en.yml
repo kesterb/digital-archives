@@ -21,3 +21,7 @@
 
 en:
   hello: "Hello world"
+  digital_archives:
+    visibility:
+      discoverable: "Discoverable"
+      discoverable_title_attr: "Discoverable"
