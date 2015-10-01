@@ -76,6 +76,10 @@ group :development, :test do
   gem "factory_girl_rails"
 end
 
+group :test do
+  gem "test_after_commit", "~> 0.4.1"
+end
+
 group :production do
   gem 'mysql2', '~> 0.3.18'
   gem 'unicorn-rails'
