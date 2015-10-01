@@ -731,6 +731,7 @@ DEPENDENCIES
   rails (= 4.2.3)
   rails-assets-image-picker (~> 0.2.4)!
   rails-assets-ionrangeslider (~> 2.0.2)!
+  rails-observers (~> 0.1.2)
   rails_admin!
   rsolr (~> 1.0.6)
   rspec-rails

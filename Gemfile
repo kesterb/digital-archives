@@ -39,6 +39,7 @@ gem 'kaminari', github: 'jcoyne/kaminari', branch: 'sufia'
 
 gem 'production_credits', path: 'vendor/engines/production_credits'
 gem 'rails_admin', github: 'codingzeal/rails_admin', branch: 'sufia-6.2.0'
+gem "rails-observers", "~> 0.1.2"
 
 gem 'rsolr', '~> 1.0.6'
 gem 'devise'
