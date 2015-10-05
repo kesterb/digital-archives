@@ -33,6 +33,6 @@ class SolrDocument
   end
 
   def discover_groups
-    Array(self[Hydra.config.permissions.discover.group])
+    Array(self[::Ability.discover_group_field])
   end
 end
