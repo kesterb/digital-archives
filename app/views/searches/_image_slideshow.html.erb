@@ -1,0 +1,12 @@
+<li>
+  <figure>
+    <img class="slideshow-img" src="<%= sufia.download_path(image) %>" alt="<%= image.title.first %>" />
+    <figcaption>
+      <h3><%= image.title.first %></h3>
+      <p><%= image.production_names.join(',') %></p>
+      <p><%= image.venue_full_names.join(',') %></p>
+      <p><%= image.description.first %></p>
+      <p><%= formatted_creation_date(image) %></p>
+    </figcaption>
+  </figure>
+</li>
