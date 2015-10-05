@@ -7,19 +7,7 @@
   </div>
   <h2 class="results-section-title">Audio</h2>
   <div class="audios-grid">
-    <ul>
-      <% @audios.files.each do |audio| %>
-      <li>
-        <audio controls preload="none">
-          <source src="<%= sufia.download_path(audio) %>" />
-        </audio>
-      </li>
-      <% end %>
-    </ul>
+    <ul></ul>
   </div>
-  <div class="paging">
-    <% if @audios.show_more? %>
-    <a href="#" class="js-load-more-audios" data-page="<%= @audios.next_page %>">Load More</a>
-    <% end %>
-  </div>
+  <div class="paging"></div>
 </section>

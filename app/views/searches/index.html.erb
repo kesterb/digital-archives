@@ -51,17 +51,10 @@ $(function(){
     }
   });
 
-  // Init the image gallery
-  initImageGallery();
-
-  // Init the video viewer
-  VideoGrid.init();
-
-  // bind load more buttons
-  initLoadMoreAudios();
-  initLoadMoreVideos();
-  initLoadMoreArticles();
-  initLoadMoreImages();
+  fetchImages(1);
+  fetchVideos(1);
+  fetchAudios(1);
+  fetchArticles(1);
 });
 
 function initLoadMoreArticles() {

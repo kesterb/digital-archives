@@ -9,50 +9,11 @@
 
   <div id="grid-gallery" class="grid-gallery">
     <section class="grid-wrap">
-      <ul class="grid card-grid">
-        <li class="grid-sizer" />
-        <% @images.files.each do |image| %>
-          <li class="card-container">
-            <a class="card card--has-image card--overlay-content">
-              <figure class="card__figure">
-                <img class="card__figure__image" src="<%= sufia.download_path(image, file: 'thumbnail') %>" alt="<%= image.title.first %>" />
-              </figure>
-              <div class="card__content">
-                <h1 class="card__content__title">
-                  <%= image.title.first %>
-                </h1>
-                <p class="card__content__date">
-                  <%= formatted_creation_date(image) %>
-                </p>
-              </div>
-            </a>
-          </li>
-        <% end %>
-      </li>
-      </ul>
+      <ul class="grid card-grid"></ul>
     </section>
-    <div class="paging">
-      <% if @images.show_more? %>
-        <a href="#" class="js-load-more-images" data-page="<%= @images.next_page %>">Load More</a>
-      <% end %>
-    </div>
+    <div class="paging"></div>
     <section class="slideshow">
-      <ul>
-        <% @images.files.each do |image| %>
-          <li>
-            <figure>
-              <img class="slideshow-img" src="<%= sufia.download_path(image) %>" alt="<%= image.title.first %>" />
-              <figcaption>
-                <h3><%= image.title.first %></h3>
-                <p><%= image.production_names.join(", ") %></p>
-                <p><%= image.venue_full_names.join(", ") %></p>
-                <p><%= image.description.first %></p>
-                <p><%= formatted_creation_date(image) %></p>
-              </figcaption>
-            </figure>
-          </li>
-        <% end %>
-      </ul>
+      <ul></ul>
       <nav>
         <span class="icon nav-prev"></span>
         <span class="icon nav-next"></span>
