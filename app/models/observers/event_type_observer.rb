@@ -4,8 +4,8 @@ module Observers
 
     private
 
-    def attribute_to_watch
-      :name
+    def attributes_to_watch
+      %i[name]
     end
 
     def new_update_job(event_type)

@@ -14,15 +14,15 @@ module Observers
     end
 
     def has_relevant_changes?(record)
-      record.previous_changes.key?(attribute_to_watch)
+      attributes_to_watch.any? { |attribute| record.previous_changes.key?(attribute) }
     end
 
     def new_update_job(record)
       fail NotImplementedError, "Subclasses must implement :new_update_job"
     end
 
-    def attribute_to_watch
-      fail NotImplementedError, "Subclasses must implement :attribute_to_watch"
+    def attributes_to_watch
+      fail NotImplementedError, "Subclasses must implement :attributes_to_watch"
     end
   end
 end

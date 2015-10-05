@@ -4,8 +4,8 @@ module Observers
 
     private
 
-    def attribute_to_watch
-      :name
+    def attributes_to_watch
+      %i[name canonical_venue_id]
     end
 
     def new_update_job(venue)

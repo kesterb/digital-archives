@@ -4,8 +4,8 @@ module Observers
 
     private
 
-    def attribute_to_watch
-      :title
+    def attributes_to_watch
+      %i[title]
     end
 
     def new_update_job(work)
