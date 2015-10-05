@@ -1,8 +1,15 @@
 module Observers
-  class ProductionObserver < ActiveRecord::Observer
+  class ProductionObserver < ProductionCreditsObserver
     observe ProductionCredits::Production
 
-    def after_commit(production)
+    private
+
+    def attribute_to_watch
+      :production_name
+    end
+
+    def new_update_job(production)
+      UpdateGenericFileForProductionJob.new(production)
     end
   end
 end
