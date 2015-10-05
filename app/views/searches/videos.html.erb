@@ -1,7 +1,7 @@
 <div data-page="<%= @videos.next_page %>" data-more="<%= @videos.show_more? %>">
   <div id="videos">
     <% @videos.files.each do |video| %>
-      <%= render partial: "video", object: video %>
+      <%= render partial: "video", locals: { video: video } %>
     <% end %>
   </div>
 

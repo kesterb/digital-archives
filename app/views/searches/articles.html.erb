@@ -4,7 +4,7 @@
       <% if unreadable?(article) %>
         <%= render partial: "article_unreadable", locals: { article: article } %>
       <% else %>
-        <%= render partial: "article", object: article %>
+        <%= render partial: "article", locals: { article: article } %>
       <% end %>
     <% end %>
   </div>

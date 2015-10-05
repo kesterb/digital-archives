@@ -4,7 +4,7 @@
       <% if unreadable?(audio) %>
         <%= render partial: "audio_unreadable", locals: { audio: audio } %>
       <% else %>
-        <%= render partial: "audio", object: audio %>
+        <%= render partial: "audio", locals: { audio: audio } %>
       <% end %>
     <% end %>
   </div>
