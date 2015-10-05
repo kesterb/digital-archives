@@ -1,22 +1,15 @@
 module Observers
-  class WorkObserver < ActiveRecord::Observer
+  class WorkObserver < ProductionCreditsObserver
     observe ProductionCredits::Work
-
-    def after_commit(work)
-      return if new_record?(work)
-      return unless has_relevant_changes?(work)
-
-      Sufia.queue.push(UpdateGenericFileForWorkJob.new(work))
-    end
 
     private
 
-    def new_record?(work)
-      work.previous_changes.key?(:id)
+    def new_update_job(work)
+      UpdateGenericFileForWorkJob.new(work)
     end
 
-    def has_relevant_changes?(work)
-      work.previous_changes.key?(:title)
+    def attribute_to_watch
+      :title
     end
   end
 end

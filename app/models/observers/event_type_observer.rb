@@ -1,22 +1,15 @@
 module Observers
-  class EventTypeObserver < ActiveRecord::Observer
+  class EventTypeObserver < ProductionCreditsObserver
     observe ProductionCredits::EventType
-
-    def after_commit(event_type)
-      return if new_record?(event_type)
-      return unless has_relevant_changes?(event_type)
-
-      Sufia.queue.push(UpdateGenericFileForEventTypeJob.new(event_type))
-    end
 
     private
 
-    def new_record?(event_type)
-      event_type.previous_changes.key?(:id)
+    def new_update_job(event_type)
+      UpdateGenericFileForEventTypeJob.new(event_type)
     end
 
-    def has_relevant_changes?(event_type)
-      event_type.previous_changes.key?(:name)
+    def attribute_to_watch
+      :name
     end
   end
 end
