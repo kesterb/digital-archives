@@ -10,9 +10,10 @@ describe UpdatesProductionCredits do
                     work: production_work
     )
   end
-  let(:venue) { instance_double(ProductionCredits::Venue, id: 58, name: "VENUE") }
+  let(:venue) { instance_double(ProductionCredits::Venue, id: 58, full_name: "ALIAS (VENUE)", all_names: %w[ALIAS VENUE]) }
   let(:work) { instance_double(ProductionCredits::Work, id: 123, title: "WORK") }
   let(:production_work) { instance_double(ProductionCredits::Work, id: 443, title: "PRODUCTION WORK") }
+  let(:event_type) { instance_double(ProductionCredits::EventType, id: 254, name: "EVENT") }
 
   before do
     allow(ProductionCredits::Production).to receive(:find).with([production.id]) { [production] }
@@ -21,6 +22,7 @@ describe UpdatesProductionCredits do
     allow(ProductionCredits::Work).to receive(:find).with([]) { [] }
     allow(ProductionCredits::Venue).to receive(:find).with([venue.id]) { [venue] }
     allow(ProductionCredits::Venue).to receive(:find).with([]) { [] }
+    allow(ProductionCredits::EventType).to receive(:find).with(event_type.id) { event_type }
   end
 
   describe "associated production" do
@@ -126,7 +128,11 @@ describe UpdatesProductionCredits do
       end
 
       it "sets the venue names" do
-        expect(file.venue_names).to eq [venue.name]
+        expect(file.venue_names).to eq venue.all_names
+      end
+
+      it "sets the venue full names" do
+        expect(file.venue_full_names).to eq [venue.full_name]
       end
     end
 
@@ -137,8 +143,12 @@ describe UpdatesProductionCredits do
         subject.update
       end
 
-      it "clears the venue name" do
+      it "clears the venue names" do
         expect(file.venue_names).to be_empty
+      end
+
+      it "clears the venue full names" do
+        expect(file.venue_full_names).to be_empty
       end
     end
 
@@ -151,6 +161,47 @@ describe UpdatesProductionCredits do
 
       it "clears the venue names" do
         expect(file.venue_names).to be_empty
+      end
+
+      it "clears the venue full names" do
+        expect(file.venue_full_names).to be_empty
+      end
+    end
+  end
+
+  describe "associated event type" do
+    context "when there is an event type id" do
+      before do
+        file.event_type_id = event_type.id
+        subject.update
+      end
+
+      it "sets the event type name" do
+        expect(file.event_type_name).to eq event_type.name
+      end
+    end
+
+    context "when there isn't an event type id" do
+      before do
+        file.event_type_id = ""
+        file.event_type_name = "EVENT"
+        subject.update
+      end
+
+      it "clears the event type name" do
+        expect(file.event_type_name).to be_nil
+      end
+    end
+
+    context "when event type id is nil" do
+      before do
+        file.event_type_id = nil
+        file.event_type_name = "EVENT"
+        subject.update
+      end
+
+      it "clears the event type name" do
+        expect(file.event_type_name).to be_nil
       end
     end
   end

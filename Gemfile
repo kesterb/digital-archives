@@ -34,11 +34,17 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'sufia', '6.3.0'
+gem 'sufia', github: 'OregonShakespeareFestival/sufia', branch: 'osf_integration'
 gem 'kaminari', github: 'jcoyne/kaminari', branch: 'sufia'
+
+# Use our branch of hydra-access-controls.  This can go away once our PR is
+# merged and we upgrade to the version containing our PR.
+# See https://github.com/projecthydra/hydra-head/pull/287
+gem "hydra-access-controls", github: "OregonShakespeareFestival/hydra-head", branch: "osf_integration"
 
 gem 'production_credits', path: 'vendor/engines/production_credits'
 gem 'rails_admin', github: 'codingzeal/rails_admin', branch: 'sufia-6.2.0'
+gem "rails-observers", "~> 0.1.2"
 
 gem 'rsolr', '~> 1.0.6'
 gem 'devise'
@@ -73,6 +79,10 @@ group :development, :test do
   gem 'jettywrapper'
   gem "capybara"
   gem "factory_girl_rails"
+end
+
+group :test do
+  gem "test_after_commit", "~> 0.4.1"
 end
 
 group :production do

@@ -6,21 +6,37 @@ class GenericFile < ActiveFedora::Base
     super(name, predicate: predicate, multiple: multiple, &block)
   end
 
-  property :production_ids, multiple: true
+  property :production_ids, multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
 
   property :production_names, multiple: true do |index|
     index.as :stored_searchable, :facetable
   end
 
-  property :venue_ids, multiple: true
+  property :venue_ids, multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
 
   property :venue_names, multiple: true do |index|
     index.as :stored_searchable, :facetable
   end
 
-  property :work_ids, multiple: true
+  property :venue_full_names, multiple: true
+
+  property :work_ids, multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
 
   property :work_names, multiple: true do |index|
+    index.as :stored_searchable, :facetable
+  end
+
+  property :event_type_id, multiple: false do |index|
+    index.as :stored_searchable, :facetable
+  end
+
+  property :event_type_name, multiple: false do |index|
     index.as :stored_searchable, :facetable
   end
 

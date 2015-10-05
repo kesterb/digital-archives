@@ -8,11 +8,15 @@ Bundler.require(*Rails.groups)
 
 module DigitalArchives
   class Application < Rails::Application
-    
     config.generators do |g|
       g.test_framework :rspec, :spec => true
     end
 
+    config.active_record.observers =
+      "observers/event_type_observer",
+      "observers/venue_observer",
+      "observers/work_observer",
+      "observers/production_observer"
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

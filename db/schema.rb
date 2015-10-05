@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150923180044) do
+ActiveRecord::Schema.define(version: 20150928212441) do
 
   create_table "bookmarks", force: :cascade do |t|
     t.integer  "user_id",       null: false
@@ -174,13 +174,19 @@ ActiveRecord::Schema.define(version: 20150923180044) do
   add_index "mailboxer_receipts", ["notification_id"], name: "index_mailboxer_receipts_on_notification_id"
   add_index "mailboxer_receipts", ["receiver_id", "receiver_type"], name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type"
 
+  create_table "production_credits_event_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "production_credits_productions", force: :cascade do |t|
     t.string  "production_name"
     t.string  "category"
     t.date    "open_on"
     t.date    "close_on"
     t.integer "work_id"
-    t.string  "venue_alias"
+    t.integer "legacy_id"
   end
 
   add_index "production_credits_productions", ["work_id"], name: "index_production_credits_productions_on_work_id"
@@ -197,7 +203,11 @@ ActiveRecord::Schema.define(version: 20150923180044) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "canonical_venue_id"
+    t.integer  "legacy_id"
   end
+
+  add_index "production_credits_venues", ["canonical_venue_id"], name: "index_production_credits_venues_on_canonical_venue_id"
 
   create_table "production_credits_works", force: :cascade do |t|
     t.string   "title"

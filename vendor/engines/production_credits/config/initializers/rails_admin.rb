@@ -15,7 +15,17 @@ RailsAdmin.config do |config|
   # config.audit_with :paper_trail, 'User', 'PaperTrail::Version' # PaperTrail >= 3.0.0
 
   ### More at https://github.com/sferik/rails_admin/wiki/Base-configuration
-  config.included_models = ['ProductionCredits::Work', 'ProductionCredits::Credit', 'ProductionCredits::Name', 'ProductionCredits::Performance', 'ProductionCredits::Person', 'ProductionCredits::Production', 'ProductionCredits::Role', 'ProductionCredits::Venue']
+  config.included_models = %w[
+    ProductionCredits::Work
+    ProductionCredits::Credit
+    ProductionCredits::Name
+    ProductionCredits::Performance
+    ProductionCredits::Person
+    ProductionCredits::Production
+    ProductionCredits::Role
+    ProductionCredits::Venue
+    ProductionCredits::EventType
+  ]
 
   config.actions do
     dashboard                     # mandatory
