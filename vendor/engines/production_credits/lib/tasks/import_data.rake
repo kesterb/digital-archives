@@ -27,9 +27,8 @@ namespace :production_credits do
       venues = {}
       venues_csv.each do |row|
         unless row.empty?
-          create_venue(row['Location ID'], row['Location'])
-          # append venue object to array of venues
-          venues.merge!(Hash[row['Location ID'], ProductionCredits::Venue.find_by( id: row['Location ID'])])
+          venue = create_venue(row['Location ID'], row['Location'])
+          venues[venue.legacy_id] = venue
         end
       end
 
@@ -39,8 +38,7 @@ namespace :production_credits do
     end
 
     def create_venue(venue_id, venue_name)
-      sql_str = "insert into production_credits_venues (id, name, created_at, updated_at) values (#{venue_id}, \"#{venue_name}\", \"#{@timestamp}\", \"#{@timestamp}\")"
-      ProductionCredits::Venue.connection.execute(sql_str)
+      ProductionCredits::Venue.create!(name: venue_name, legacy_id: venue_id)
     end
 
     def process_works(productions_csv)
@@ -49,7 +47,7 @@ namespace :production_credits do
       uniq_works = get_productions(productions_csv, true)
       uniq_works.each do |work|
         work = create_work(work)
-        works.merge!(Hash[work.attributes['id'] => work])
+        works[work.id] = work
       end
 
       #works = Hash[ ProductionCredits::Work.all.map { |work| [work.attributes['id'] => work ] } ]
@@ -266,29 +264,30 @@ namespace :production_credits do
     def process_productions(production_csv, uniq_assign, works, venues, years)
       all_prods = get_productions(production_csv, false)
       prods = []
-      uniq_assign.each do |assign|
-        unless assign.empty?
-          if venues[assign[:location_id].to_s].nil?
+      uniq_assign
+        .reject(&:empty?)
+        .group_by{ |assign| [assign[:year_id], assign[:production_id]] }
+        .each do |((year_id,production_id), assigns)|
+          work = ProductionCredits::Work.find_by_title(all_prods[production_id])
+          my_venues = assigns.map{|assign| venues[assign[:location_id].to_i]}
+          open_close_hash = years[year_id]
+          if my_venues.any?(&:nil?)
             #TODO: log to file
-            puts "skipping record with nil venue => location_id: #{assign[:location_id]} production_id: #{assign[:production_id]} year_id: #{assign[:year_id]}"
+            puts "skipping record with missing venue, #{assigns}"
           #elsif works[assign[:production_id].to_i].nil?
-          elsif ProductionCredits::Work.find_by_title(all_prods[assign[:production_id]]).nil?
+          elsif work.nil?
             #TODO: log to file
-            puts "skipping record with nil works => location_id: #{assign[:location_id]} production_id: #{assign[:production_id]} year_id: #{assign[:year_id]}"
-          elsif years[assign[:year_id]].nil?
+            puts "skipping record with missing work, #{assigns}"
+          elsif open_close_hash.nil?
             #TODO: log to file
-            puts "skipping record with nil year_id => location_id: #{assign[:location_id]} production_id: #{assign[:production_id]} year_id: #{assign[:year_id]}"
+            puts "skipping record with missing year, #{assigns}"
           else
-            work = ProductionCredits::Work.find_by_title(all_prods[assign[:production_id]])
-            venue = venues[assign[:location_id].to_s]
-            open_close_hash = years[assign[:year_id]]
             category = pick_category(work.title)
 
             # id, name, category, open_on, close_on, work_id, venue_id
-            prod = create_production(assign[:assignment_id], work.title, category, open_close_hash['open_on'], open_close_hash['close_on'], work.attributes['id'], venue.attributes['id'])
+            prod = create_production(assigns.first[:assignment_id], work.title, category, open_close_hash['open_on'], open_close_hash['close_on'], work, my_venues )
             prods << prod
           end
-        end
       end
       prods
     end
@@ -307,13 +306,10 @@ namespace :production_credits do
       return category
     end
 
-    def create_production(id, name, category, open_on, close_on, work_id, venue_id)
-      sql_str = "insert into production_credits_productions (id, production_name, category, open_on, close_on, work_id, venue_id) values (#{id}, \"#{name}\", \"#{category}\", \"#{open_on}\", \"#{close_on}\", #{work_id}, #{venue_id})"
-      begin
-        ProductionCredits::Production.connection.execute(sql_str)
-      rescue Exception => e
-        puts e
-      end
+    def create_production(id, name, category, open_on, close_on, work, venues)
+      ProductionCredits::Production.create(production_name: name, category: category, open_on: open_on, close_on: close_on, work: work, venues: venues, legacy_id: id )
+      #rescue Exception => e
+      #  puts e
     end
 
     if ProductionCredits::Production.count != 0
