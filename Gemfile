@@ -44,6 +44,7 @@ gem "hydra-access-controls", github: "OregonShakespeareFestival/hydra-head", bra
 
 gem 'production_credits', path: 'vendor/engines/production_credits'
 gem 'rails_admin', github: 'codingzeal/rails_admin', branch: 'sufia-6.2.0'
+gem "rails-observers", "~> 0.1.2"
 
 gem 'rsolr', '~> 1.0.6'
 gem 'devise'
@@ -78,6 +79,10 @@ group :development, :test do
   gem 'jettywrapper'
   gem "capybara"
   gem "factory_girl_rails"
+end
+
+group :test do
+  gem "test_after_commit", "~> 0.4.1"
 end
 
 group :production do
