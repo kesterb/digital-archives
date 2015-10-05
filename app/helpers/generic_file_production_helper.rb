@@ -25,4 +25,8 @@ module GenericFileProductionHelper
 
     date.to_date.to_s(:mdy)
   end
+
+  def unreadable?(file)
+    can?(:discover, file) && cannot?(:read, file)
+  end
 end

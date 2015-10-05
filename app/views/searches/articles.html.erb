@@ -1,7 +1,11 @@
 <div data-page="<%= @articles.next_page %>" data-more="<%= @articles.show_more? %>">
   <div id="articles">
     <% @articles.files.each do |article| %>
-      <%= render partial: "article", object: article %>
+      <% if unreadable?(article) %>
+        <%= render partial: "article_unreadable", locals: { article: article } %>
+      <% else %>
+        <%= render partial: "article", object: article %>
+      <% end %>
     <% end %>
   </div>
 
