@@ -1,8 +1,15 @@
 module Observers
-  class VenueObserver < ActiveRecord::Observer
+  class VenueObserver < ProductionCreditsObserver
     observe ProductionCredits::Venue
 
-    def after_commit(venue)
+    private
+
+    def attribute_to_watch
+      :name
+    end
+
+    def new_update_job(venue)
+      UpdateGenericFileForVenueJob.new(venue)
     end
   end
 end
