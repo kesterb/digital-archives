@@ -1,7 +1,11 @@
 <div data-page="<%= @audios.next_page %>" data-more="<%= @audios.show_more? %>">
   <div id="audios">
     <% @audios.files.each do |audio| %>
-      <%= render partial: "audio", object: audio %>
+      <% if unreadable?(audio) %>
+        <%= render partial: "audio_unreadable", locals: { audio: audio } %>
+      <% else %>
+        <%= render partial: "audio", object: audio %>
+      <% end %>
     <% end %>
   </div>
 
