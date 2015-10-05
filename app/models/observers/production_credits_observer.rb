@@ -4,10 +4,18 @@ module Observers
       return if new_record?(record)
       return unless has_relevant_changes?(record)
 
-      Sufia.queue.push(new_update_job(record))
+      queue_jobs_for(record)
     end
 
     private
+
+    def queue_jobs_for(record)
+      queue_update_job_for(record)
+    end
+
+    def queue_update_job_for(record)
+      Sufia.queue.push(new_update_job(record))
+    end
 
     def new_record?(record)
       record.previous_changes.key?(:id)

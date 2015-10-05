@@ -4,6 +4,14 @@ module Observers
 
     private
 
+    def queue_jobs_for(venue)
+      super
+
+      venue.aliases.each do |venue_alias|
+        queue_update_job_for(venue_alias)
+      end
+    end
+
     def attributes_to_watch
       %i[name canonical_venue_id]
     end
