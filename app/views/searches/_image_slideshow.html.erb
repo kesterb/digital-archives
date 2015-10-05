@@ -1,6 +1,10 @@
 <li>
   <figure>
-    <img class="slideshow-img" src="<%= sufia.download_path(image) %>" alt="<%= image.title.first %>" />
+    <% if unreadable?(image) %>
+      <%= image_tag "unreadable_item", alt: "Unreadable Item", class: "slideshow-img" %>
+    <% else %>
+      <%= image_tag sufia.download_path(image), alt: image.title.first, class: "slideshow-img" %>
+    <% end %>
     <figcaption>
       <h3><%= image.title.first %></h3>
       <p><%= image.production_names.join(',') %></p>
