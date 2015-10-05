@@ -25,7 +25,7 @@ module Observers
       attributes_to_watch.any? { |attribute| record.previous_changes.key?(attribute) }
     end
 
-    def new_update_job(record)
+    def new_update_job(_record)
       fail NotImplementedError, "Subclasses must implement :new_update_job"
     end
 
