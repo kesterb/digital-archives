@@ -17,7 +17,7 @@ module Observers
         end
 
         it "queues an update job" do
-          expect(queue).to have_received(:push).with(UpdateGenericFileForVenueJob)
+          expect(queue).to have_received(:push).with(UpdateGenericFileJob)
         end
       end
 
@@ -29,7 +29,7 @@ module Observers
         end
 
         it "queues an update job" do
-          expect(queue).to have_received(:push).with(UpdateGenericFileForVenueJob)
+          expect(queue).to have_received(:push).with(UpdateGenericFileJob)
         end
       end
 

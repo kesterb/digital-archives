@@ -9,7 +9,7 @@ module Observers
     end
 
     def new_update_job(event_type)
-      UpdateGenericFileForEventTypeJob.new(event_type)
+      UpdateGenericFileJob.for_event_type(event_type)
     end
   end
 end

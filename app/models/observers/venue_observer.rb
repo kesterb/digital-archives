@@ -17,7 +17,7 @@ module Observers
     end
 
     def new_update_job(venue)
-      UpdateGenericFileForVenueJob.new(venue)
+      UpdateGenericFileJob.for_venue(venue)
     end
   end
 end

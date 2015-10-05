@@ -9,7 +9,7 @@ module Observers
     end
 
     def new_update_job(production)
-      UpdateGenericFileForProductionJob.new(production)
+      UpdateGenericFileJob.for_production(production)
     end
   end
 end
