@@ -75,40 +75,10 @@ initImageGallery = ->
     initImageGallery()
     initLoadMoreImages()
 
-capitalize = (text) ->
-  text.charAt(0).toUpperCase() + text.slice(1).toLowerCase()
-
-difference = (first, second) ->
-  $(first).not(second).get()
-
-updateSectionVisibility = (oldTypes, newTypes) ->
-  $.each difference(oldTypes, newTypes), (_, resultType) ->
-    $('.' + resultType).removeClass 'is-active'
-    window.fetchesResults.removeResultType(resultType)
-
-  $.each difference(newTypes, oldTypes), (_, resultType) ->
-    $('.' + resultType).addClass 'is-active'
-    window.fetchesResults.addResultType(resultType)
-    window['fetch' + capitalize(resultType)] 1
-
 @fetchesResults = new @App.FetchesResults
 
 $ ->
-  $('.js-venue-list').imagepicker
-    show_label: true
-    changed: ->
-      $('#filter-form').submit()
-
-  $('.js-type-list').imagepicker
-    show_label: false
-    changed: updateSectionVisibility
-  $('.js-year-range').ionRangeSlider
-    type: 'double'
-    hide_min_max: true
-    step: 1
-    onFinish: ->
-      $('#filter-form').submit()
-
+  new window.App.FilterSection(window.fetchesResults)
   window.fetchImages 1
   window.fetchVideos 1
   window.fetchAudios 1
