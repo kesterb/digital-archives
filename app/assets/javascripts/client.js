@@ -21,3 +21,4 @@
 //= require video-grid
 //= require isotope.pkgd.min
 //= require image-picker
+//= require_tree ./client
