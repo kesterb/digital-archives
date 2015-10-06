@@ -1,21 +1,11 @@
 <div data-page="<%= @articles.next_page %>" data-more="<%= @articles.show_more? %>">
   <div id="articles">
     <% @articles.files.each do |article| %>
-      <li class="card-container">
-        <a class="card card--has-img" target=_blank href=<%= sufia.download_path(article) %>>
-          <div class="card-figure-img">
-            <img src="<%= sufia.download_path(article, file: 'thumbnail') %>" alt="<%= article.title.first %>">
-          </div>
-          <div class="card-content">
-            <h3 class="card-content-title">
-              <%= article.title.first %>
-            </h3>
-            <h4 class="card-content-subtitle">
-              <%= article.production_names %>
-            </h4>
-          </div>
-        </a>
-      </li>
+      <% if unreadable?(article) %>
+        <%= render partial: "article_unreadable", locals: { article: article } %>
+      <% else %>
+        <%= render partial: "article", locals: { article: article } %>
+      <% end %>
     <% end %>
   </div>
 

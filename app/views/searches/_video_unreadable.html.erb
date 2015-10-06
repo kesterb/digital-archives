@@ -1,0 +1,19 @@
+<li class="js-video-container card-container">
+  <div class="card-figure-img">
+    <div class="card-figure-img-wrapper">
+      <!-- <img src="<%= sufia.download_path(video, file: 'thumbnail') %>" alt="<%= video.title.first %>" /> -->
+      <%= image_tag "unreadable_item", alt: "Unreadable Item" %>
+    </div>
+  </div>
+  <div class="card__content">
+    <h3 class="card__content__title">
+      <%= video.title.first %>
+    </h3>
+    <h4 class="card__content_subtitle">
+      <%= video.venue_full_names %>
+    </h4>
+    <p class="card__content__date">
+      <%= formatted_creation_date(video) %>
+    </p>
+  </div>
+</li>
