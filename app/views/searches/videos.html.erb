@@ -1,7 +1,11 @@
 <div data-page="<%= @videos.next_page %>" data-more="<%= @videos.show_more? %>">
   <div id="videos">
     <% @videos.files.each do |video| %>
-      <%= render partial: "video", locals: { video: video } %>
+      <% if unreadable?(video) %>
+        <%= render partial: "video_unreadable", locals: { video: video } %>
+      <% else %>
+        <%= render partial: "video", locals: { video: video } %>
+      <% end %>
     <% end %>
   </div>
 
