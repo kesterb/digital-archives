@@ -1,20 +1,20 @@
 initLoadMoreArticles = ->
-  $('.js-load-more-articles').click ->
+  $('.articles .js-load-more').click ->
     page = $(this).data('page')
     window.fetchArticles page
 
 initLoadMoreVideos = ->
-  $('.js-load-more-videos').click ->
+  $('.videos .js-load-more').click ->
     page = $(this).data('page')
     window.fetchVideos page
 
 initLoadMoreAudios = ->
-  $('.js-load-more-audios').click ->
+  $('.audios .js-load-more').click ->
     page = $(this).data('page')
     window.fetchAudios page
 
 initLoadMoreImages = ->
-  $('.js-load-more-images').click ->
+  $('.images .js-load-more').click ->
     page = $(this).data('page')
     window.fetchImages page
 
@@ -26,11 +26,11 @@ initImageGallery = ->
 @fetchAudios = (page) ->
   @fetchesResults.fetch "audios", page, (data) ->
     if $(data).data('more') == true
-      $('.js-load-more-audios').data 'page', $(data).data('page')
+      $('.audios .js-load-more').data 'page', $(data).data('page')
     if page == 1
-      $('.audios-grid ul').html $(data).find('#audios').html()
+      $('.audios .js-results').html $(data).find('#audios').html()
     else
-      $('.audios-grid ul').append $(data).find('#audios').html()
+      $('.audios .js-results').append $(data).find('#audios').html()
     $('.audios .file-type-count').text $(data).data('total-items')
     $('.audios .paging').html $(data).find('.paging').html()
     initLoadMoreAudios()
@@ -38,11 +38,11 @@ initImageGallery = ->
 @fetchArticles = (page) ->
   @fetchesResults.fetch "articles", page, (data) ->
     if $(data).data('more') == true
-      $('.js-load-more-articles').data 'page', $(data).data('page')
+      $('.articles .js-load-more').data 'page', $(data).data('page')
     if page == 1
-      $('.articles .card-grid ul').html $(data).find('#articles').html()
+      $('.articles .js-results').html $(data).find('#articles').html()
     else
-      $('.articles .card-grid ul').append $(data).find('#articles').html()
+      $('.articles .js-results').append $(data).find('#articles').html()
     $('.articles .file-type-count').text $(data).data('total-items')
     $('.articles .paging').html $(data).find('.paging').html()
     initLoadMoreArticles()
@@ -50,11 +50,11 @@ initImageGallery = ->
 @fetchVideos = (page) ->
   @fetchesResults.fetch "videos", page, (data) ->
     if $(data).data('more') == true
-      $('.js-load-more-videos').data 'page', $(data).data('page')
+      $('.videos .js-load-more').data 'page', $(data).data('page')
     if page == 1
-      $('.videos-grid').html $(data).find('#videos').html()
+      $('.videos .js-results').html $(data).find('#videos').html()
     else
-      $('.videos-grid').append $(data).find('#videos').html()
+      $('.videos .js-results').append $(data).find('#videos').html()
     $('.videos .file-type-count').text $(data).data('total-items')
     $('.videos .paging').html $(data).find('.paging').html()
     VideoGrid.init()
@@ -63,13 +63,13 @@ initImageGallery = ->
 @fetchImages = (page) ->
   @fetchesResults.fetch "images", page, (data) ->
     if $(data).data('more') == true
-      $('.js-load-more-images').data 'page', $(data).data('page')
+      $('.images .js-load-more').data 'page', $(data).data('page')
     if page == 1
-      $('.images .slideshow ul').html $(data).find('#slideshow').html()
-      $('.images .card-grid').html $(data).find('#thumbnails').html()
+      $('.images .js-slideshow').html $(data).find('#slideshow').html()
+      $('.images .js-results').html $(data).find('#images').html()
     else
-      $('.images .slideshow ul').append $(data).find('#slideshow').html()
-      $('.images .card-grid').append $(data).find('#thumbnails').html()
+      $('.images .js-slideshow').append $(data).find('#slideshow').html()
+      $('.images .js-results').append $(data).find('#images').html()
     $('.images .file-type-count').text $(data).data('total-items')
     $('.images .paging').html $(data).find('.paging').html()
     initImageGallery()
