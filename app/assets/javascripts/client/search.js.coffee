@@ -24,7 +24,7 @@ initImageGallery = ->
     new CBPGridGallery(gallery.get(0))
 
 @fetchAudios = (page) ->
-  $.get '/audios?' + @fetchesResults.url + '&page=' + page, (data) ->
+  @fetchesResults.fetch "audios", page, (data) ->
     if $(data).data('more') == true
       $('.js-load-more-audios').data 'page', $(data).data('page')
     if page == 1
@@ -36,7 +36,7 @@ initImageGallery = ->
     initLoadMoreAudios()
 
 @fetchArticles = (page) ->
-  $.get '/articles?' + @fetchesResults.url + '&page=' + page, (data) ->
+  @fetchesResults.fetch "articles", page, (data) ->
     if $(data).data('more') == true
       $('.js-load-more-articles').data 'page', $(data).data('page')
     if page == 1
@@ -48,7 +48,7 @@ initImageGallery = ->
     initLoadMoreArticles()
 
 @fetchVideos = (page) ->
-  $.get '/videos?' + @fetchesResults.url + '&page=' + page, (data) ->
+  @fetchesResults.fetch "videos", page, (data) ->
     if $(data).data('more') == true
       $('.js-load-more-videos').data 'page', $(data).data('page')
     if page == 1
@@ -61,7 +61,7 @@ initImageGallery = ->
     initLoadMoreVideos()
 
 @fetchImages = (page) ->
-  $.get '/images?' + @fetchesResults.url + '&page=' + page, (data) ->
+  @fetchesResults.fetch "images", page, (data) ->
     if $(data).data('more') == true
       $('.js-load-more-images').data 'page', $(data).data('page')
     if page == 1
