@@ -33,10 +33,12 @@ class @App.ResultsSection
   _loadMoreButton: ->
     @_paging.find ".js-load-more"
 
+
 class @App.VideoResultsSection extends @App.ResultsSection
   _fetchCompleted: (data) =>
     super data
     VideoGrid.init()
+
 
 class @App.ImageResultsSection extends @App.ResultsSection
   constructor: (resultType, fetchesResults) ->

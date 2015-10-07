@@ -43,6 +43,3 @@ class @App.FilterSection
 
   _difference: (first, second) ->
     $(first).not(second).get()
-
-  _capitalize: (text) ->
-    text.charAt(0).toUpperCase() + text.slice(1).toLowerCase()
