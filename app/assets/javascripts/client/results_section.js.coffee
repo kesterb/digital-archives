@@ -31,7 +31,7 @@ class @App.ResultsSection
       @fetch page
 
   _loadMoreButton: ->
-    @_element.find ".js-load-more"
+    @_paging.find ".js-load-more"
 
 class @App.VideoResultsSection extends @App.ResultsSection
   _fetchCompleted: (data) =>
@@ -42,7 +42,6 @@ class @App.ImageResultsSection extends @App.ResultsSection
   constructor: (resultType, fetchesResults) ->
     super resultType, fetchesResults
     @_slideshow = @_element.find(".js-slideshow")
-    debugger
 
   _fetchCompleted: (data) =>
     super data
@@ -50,7 +49,6 @@ class @App.ImageResultsSection extends @App.ResultsSection
 
   _insertResults: (results) ->
     super results
-    debugger
     @_slideshow.append results.find("#slideshow").html()
 
   _initImageGallery: ->
