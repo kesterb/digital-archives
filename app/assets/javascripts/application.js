@@ -15,6 +15,6 @@
 //= require turbolinks//
 // Required by Blacklight
 //= require blacklight/blacklight
-
+//= require chosen
 //= require sufia
-//= require ./sufia_overrides
+//= require_tree ./sufia_customization

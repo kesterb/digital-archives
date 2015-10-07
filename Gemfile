@@ -57,6 +57,7 @@ gem 'capistrano-rvm'
 source 'https://rails-assets.org' do
   gem 'rails-assets-ionrangeslider', '~> 2.0.2'
   gem 'rails-assets-image-picker', '~> 0.2.4'
+  gem 'rails-assets-chosen', '~> 1.4'
 end
 
 group :development do

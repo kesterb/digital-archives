@@ -13,6 +13,7 @@
  *= require openseadragon
  *= require blacklight_gallery
  *= require_self
+ *= require chosen
  *= require sufia
  *= require_tree ./overrides
  */
