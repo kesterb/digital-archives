@@ -1,7 +1,7 @@
 @App ?= {}
 
 class @App.FilterSection
-  constructor: (@_fetchesResults) ->
+  constructor: (@_resultsSections, @_fetchesResults) ->
     @_venueList = $(".js-venue-list")
     @_resultTypeList = $(".js-type-list")
     @_yearRange = $(".js-year-range")
@@ -39,7 +39,7 @@ class @App.FilterSection
     $.each @_difference(newTypes, oldTypes), (_, resultType) =>
       $('.' + resultType).addClass 'is-active'
       @_fetchesResults.addResultType(resultType)
-      window['fetch' + @_capitalize(resultType)] 1
+      @_resultsSections[resultType].fetch()
 
   _difference: (first, second) ->
     $(first).not(second).get()
