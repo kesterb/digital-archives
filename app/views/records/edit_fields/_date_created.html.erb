@@ -1,4 +1,8 @@
-<div class="form-group optional generic_file_identifier">
+<div class="form-group optional generic_file_has_year_only">
+  <%= f.input :has_year_only, as: :boolean, label: "Year Only?" %>
+</div>
+
+<div class="form-group optional generic_file_date_created">
   <%= f.label :date_created %>
   <%= f.date_field :date_created,
                    class: 'form-control',
