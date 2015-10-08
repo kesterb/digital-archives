@@ -10,5 +10,5 @@ class @App.Searches
       videos: new App.VideoResultsSection("videos", fetchesResults)
     new App.FilterSection(resultsSections, fetchesResults)
 
-$ ->
+$(document).on 'ready page:load', ->
   new App.Searches
