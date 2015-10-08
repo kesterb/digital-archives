@@ -3,6 +3,9 @@ module ProductionCredits
     include VenueAdmin
 
     scope :canonical, -> { where(canonical_venue_id: nil) }
+    scope :for_production_ids, -> (ids) do
+      joins(:productions).where(production_credits_productions: { id: ids })
+    end
 
     validates_presence_of :name
     validate :canonical_venue_cannot_be_an_alias,

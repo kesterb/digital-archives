@@ -5,6 +5,18 @@ module ProductionCredits
     let!(:canonical_venue) { Venue.create!(name: "Canonical") }
     let!(:alias_venue) { Venue.create!(name: "Alias", canonical_venue: canonical_venue) }
 
+    describe "scoping venues to productions" do
+      let!(:production) { FactoryGirl.create(:production_credits_production) }
+
+      before do
+        canonical_venue.productions << production
+      end
+
+      it "finds venues associated with the production" do
+        expect(Venue.for_production_ids(production.id)).to eq [canonical_venue]
+      end
+    end
+
     describe "alias validation" do
       context "when adding an alias to a canonical venue" do
         let(:venue) { canonical_venue }
@@ -57,7 +69,7 @@ module ProductionCredits
         end
 
         it "is not valid" do
-            expect(venue).not_to be_valid
+          expect(venue).not_to be_valid
         end
       end
     end
