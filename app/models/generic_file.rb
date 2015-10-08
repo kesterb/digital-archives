@@ -1,6 +1,8 @@
 class GenericFile < ActiveFedora::Base
   include Sufia::GenericFile
 
+  before_save :set_calculated_fields
+
   def self.property(name, multiple:, &block)
     predicate = ::RDF::URI("http://docs.osfashland.org/terms/#{name}")
     super(name, predicate: predicate, multiple: multiple, &block)
@@ -49,8 +51,6 @@ class GenericFile < ActiveFedora::Base
     index.as :stored_sortable, :facetable
   end
 
-  before_save :set_calculated_fields
-
   def discoverable?
     discover_groups.include?("public")
   end
@@ -61,6 +61,7 @@ class GenericFile < ActiveFedora::Base
     UpdatesProductionCredits.update(self)
     year = year_from_date_created
     self.year_created = year if year
+    self.year_created = year_created.to_i if year_created.present?
   end
 
   def year_from_date_created

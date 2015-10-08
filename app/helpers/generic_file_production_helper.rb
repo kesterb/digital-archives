@@ -21,9 +21,11 @@ module GenericFileProductionHelper
 
   def formatted_creation_date(file)
     date = file.date_created.first
-    return "" unless date
-
-    date.to_date.to_s(:mdy)
+    if date
+      date.to_date.to_s(:mdy)
+    else
+      file.year_created
+    end
   end
 
   def unreadable?(file)
