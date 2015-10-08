@@ -4,8 +4,9 @@ module ProductionCredits
     skip_before_filter :authenticate_user!
 
     def index
-      venues = Venue.for_production_ids(params[:production_ids])
-      venues = Venue.all if venues.empty?
+      production_ids = params[:production_ids]
+      venues = Venue.for_production_ids(production_ids) if production_ids
+      venues = Venue.all if venues.blank?
       render json: venues, layout: false
     end
   end

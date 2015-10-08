@@ -5,7 +5,6 @@ module ProductionCredits
     routes { ProductionCredits::Engine.routes }
 
     describe "#index" do
-      let(:params) { { production_ids: ids } }
       let(:ids) { %w[1 2 3] }
       let(:all_venues) { 5.times.map { |n| double(to_json: { name: "VENUE #{n}" }) } }
 
@@ -16,18 +15,31 @@ module ProductionCredits
         get :index, params
       end
 
-      context "when filtered results are found" do
-        let(:filtered_venues) { all_venues.first(2) }
+      context "when production ids are provided" do
+        let(:params) { { production_ids: ids } }
 
-        it "returns filtered venues" do
-          expect(response.body).to eq filtered_venues.to_json
+        context "when filtered results are found" do
+          let(:filtered_venues) { all_venues.first(2) }
+
+          it "returns filtered venues" do
+            expect(response.body).to eq filtered_venues.to_json
+          end
+        end
+
+        context "when filtered results are not found" do
+          let(:filtered_venues) { [] }
+
+          it "returns all venues" do
+            expect(response.body).to eq all_venues.to_json
+          end
         end
       end
 
-      context "when filtered results are not found" do
-        let(:filtered_venues) { [] }
+      context "when production ids are not provided" do
+        let(:params) { {} }
 
-        it "returns all venues" do
+        it "immediately retrieves all venues" do
+          expect(Venue).not_to have_received(:for_production_ids)
           expect(response.body).to eq all_venues.to_json
         end
       end
