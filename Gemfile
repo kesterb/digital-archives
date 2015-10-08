@@ -80,6 +80,7 @@ group :development, :test do
   gem 'jettywrapper'
   gem "capybara"
   gem "factory_girl_rails"
+  gem "faker", "~> 1.5"
 end
 
 group :test do

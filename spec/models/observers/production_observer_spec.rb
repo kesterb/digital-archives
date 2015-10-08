@@ -43,7 +43,7 @@ module Observers
     end
 
     def create_production(name)
-      ProductionCredits::Production.create!(production_name: name, open_on: 2.years.ago, close_on: 1.year.ago)
+      FactoryGirl.create(:production_credits_production, production_name: name)
     end
   end
 end
