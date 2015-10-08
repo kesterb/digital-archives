@@ -24,11 +24,10 @@ describe GenericFile do
       before do
         file.date_created = nil
         file.year_created = 1492
-        file.save!
       end
 
-      it "clears the creation year" do
-        expect(file.year_created).to be_blank
+      it "leaves the creation year alone" do
+        expect { file.save! }.not_to change { file.year_created }
       end
     end
 
@@ -36,11 +35,10 @@ describe GenericFile do
       before do
         file.date_created = []
         file.year_created = 1492
-        file.save!
       end
 
-      it "clears the creation year" do
-        expect(file.year_created).to be_blank
+      it "leaves the creation year alone" do
+        expect { file.save! }.not_to change { file.year_created }
       end
     end
   end

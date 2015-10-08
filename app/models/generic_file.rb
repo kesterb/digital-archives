@@ -59,10 +59,11 @@ class GenericFile < ActiveFedora::Base
 
   def set_calculated_fields
     UpdatesProductionCredits.update(self)
-    self.year_created = creation_year
+    year = year_from_date_created
+    self.year_created = year if year
   end
 
-  def creation_year
+  def year_from_date_created
     first_date = date_created.try(:first)
     first_date && Date.parse(first_date).year
   rescue ArgumentError
