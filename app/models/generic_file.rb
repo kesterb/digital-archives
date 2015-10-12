@@ -1,6 +1,8 @@
 class GenericFile < ActiveFedora::Base
   include Sufia::GenericFile
 
+  before_save :set_calculated_fields
+
   def self.property(name, multiple:, &block)
     predicate = ::RDF::URI("http://docs.osfashland.org/terms/#{name}")
     super(name, predicate: predicate, multiple: multiple, &block)
@@ -49,8 +51,6 @@ class GenericFile < ActiveFedora::Base
     index.as :stored_sortable, :facetable
   end
 
-  before_save :set_calculated_fields
-
   def discoverable?
     discover_groups.include?("public")
   end
@@ -59,10 +59,12 @@ class GenericFile < ActiveFedora::Base
 
   def set_calculated_fields
     UpdatesProductionCredits.update(self)
-    self.year_created = creation_year
+    year = year_from_date_created
+    self.year_created = year if year
+    self.year_created = year_created.to_i if year_created.present?
   end
 
-  def creation_year
+  def year_from_date_created
     first_date = date_created.try(:first)
     first_date && Date.parse(first_date).year
   rescue ArgumentError

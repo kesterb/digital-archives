@@ -24,11 +24,10 @@ describe GenericFile do
       before do
         file.date_created = nil
         file.year_created = 1492
-        file.save!
       end
 
-      it "clears the creation year" do
-        expect(file.year_created).to be_blank
+      it "leaves the creation year alone" do
+        expect { file.save! }.not_to change { file.year_created }
       end
     end
 
@@ -36,11 +35,23 @@ describe GenericFile do
       before do
         file.date_created = []
         file.year_created = 1492
+      end
+
+      it "leaves the creation year alone" do
+        expect { file.save! }.not_to change { file.year_created }
+      end
+    end
+
+    context "when creation year is a string" do
+      # For some reason, Sufia is giving us a string instead of a year from
+      # its update action.
+      before do
+        file.year_created = "1972"
         file.save!
       end
 
-      it "clears the creation year" do
-        expect(file.year_created).to be_blank
+      it "converts the string to an integer" do
+        expect(file.year_created).to eq 1972
       end
     end
   end
