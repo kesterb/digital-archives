@@ -1,7 +1,7 @@
 module GenericFileProductionHelper
   def productions_for_select
     productions = ProductionCredits::Production.order(:production_name, open_on: :desc)
-    productions.map { |p| { "#{p.production_name} - #{p.open_on.year}" => p.id } }.reduce({}, :update)
+    productions.map { |p| { p.name => p.id } }.reduce({}, :update)
   end
 
   def works_for_select
