@@ -15,12 +15,14 @@ class @SufiaCustomizations.ProductionCredits
       placeholder_text_multiple: "Select production(s)"
       search_contains: true
       single_backstroke_delete: false
+      width: "100%"
 
   _initializeVenuesSelector: ->
     @_venueIds.chosen
       placeholder_text_multiple: "Select venue(s)"
       search_contains: true
       single_backstroke_delete: false
+      width: "100%"
 
   _initializeEventTypeSelector: ->
     $("#generic_file_event_type_id").chosen
@@ -28,6 +30,7 @@ class @SufiaCustomizations.ProductionCredits
       allow_single_deselect: true
       search_contains: true
       single_backstroke_delete: false
+      width: "100%"
 
   _hookupVenueSelectionsUpdate: ->
     @_productionIds.on "change", @_productionSelectionsChanged
