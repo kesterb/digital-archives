@@ -55,4 +55,24 @@ describe GenericFile do
       end
     end
   end
+
+  describe "year only" do
+    [
+        # context                         date          year  result
+      [ "neither creation date nor year", nil,          nil,  false ],
+      [ "only a creation year",           nil,          1992, true  ],
+      [ "both creation date and year",    "10/15/2015", 2015, false ]
+    ].each do |description, date, year, expected|
+      context "when file has #{description}" do
+        before do
+          file.date_created = Array(date)
+          file.year_created = year
+        end
+
+        it "#{expected ? 'has' : 'does not have'} a year only" do
+          expect(file.has_year_only?).to eq expected
+        end
+      end
+    end
+  end
 end

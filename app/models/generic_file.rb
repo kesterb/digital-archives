@@ -55,6 +55,10 @@ class GenericFile < ActiveFedora::Base
     discover_groups.include?("public")
   end
 
+  def has_year_only?
+    date_created.blank? && year_created.present?
+  end
+
   private
 
   def set_calculated_fields
