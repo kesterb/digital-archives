@@ -58,7 +58,7 @@ describe GenericFile do
 
   describe "year only" do
     [
-        # context                         date          year  result
+      # context                           date          year  result
       [ "neither creation date nor year", nil,          nil,  false ],
       [ "only a creation year",           nil,          1992, true  ],
       [ "both creation date and year",    "10/15/2015", 2015, false ]
