@@ -23,9 +23,5 @@ class GenericFilePresenter < Sufia::GenericFilePresenter
   # Names are not displayed directly so don't include them in `terms'.
   delegate :production_names, :venue_names, :venue_full_names, :event_type_name, to: :model
 
-  delegate :public?, :discoverable?, :restricted?, :private?, to: :model
-
-  def has_year_only
-    model.date_created.blank? && model.year_created.present?
-  end
+  delegate :public?, :discoverable?, :restricted?, :private?, :has_year_only?, to: :model
 end
