@@ -1,4 +1,4 @@
-<div class="grid-cell">
+<div class="grid-cell <%= column_style(image) %>">
   <%= image_tag sufia.download_path(image, file: 'thumbnail'), alt: image.title.first, class: "item-thumbnail" %>
   <div class="item-summary is-hidden">
     <h3 class="item-title"><%= image.title.first %></h3>

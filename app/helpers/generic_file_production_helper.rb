@@ -18,17 +18,4 @@ module GenericFileProductionHelper
     types = ProductionCredits::EventType.order(:name)
     types.map { |type| { type.name => type.id } }.reduce({}, :update)
   end
-
-  def formatted_creation_date(file)
-    date = file.date_created.first
-    if date
-      date.to_date.to_s(:mdy)
-    else
-      file.year_created
-    end
-  end
-
-  def unreadable?(file)
-    can?(:discover, file) && cannot?(:read, file)
-  end
 end
