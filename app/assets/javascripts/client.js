@@ -17,7 +17,6 @@
 //= require imagesloaded.pkgd.min
 //= require classie
 //= require ionrangeslider
-//= require cbpGridGallery
 //= require video-grid
 //= require isotope.pkgd.min
 //= require image-picker

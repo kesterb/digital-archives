@@ -51,22 +51,3 @@ class @App.VideoResultsSection extends @App.ResultsSection
   _fetchCompleted: (data) =>
     super data
     VideoGrid.init()
-
-
-class @App.ImageResultsSection extends @App.ResultsSection
-  constructor: (resultType, fetchesResults) ->
-    super resultType, fetchesResults
-    @_slideshow = @_element.find(".js-slideshow")
-
-  _fetchCompleted: (data) =>
-    super data
-    @_initImageGallery()
-
-  _insertResults: (results) ->
-    super results
-    @_slideshow.append results.find("#slideshow").html()
-
-  _initImageGallery: ->
-    gallery = @_element.find("#grid-gallery")
-    if gallery.length
-      new CBPGridGallery(gallery.get(0))
