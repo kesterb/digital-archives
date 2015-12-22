@@ -1,15 +1,9 @@
 <div data-page="<%= @images.next_page %>" data-more="<%= @images.show_more? %>" data-total-items="<%= @images.total_items %>">
-  <ul id="images">
-  <% @images.files.each do |image| %>
-    <%= render partial: "image_thumbnail", locals: { image: image } %>
-  <% end %>
-  </ul>
-
-  <ul id="slideshow">
-  <% @images.files.each do |image| %>
-    <%= render partial: "image_slideshow", locals: { image: image } %>
-  <% end %>
-  </ul>
+  <div id="images">
+    <% @images.files.each do |image| %>
+      <%= render partial: "image", locals: { image: image } %>
+    <% end %>
+  </div>
 
   <div class="paging">
     <% if @images.show_more? %>

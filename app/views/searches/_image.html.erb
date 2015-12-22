@@ -1,0 +1,30 @@
+<div class="grid-cell">
+  <%= image_tag sufia.download_path(image, file: 'thumbnail'), alt: image.title.first, class: "item-thumbnail" %>
+  <div class="item-summary is-hidden">
+    <h3 class="item-title"><%= image.title.first %></h3>
+    <p><%= image.description.first %></p>
+  </div>
+  <div class="item-details is-hidden">
+    <% if unreadable?(image) %>
+      <%= image_tag "unreadable_item", alt: "Unreadable Item", class: "item-image" %>
+    <% else %>
+      <%= image_tag sufia.download_path(image), alt: image.title.first, class: "item-image" %>
+    <% end %>
+    <h3 class="item-title"><%= image.title.first %></h3>
+    <div class="item-date"><%= formatted_creation_date(image) %></div>
+    <div class="item-venue"><%= image.venue_full_names.join(',') %></div>
+    <div class="item-contributors">
+      Contributors:&nbsp;
+      <% image.contributor.each do |contributor| %>
+        <span class="item-contributor"><%= contributor %></span>
+      <% end %>
+    </div>
+    <div class="item-creator">
+      Creator:&nbsp;
+      <% image.creator.each do |creator| %>
+        <span class="item-creator"><%= creator %></span>
+      <% end %>
+    </div>
+    <div class="item-description"><%= image.description.first %></div>
+  </div>
+</div>
