@@ -13,13 +13,17 @@ class LayoutGrid
     @_totalColumns = 0
 
   layoutCells: (cells) ->
+    @_resetLayout(cells)
     cells.each (_, cell) =>
       @_layoutCell $(cell)
     @_finishLastRow()
 
+  _resetLayout: (cells) ->
+    @_removeDetailRows()
+    @_removeTotalColumnClasses(cells)
+
   _layoutCell: ($cell) ->
     columns = @_columnsIn($cell)
-    debugger
     @_finishCurrentRow() if @_totalColumns + columns > GRID_MAX
     @_rememberCell $cell, columns
 
@@ -36,9 +40,27 @@ class LayoutGrid
     @_finishCurrentRow()
 
   _finishCurrentRow: ->
-    $cell.addClass("of-#{@_totalColumns}") for $cell in @_row
+    @_addTotalColumnClasses($cell) for $cell in @_row
+    @_addDetailRowAfter(@_row)
     @_row = []
     @_totalColumns = 0
+
+  _addTotalColumnClasses: ($cell) ->
+    $cell.addClass("of-#{@_totalColumns}")
+
+  _removeTotalColumnClasses: (cells) ->
+    cells.removeClass (_, classNames) ->
+      classNames.split(/\s+/).filter((name) ->
+        name.match(/of-\d+/)
+      ).join(' ')
+
+  _addDetailRowAfter: (row) ->
+    [..., last] = row
+    last.after('<div class="item-details-container"></div>')
+
+  _removeDetailRows: ->
+    $(".item-details-container").remove()
+
 
 class @App.FlowGrid
   constructor: ->
