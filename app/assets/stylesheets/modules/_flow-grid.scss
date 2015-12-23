@@ -39,6 +39,10 @@ $grid-min: $grid-max - $cell-max + 1;
   border: 5px solid white;
 }
 
+.is-selected {
+  border: 5px solid red;
+}
+
 .grid-item {
   position: absolute;
   top: 0;

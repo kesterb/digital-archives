@@ -47,10 +47,14 @@ class @App.ResultsSection
     @_paging.find ".js-load-more"
 
 class @App.FlowGridResultsSection extends @App.ResultsSection
+  constructor: (resultType, fetchesResults) ->
+    super(resultType, fetchesResults)
+    @_grid = new App.FlowGrid @_element.find(".flow-grid")
+
   _fetchCompleted: (data) =>
     super data
-    new App.FlowGrid
-    
+    @_grid.relayout()
+
 class @App.VideoResultsSection extends @App.ResultsSection
   _fetchCompleted: (data) =>
     super data

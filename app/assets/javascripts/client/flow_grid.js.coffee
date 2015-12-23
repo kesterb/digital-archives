@@ -1,5 +1,46 @@
 @App ?= {}
 
+class @App.FlowGrid
+  CELL_CLASS = ".grid-cell"
+
+  constructor: (@_element) ->
+    @_initializeCellClickHandler()
+
+  relayout: ->
+    @_deselectAllCells()
+    @_layoutGrid()
+
+  _initializeCellClickHandler: ->
+    @_element.on "click", CELL_CLASS, (event) =>
+      @_cellClicked $(event.currentTarget)
+
+  _layoutGrid: ->
+    new LayoutGrid().layoutCells(@_cells())
+
+  _cellClicked: ($cell) ->
+    if $cell.hasClass("is-selected")
+      $cell.removeClass("is-selected")
+    else
+      @_deselectAllCells()
+      $cell.addClass("is-selected")
+
+  _deselectAllCells: ->
+    @_cells().removeClass("is-selected")
+
+  _cells: ->
+    @_element.find(CELL_CLASS)
+
+#   $('.grid-item').on 'click', ->
+#     $container = $(this).parent().nextAll('.item-details-container').first()
+#     isCurrent = out($(this).data('cell-id')) == out($container.data('currentCellId'))
+#     $('.item-details-container').removeClass('is-expanded').data('currentCellId', null)
+#     return if out(isCurrent)
+#     $container.empty()
+#     $(this).find('.item-details').clone().appendTo($container)
+#     $container.addClass('is-expanded').data('currentCellId', $(this).data('cell-id'))
+
+
+
 class LayoutGrid
   # These two constants must match those in _flow-grid.scss
   GRID_MAX = 30
@@ -9,8 +50,7 @@ class LayoutGrid
   COLUMNS_REGEX = ".*\\bc-(\\d+)\\b.*"
 
   constructor: ->
-    @_row = []
-    @_totalColumns = 0
+    @_startNewRow()
 
   layoutCells: (cells) ->
     @_resetLayout(cells)
@@ -42,6 +82,9 @@ class LayoutGrid
   _finishCurrentRow: ->
     @_addTotalColumnClasses($cell) for $cell in @_row
     @_addDetailRowAfter(@_row)
+    @_startNewRow()
+
+  _startNewRow: ->
     @_row = []
     @_totalColumns = 0
 
@@ -56,27 +99,11 @@ class LayoutGrid
 
   _addDetailRowAfter: (row) ->
     [..., last] = row
-    last.after('<div class="item-details-container"></div>')
+    last.after('<div class="cell-details-container"></div>')
 
   _removeDetailRows: ->
-    $(".item-details-container").remove()
+    $(".cell-details-container").remove()
 
-
-class @App.FlowGrid
-  constructor: ->
-    new LayoutGrid().layoutCells($(".grid-cell"))
-#
-# addDetailRowAfter = ($el) ->
-#   $el.after('<div class="item-details-container"></div>')
-#
-# processRow = (row, totalColumns) ->
-#   $el.addClass("of-#{totalColumns}") for $el in row
-#   [..., last] = row
-#   addDetailRowAfter(last)
-#
-# out = (obj) ->
-#   console.log obj
-#   obj
 #
 # $ ->
 #   # removeDetailRows()
@@ -95,11 +122,3 @@ class @App.FlowGrid
 #   totalColumns = GRID_MAX if totalColumns < GRID_MAX - CELL_MAX + 1
 #   processRow(row, totalColumns)
 #
-#   $('.grid-item').on 'click', ->
-#     $container = $(this).parent().nextAll('.item-details-container').first()
-#     isCurrent = out($(this).data('cell-id')) == out($container.data('currentCellId'))
-#     $('.item-details-container').removeClass('is-expanded').data('currentCellId', null)
-#     return if out(isCurrent)
-#     $container.empty()
-#     $(this).find('.item-details').clone().appendTo($container)
-#     $container.addClass('is-expanded').data('currentCellId', $(this).data('cell-id'))
