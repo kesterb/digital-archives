@@ -5,7 +5,7 @@
       <h3 class="item-title"><%= image.title.first %></h3>
       <p><%= image.description.first %></p>
     </div>
-    <div class="item-details is-hidden">
+    <div class="item-details cell-details">
       <% if unreadable?(image) %>
         <%= image_tag "unreadable_item", alt: "Unreadable Item", class: "item-image" %>
       <% else %>

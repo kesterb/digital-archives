@@ -51,15 +51,15 @@ $grid-min: $grid-max - $cell-max + 1;
   right: 0;
 }
 
-.item-details {
+.cell-details {
   display: none;
 
-  .item-details-container & {
+  .cell-details-container & {
     display: block;
   }
 }
 
-.item-details-container {
+.cell-details-container {
   background-color: red;
   height: 0;
   position: relative;
