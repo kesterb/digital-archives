@@ -6,7 +6,7 @@ class @App.Searches
     resultsSections =
       articles: new App.ResultsSection("articles", fetchesResults)
       audios: new App.ResultsSection("audios", fetchesResults)
-      images: new App.ResultsSection("images", fetchesResults)
+      images: new App.FlowGridResultsSection("images", fetchesResults)
       videos: new App.VideoResultsSection("videos", fetchesResults)
     new App.FilterSection(resultsSections, fetchesResults)
 

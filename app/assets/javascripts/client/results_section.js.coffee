@@ -46,7 +46,11 @@ class @App.ResultsSection
   _loadMoreButton: ->
     @_paging.find ".js-load-more"
 
-
+class @App.FlowGridResultsSection extends @App.ResultsSection
+  _fetchCompleted: (data) =>
+    super data
+    new App.FlowGrid
+    
 class @App.VideoResultsSection extends @App.ResultsSection
   _fetchCompleted: (data) =>
     super data
