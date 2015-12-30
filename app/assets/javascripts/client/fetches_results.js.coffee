@@ -2,22 +2,14 @@
 
 class @App.FetchesResults
   constructor: ->
-    @_search = window.location.search
+    @_uri = new URI()
 
   fetch: (resultType, page, success) ->
-    page_param = "page=#{page}"
-    params = if @_search == ""
-      "?#{page_param}"
-    else
-      "#{@_search}&#{page_param}"
-
-    $.get "/#{resultType}#{params}", success
+    @_uri.setSearch("page", page)
+    $.get "/#{resultType}#{@_uri.search()}", success
 
   addResultType: (resultType) ->
-    @_search = @_search.concat(@_resultTypeFragment(resultType))
+    @_uri.addSearch("types[]", resultType)
 
   removeResultType: (resultType) ->
-    @_search = @_search.replace(@_resultTypeFragment(resultType), "")
-
-  _resultTypeFragment: (resultType) ->
-    "&types%5B%5D=#{resultType}"
+    @_uri.removeSearch("types[]", resultType)
