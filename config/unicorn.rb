@@ -1,15 +1,14 @@
 APP_PATH = "/var/www/unicorn/current"
-UNICORN_ROOT = "/var/www/unicorn"
+UNICORN_ROOT = "/var/www/unicorn/"
 
 working_directory APP_PATH
 
-pid UNICORN_ROOT + "/tmp/pids/unicorn.pid"
+pid APP_PATH + "/tmp/pids/unicorn.pid"
 
 stderr_path APP_PATH + "/log/unicorn.log"
 stdout_path APP_PATH + "/log/unicorn.log"
 
 listen APP_PATH + "/tmp/sockets/unicorn.sock"
-listen UNICORN_ROOT + "/tmp/sockets/unicorn.sock"
 
 worker_processes 4
 
